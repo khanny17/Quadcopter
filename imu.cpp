@@ -1,3 +1,9 @@
+/** 
+ *  Module for reading info from the adafruit 9DOF Sensor Stick
+ *
+ *  Adapted from: http://robotosh.blogspot.com/2012/03/sparkfun-9dof-imu-sensor-stick.html
+ */
+
 #include "Arduino.h"
 #include "imu.h"
 #include "Wire.h"
