@@ -12,8 +12,6 @@ imu::imu() {
   for(int i = 0; i < 3; ++i) {
     this->accelerometer_data[i] = this->magnetometer_data[i] = this->gyro_data[i] = 0;
   }
-  
-  
 }
 
 void imu::setup() {
@@ -48,6 +46,17 @@ void imu::prettyPrint() {
    Serial.print("\t");
    Serial.print(this->gyro_data[2]);
    Serial.print("\n");
+}
+
+/**
+ *  Gets the pitch from ONLY the accelerometer ATM
+ */
+int imu::getPitch(){
+  return this->accelerometer_data[1];
+}
+
+int imu::getRoll(){
+  return this->accelerometer_data[0];
 }
 
 void imu::update(){

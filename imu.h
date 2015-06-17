@@ -32,6 +32,8 @@ class imu
     void prettyPrint();
     void setup();
     void update();
+    int getPitch();
+    int getRoll();
   private:
     char c;
     int accelerometer_data[3];
