@@ -30,9 +30,9 @@ class imu
   public:
     imu();
     void prettyPrint();
-    void setup();
+    //void init();
     void update();
-    int getPitch();
+    int* getAccData();
     int getRoll();
   private:
     char c;
@@ -42,11 +42,11 @@ class imu
     void read();
     void i2c_write(int address, byte reg, byte data);
     void i2c_read(int address, byte reg, int count, byte* data);
-    void init_adxl345();
+    //void init_adxl345();
     void read_adxl345();
-    void init_itg3200();
+    //void init_itg3200();
     void read_itg3200();
-    void init_hmc5843();
+    //void init_hmc5843();
     void read_hmc5843();
 };
 
