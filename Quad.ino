@@ -17,10 +17,10 @@ void setup() {
 
 void loop() {
   if(Serial.available()){
-    //TODO read command of some sort
+    //TODO read command of some sort from raspi
   }
-  PRYH actual = sensors.getPRYH(); //print out the values in the IMU
-  PRYH errors = calcErrors(actual);
+  PRYH actual = sensors.getPRYH(); //Get current sensor readings
+  PRYH errors = calcErrors(actual); //Calculate error from where we want to be
   Serial.print("Pitch: ");
   Serial.print(errors.pitch);
   Serial.print(" Roll: ");
