@@ -2,23 +2,27 @@
 #include "motors.h"
 #include "pryh.h"
 
+MotorController::MotorController(){
+  
+}
+
 /**
  *  Connects Motors to the specified pins
  */
-MotorController::MotorController(int f, int l, int b, int r){
+void MotorController::init(int f, int l, int b, int r){
    this->front.attach(f);
    this->left.attach(l);
    this->back.attach(b);
    this->right.attach(r);
+   this->sendLow();
+   delay(5000);
 }
 
 void MotorController::sendLow(){
-  int val = 70;
-   this->front.write(val);
-   this->left.write(val);
-   this->back.write(val);
-   this->right.write(val);
-   delay(2000);
+   this->front.write(MOTOR_OFF);
+   this->left.write(MOTOR_OFF);
+   this->back.write(MOTOR_OFF);
+   this->right.write(MOTOR_OFF);
 }
 
 int F, L, B, R, i; //temp variables

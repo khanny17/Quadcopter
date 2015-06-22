@@ -7,8 +7,13 @@
 #include "motors.h"
 
 
+#define FRONT_PIN 6
+#define LEFT_PIN  9
+#define BACK_PIN  10
+#define RIGHT_PIN 11
+
 SensorInterface sensors;
-MotorController motors(6,9,10,11);
+MotorController motors;
 
 pid pitchPID;
 pid rollPID;
@@ -17,10 +22,12 @@ pid rollPID;
 void setup() {
   Serial.begin(9600);
   sensors.init();
+  motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+  /*
   Serial.println("Press Enter to Start");
   while(!Serial.available()){
     motors.sendLow();
-  }
+  }*/
 }
 
 void loop() {
@@ -39,7 +46,7 @@ void loop() {
   motors.adjustSpeeds(errors);
   motors.printSpeeds();
   
-  delay(1000);
+  delay(100);
 }
 
 PRYH calcErrors(PRYH actual){
