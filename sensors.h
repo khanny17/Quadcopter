@@ -11,6 +11,7 @@ class SensorInterface
   public:
     SensorInterface();
     PRYH getPRYH();
+    void init();
   private:
     int getPitch();
     int getRoll();

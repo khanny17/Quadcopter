@@ -12,7 +12,11 @@ Buffer<int> pitchBuffer(BUFFER_SIZE);
 Buffer<int> rollBuffer(BUFFER_SIZE);
 
 SensorInterface::SensorInterface(){
-  //imu.init(); For some reason, this was breaking it
+  //imu.init();
+}
+
+void SensorInterface::init(){
+  imu.init();
 }
 
 /**
@@ -20,6 +24,7 @@ SensorInterface::SensorInterface(){
  */
 PRYH SensorInterface::getPRYH(){
   imu.update();
+  //imu.prettyPrint();
   return (PRYH){ this->getPitch(), this->getRoll(), 0, 0 };
 }
 

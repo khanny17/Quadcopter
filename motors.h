@@ -16,13 +16,18 @@ class MotorController
   public:
     MotorController(int f, int l, int b, int r);
     void adjustSpeeds(PRYH errors);
+    void printSpeeds();
+    void sendLow();
   private:
     void writeSpeeds(); 
     Servo front;
     Servo left;
     Servo back;
     Servo right;
-    int* speeds; //f, l, b, r
+    int frontSpd;
+    int leftSpd;
+    int rightSpd;
+    int backSpd;
 };
 
 #endif

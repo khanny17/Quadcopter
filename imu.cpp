@@ -14,14 +14,13 @@ imu::imu() {
   }
 }
 
-/* For some reason, it doesnt want this to run anymore
 void imu::init() {
   Wire.begin();
   
   this->init_adxl345();
   this->init_hmc5843();
   this->init_itg3200();
-}*/
+}
 
 void imu::prettyPrint() {
    Serial.print("ACCEL: ");
@@ -96,14 +95,14 @@ void imu::i2c_read(int address, byte reg, int count, byte* data) {
  Wire.endTransmission();
 } 
 
-/*void imu::init_adxl345() {
+void imu::init_adxl345() {
   byte data = 0;
 
   this->i2c_write(ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, ADXL_PWRCTL_MEASURE);
 
   this->i2c_read(ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, 1, &data);
   //Serial.println((unsigned int)data);
-}*/
+}
 
 
 void imu::read_adxl345() {
@@ -117,7 +116,7 @@ void imu::read_adxl345() {
  }
 }
 
-/*void imu::init_itg3200() {
+void imu::init_itg3200() {
   byte data = 0;
 
   this->i2c_write(ITG3200_ADDRESS, ITG3200_REGISTER_DLPF_FS, ITG3200_FULLSCALE | ITG3200_42HZ);
@@ -125,7 +124,7 @@ void imu::read_adxl345() {
   this->i2c_read(ITG3200_ADDRESS, ITG3200_REGISTER_DLPF_FS, 1, &data);
 
   //Serial.println((unsigned int)data);
-}*/
+}
 
 void imu::read_itg3200() {
   byte bytes[6];
@@ -137,14 +136,14 @@ void imu::read_itg3200() {
   }
 }
 
-/*void imu::init_hmc5843() {
+void imu::init_hmc5843() {
   byte data = 0;
   
   this->i2c_write(HMC5843_ADDRESS, HMC5843_REGISTER_MEASMODE, HMC5843_MEASMODE_CONT);
 
   this->i2c_read(HMC5843_ADDRESS, HMC5843_REGISTER_MEASMODE, 1, &data);
   //Serial.println((unsigned int)data);
-}*/
+}
 
 void imu::read_hmc5843() {
  byte bytes[6];

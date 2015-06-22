@@ -16,6 +16,11 @@ pid rollPID;
 
 void setup() {
   Serial.begin(9600);
+  sensors.init();
+  Serial.println("Press Enter to Start");
+  while(!Serial.available()){
+    motors.sendLow();
+  }
 }
 
 void loop() {
@@ -23,20 +28,16 @@ void loop() {
     //TODO read command of some sort from raspi
   //}
   PRYH actual = sensors.getPRYH(); //Get current sensor readings
+  /*
   Serial.print("Actual Pitch: ");
   Serial.print(actual.pitch);
-  Serial.print("\n");
+  Serial.print(" --- ");
   Serial.print("Actual Roll: ");
   Serial.print(actual.roll);
-  Serial.print("\n");
+  Serial.print("\n"); */
   PRYH errors = calcErrors(actual); //Calculate error from where we want to be
-  Serial.print("Error Pitch: ");
-  Serial.print(errors.pitch);
-  Serial.print("\n");
-  Serial.print("Error Roll: ");
-  Serial.print(errors.roll);
-  Serial.print("\n");
   motors.adjustSpeeds(errors);
+  motors.printSpeeds();
   
   delay(1000);
 }
