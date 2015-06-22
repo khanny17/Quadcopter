@@ -64,12 +64,31 @@ void imu::update(){
 }
 
 /**
- *  Reads in the raw data from the IMU
+ *  Reads in the raw data from the IMU and performs necessary conversions
  */
 void imu::read() {
    this->read_adxl345();
+   this->acc_to_degrees(); //convert to degrees
    this->read_hmc5843();
    this->read_itg3200();
+}
+
+/**
+ * Converts Accelerometer readings to degrees
+ */
+void imu::acc_to_degrees(){
+  double x = this->accelerometer_data[0];
+  double y = this->accelerometer_data[1];
+  double z = this->accelerometer_data[2];
+  
+  //57.29578 is 180 / pi
+  double xA = atan( x / sqrt( sq(y)+sq(z) )) * 57.29578; 
+  double yA = atan( y / sqrt( sq(x)+sq(z) )) * 57.29578;
+  double zA = atan( sqrt( sq(y)+sq(x) / z )) * 57.29578;
+  
+  this->accelerometer_data[0] = xA;
+  this->accelerometer_data[1] = yA;
+  this->accelerometer_data[2] = zA;
 }
 
 void imu::i2c_write(int address, byte reg, byte data) {

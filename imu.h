@@ -48,6 +48,7 @@ class imu
     void read_itg3200();
     void init_hmc5843();
     void read_hmc5843();
+    void acc_to_degrees();
 };
 
 #endif

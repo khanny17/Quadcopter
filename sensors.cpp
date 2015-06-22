@@ -5,9 +5,7 @@
 
 imu imu;
 
-//TODO we probably want to buffer each individual sensor reading,
-// instead of the pitch/roll/yaw/height value. This is in case we want to use the gyro
-// and maybe we want a larger buffer for it.
+//TODO we probably want to buffer each individual sensor reading
 Buffer<int> pitchBuffer(BUFFER_SIZE);  
 Buffer<int> rollBuffer(BUFFER_SIZE);
 
@@ -32,7 +30,7 @@ PRYH SensorInterface::getPRYH(){
 //This is to smooth the signal out
 int SensorInterface::getPitch(){
   int* acc_data = imu.getAccData();
-  pitchBuffer.add(acc_data[1]);//TODO put buffer in imu?
+  pitchBuffer.add(acc_data[1]);//TODO put buffer in imu or in here?
   return pitchBuffer.average();
 }
 

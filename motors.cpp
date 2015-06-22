@@ -46,10 +46,11 @@ void MotorController::adjustSpeeds(PRYH errors){
   */
   
   //Use error to determine amound to increase/decrease motor speeds by
-  F = map(F, -560, 560, -MAX_INCREMENT, MAX_INCREMENT);
-  L = map(L, -560, 560, -MAX_INCREMENT, MAX_INCREMENT);
-  B = map(B, -560, 560, -MAX_INCREMENT, MAX_INCREMENT);
-  R = map(R, -560, 560, -MAX_INCREMENT, MAX_INCREMENT);
+  //TODO define the min and max errors elsewhere
+  F = map(F, -360, 360, -MAX_INCREMENT, MAX_INCREMENT);
+  L = map(L, -360, 360, -MAX_INCREMENT, MAX_INCREMENT);
+  B = map(B, -360, 360, -MAX_INCREMENT, MAX_INCREMENT);
+  R = map(R, -360, 360, -MAX_INCREMENT, MAX_INCREMENT);
   
   /*
   Serial.print("F Increment: ");
