@@ -15,19 +15,16 @@
 SensorInterface sensors;
 MotorController motors;
 
-pid pitchPID;
-pid rollPID;
+pid pitchPID(1, 0, 1);
+pid rollPID(1, 0, 1); //TODO config this
+//pid yawPID;
+pid heightPID(1, 0, 1);
 
 
 void setup() {
   Serial.begin(9600);
   sensors.init();
   motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  /*
-  Serial.println("Press Enter to Start");
-  while(!Serial.available()){
-    motors.sendLow();
-  }*/
 }
 
 void loop() {
@@ -54,6 +51,6 @@ PRYH calcErrors(PRYH actual){
     pitchPID.compute(actual.pitch),
     rollPID.compute(actual.roll),
     0,
-    0
+    heightPID.compute(actual.height)
   };
 }

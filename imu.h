@@ -39,6 +39,7 @@ class imu
     int accelerometer_data[3];
     int gyro_data[3];
     int magnetometer_data[3];
+    int last_gyro_time;
     void read();
     void i2c_write(int address, byte reg, byte data);
     void i2c_read(int address, byte reg, int count, byte* data);
@@ -49,6 +50,7 @@ class imu
     void init_hmc5843();
     void read_hmc5843();
     void acc_to_degrees();
+    int gyro_to_degrees(int g_rdg, int acc_prev);
 };
 
 #endif

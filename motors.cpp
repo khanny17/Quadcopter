@@ -27,6 +27,7 @@ void MotorController::sendLow(){
 
 int F, L, B, R, i; //temp variables
 void MotorController::adjustSpeeds(PRYH errors){
+  //TODO use height
   //Get combined error for each motor
   F = (errors.pitch+errors.yaw);
   L = (-errors.roll-errors.yaw);

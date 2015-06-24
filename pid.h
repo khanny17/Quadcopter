@@ -3,17 +3,14 @@
 
 #include "Arduino.h"
 
-#define k_p 1
-#define k_i 0
-#define k_d 1
-
 class pid
 {
   public:
-    pid();
+    pid(float k_p, float k_i, float k_d);
     int compute(int actual);
     void setDesired(int desired);
   private:
+    float k_p, k_i, k_d;
     int e_prev;
     int t_prev;
     int sum;

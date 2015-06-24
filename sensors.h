@@ -16,7 +16,7 @@ class SensorInterface
     int getPitch();
     int getRoll();
     //int getYaw();
-    //int getHeight();
+    int getHeight();
 };
 
 

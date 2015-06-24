@@ -67,10 +67,14 @@ void imu::update(){
  *  Reads in the raw data from the IMU and performs necessary conversions
  */
 void imu::read() {
+   this->read_itg3200(); //do gyro BEFORE accelerometer so we dont need an acc_prev array
+   int i;
+   for(i = 0; i < 3; ++i){
+     gyro_data[i] = this->gyro_to_degrees(gyro_data[i], accelerometer_data[i]);
+   }
    this->read_adxl345();
    this->acc_to_degrees(); //convert to degrees
    this->read_hmc5843();
-   this->read_itg3200();
 }
 
 /**
@@ -89,6 +93,17 @@ void imu::acc_to_degrees(){
   this->accelerometer_data[0] = xA;
   this->accelerometer_data[1] = yA;
   this->accelerometer_data[2] = zA;
+}
+
+/**
+ *  Converts gyro reading to degrees using accelerometer data to limit drift
+ */
+int imu::gyro_to_degrees(int g_rdg, int acc_prev){
+  int now = millis();
+  //  reading/14.7 = degrees/sec ... now - last = delta_t
+  int g = (g_rdg/14.7)*(now-this->last_gyro_time)+acc_prev; //use accelerometer to prevent drift
+  this->last_gyro_time = now;
+  return g;
 }
 
 void imu::i2c_write(int address, byte reg, byte data) {

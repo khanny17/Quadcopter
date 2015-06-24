@@ -2,8 +2,10 @@
 #include "sensors.h"
 #include "imu.h"
 #include "buffer.h"
+#include "ultrasonic.h"
 
 imu imu;
+Ultrasonic ultrasonic(7); //TODO config this
 
 //TODO we probably want to buffer each individual sensor reading
 Buffer<int> pitchBuffer(BUFFER_SIZE);  
@@ -23,7 +25,7 @@ void SensorInterface::init(){
 PRYH SensorInterface::getPRYH(){
   imu.update();
   //imu.prettyPrint();
-  return (PRYH){ this->getPitch(), this->getRoll(), 0, 0 };
+  return (PRYH){ this->getPitch(), this->getRoll(), 0, this->getHeight() };
 }
 
 //Buffers the Pitch reading and returns the buffer average
@@ -39,4 +41,9 @@ int SensorInterface::getRoll(){
   int* acc_data = imu.getAccData();
   rollBuffer.add(acc_data[0]);
   return rollBuffer.average();
+}
+
+int SensorInterface::getHeight(){
+  //eventually this function will decide to use the ultrasonic or the barometer from the pi
+  return ultrasonic.getHeight();
 }
