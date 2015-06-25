@@ -1,6 +1,6 @@
 # Quadcopter
 
-## An iterative project to develop an autonomous quadcopter
+*An iterative project to develop an autonomous quadcopter*
 
 Goals
 -------
