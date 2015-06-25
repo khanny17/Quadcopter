@@ -14,8 +14,8 @@ void MotorController::init(int f, int l, int b, int r){
    this->left.attach(l);
    this->back.attach(b);
    this->right.attach(r);
-   this->sendLow();
-   delay(5000);
+   this->sendLow(); //To initialize the motors, they need to receive a low signal
+   delay(5000); //Wait five seconds to make sure the motors read it
 }
 
 void MotorController::sendLow(){
@@ -81,6 +81,9 @@ void MotorController::adjustSpeeds(PRYH errors){
   this->writeSpeeds();
 }
 
+/**
+ *  PRECONDITION: the speeds are kept in the proper range so we dont write an invalid speed
+ */
 void MotorController::writeSpeeds(){
   this->front.write(this->frontSpd);
   this->left.write(this->leftSpd);

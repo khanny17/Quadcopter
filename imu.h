@@ -8,6 +8,7 @@
 #define imu_h
 
 #include "Arduino.h"
+#include "buffer.h"
 
 #define ADXL345_ADDRESS (0xA6 >> 1)
 #define ADXL345_REGISTER_XLSB (0x32)
@@ -25,6 +26,10 @@
 #define HMC5843_REGISTER_MEASMODE (0x02)
 #define HMC5843_MEASMODE_CONT (0x00)
 
+#define X 0
+#define Y 1
+#define Z 2
+
 class imu
 {
   public:
@@ -32,15 +37,18 @@ class imu
     void prettyPrint();
     void init();
     void update();
-    int* getAccData();
-    int getRoll();
+    int getAccData(int axis);
   private:
-    char c;
+    int c;
+    //Arrays to hold raw values from the sensors
     int accelerometer_data[3];
     int gyro_data[3];
     int magnetometer_data[3];
-    int last_gyro_time;
-    void read();
+    //Arrays of buffers to smooth out the readings
+    Buffer<int> acc_buffers[3] = {5, 5, 5};
+    Buffer<int> gyro_buffers[3] = {5, 5, 5};
+    Buffer<int> mag_buffers[3] = {5, 5, 5};
+    //Methods for talking to the IMU
     void i2c_write(int address, byte reg, byte data);
     void i2c_read(int address, byte reg, int count, byte* data);
     void init_adxl345();
@@ -49,8 +57,9 @@ class imu
     void read_itg3200();
     void init_hmc5843();
     void read_hmc5843();
+    //Helper Methods
     void acc_to_degrees();
-    int gyro_to_degrees(int g_rdg, int acc_prev);
+    void gyro_to_degrees();
 };
 
 #endif

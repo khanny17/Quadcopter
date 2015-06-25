@@ -7,7 +7,7 @@
 #include "motors.h"
 
 
-#define FRONT_PIN 6
+#define FRONT_PIN 6 //TODO config this
 #define LEFT_PIN  9
 #define BACK_PIN  10
 #define RIGHT_PIN 11
@@ -18,7 +18,7 @@ MotorController motors;
 pid pitchPID(1, 0, 1);
 pid rollPID(1, 0, 1); //TODO config this
 //pid yawPID;
-pid heightPID(1, 0, 1);
+pid heightPID(1, .5, .5);
 
 
 void setup() {

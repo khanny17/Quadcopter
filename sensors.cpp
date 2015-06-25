@@ -7,14 +7,17 @@
 imu imu;
 Ultrasonic ultrasonic(7); //TODO config this
 
-//TODO we probably want to buffer each individual sensor reading
-Buffer<int> pitchBuffer(BUFFER_SIZE);  
-Buffer<int> rollBuffer(BUFFER_SIZE);
-
+//TODO does this need to be here at all?
 SensorInterface::SensorInterface(){
   //imu.init();
 }
 
+/**
+ * Performs any initialization necessary for the Sensors
+ * NOTE: The initialization for some sensors, such as the imu,
+ *         will not work if this is placed in the constructor,
+ *         which is why this function exists.
+ */
 void SensorInterface::init(){
   imu.init();
 }
@@ -28,19 +31,18 @@ PRYH SensorInterface::getPRYH(){
   return (PRYH){ this->getPitch(), this->getRoll(), 0, this->getHeight() };
 }
 
-//Buffers the Pitch reading and returns the buffer average
-//This is to smooth the signal out
+/**
+ * Determines the current pitch of the quad using
+ *   whichever sensors or combination of sensors would be most accurate
+ *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
+ */
 int SensorInterface::getPitch(){
-  int* acc_data = imu.getAccData();
-  pitchBuffer.add(acc_data[1]);//TODO put buffer in imu or in here?
-  return pitchBuffer.average();
+  return imu.getAccData(Y);
 }
 
 //Buffers the Roll reading and returns the buffer average
 int SensorInterface::getRoll(){
-  int* acc_data = imu.getAccData();
-  rollBuffer.add(acc_data[0]);
-  return rollBuffer.average();
+  return imu.getAccData(X);
 }
 
 int SensorInterface::getHeight(){

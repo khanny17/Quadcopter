@@ -22,6 +22,9 @@ void imu::init() {
   this->init_itg3200();
 }
 
+/**
+ * Prints whatever the current data is
+ */
 void imu::prettyPrint() {
    Serial.print("ACCEL: ");
    Serial.print(this->accelerometer_data[0]);
@@ -49,36 +52,36 @@ void imu::prettyPrint() {
 }
 
 /**
- *  Gets the pitch from ONLY the accelerometer ATM
+ * Returns the accelerometer value for the given axis
  */
-int* imu::getAccData(){
-  return this->accelerometer_data;
-}
-
-int imu::getRoll(){
-  return this->accelerometer_data[0];
-}
-
-void imu::update(){
-  this->read();
+int imu::getAccData(int axis){
+  return this->acc_buffers[axis].average();
 }
 
 /**
- *  Reads in the raw data from the IMU and performs necessary conversions
+ * Gets new data from all the sensors
  */
-void imu::read() {
-   this->read_itg3200(); //do gyro BEFORE accelerometer so we dont need an acc_prev array
-   int i;
-   for(i = 0; i < 3; ++i){
-     gyro_data[i] = this->gyro_to_degrees(gyro_data[i], accelerometer_data[i]);
-   }
-   this->read_adxl345();
-   this->acc_to_degrees(); //convert to degrees
-   this->read_hmc5843();
+void imu::update(){
+  this->read_adxl345();
+  this->read_itg3200();
+  this->read_hmc5843();
+   
+  //Convert to degrees
+  this->acc_to_degrees();
+  this->gyro_to_degrees();
+
+  //Add to the buffers
+  int i;
+  for(i = 0; i < 3; ++i){
+    this->acc_buffers[i].add(accelerometer_data[i]);
+    this->gyro_buffers[i].add(gyro_data[i]);
+    this->mag_buffers[i].add(magnetometer_data[i]);
+  }
 }
 
 /**
  * Converts Accelerometer readings to degrees
+ * PRECONDITION: The values in accelerometer_data are not ALREADY in degrees
  */
 void imu::acc_to_degrees(){
   double x = this->accelerometer_data[0];
@@ -96,14 +99,13 @@ void imu::acc_to_degrees(){
 }
 
 /**
- *  Converts gyro reading to degrees using accelerometer data to limit drift
+ *  Converts gyro reading to degrees/sec
  */
-int imu::gyro_to_degrees(int g_rdg, int acc_prev){
-  int now = millis();
-  //  reading/14.7 = degrees/sec ... now - last = delta_t
-  int g = (g_rdg/14.7)*(now-this->last_gyro_time)+acc_prev; //use accelerometer to prevent drift
-  this->last_gyro_time = now;
-  return g;
+void imu::gyro_to_degrees(){
+  int i; 
+  for(i = 0; i < 3; ++i){
+    gyro_data[i] = gyro_data[i] / 14.7;
+  }
 }
 
 void imu::i2c_write(int address, byte reg, byte data) {
