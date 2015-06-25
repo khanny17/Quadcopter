@@ -30,6 +30,8 @@
 #define Y 1
 #define Z 2
 
+#define BUFFER_SIZE 5
+
 class imu
 {
   public:
@@ -45,9 +47,9 @@ class imu
     int gyro_data[3];
     int magnetometer_data[3];
     //Arrays of buffers to smooth out the readings
-    Buffer<int> acc_buffers[3] = {5, 5, 5};
-    Buffer<int> gyro_buffers[3] = {5, 5, 5};
-    Buffer<int> mag_buffers[3] = {5, 5, 5};
+    Buffer<int> acc_buffers[3] = {BUFFER_SIZE, BUFFER_SIZE, BUFFER_SIZE};
+    Buffer<int> gyro_buffers[3] = {BUFFER_SIZE, BUFFER_SIZE, BUFFER_SIZE};
+    Buffer<int> mag_buffers[3] = {BUFFER_SIZE, BUFFER_SIZE, BUFFER_SIZE};
     //Methods for talking to the IMU
     void i2c_write(int address, byte reg, byte data);
     void i2c_read(int address, byte reg, int count, byte* data);

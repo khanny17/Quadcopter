@@ -4,8 +4,6 @@
 #include "Arduino.h"
 #include "pryh.h"
 
-#define BUFFER_SIZE 5
-
 class SensorInterface
 {
   public:

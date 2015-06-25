@@ -37,15 +37,20 @@ PRYH SensorInterface::getPRYH(){
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
 int SensorInterface::getPitch(){
-  return imu.getAccData(Y);
+  return imu.getAccData(Y); //TODO use the gyroscope
 }
 
+/**
+ * Determines the current roll of the quad using
+ *   whichever sensors or combination of sensors would be most accurate
+ *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
+ */
 //Buffers the Roll reading and returns the buffer average
 int SensorInterface::getRoll(){
-  return imu.getAccData(X);
+  return imu.getAccData(X); //TODO use the gyroscope
 }
 
 int SensorInterface::getHeight(){
-  //eventually this function will decide to use the ultrasonic or the barometer from the pi
+  //eventually this function will decide to use the ultrasonic or the barometer based on the altitude
   return ultrasonic.getHeight();
 }

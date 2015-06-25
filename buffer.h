@@ -6,6 +6,7 @@
 #ifndef buffer_h
 #define buffer_h
 
+//TODO this probably doesnt even have to be generic.
 template<typename T> //TODO limit this to Numerics, else average will break
 class Buffer
 {
@@ -27,17 +28,21 @@ Buffer<T>::Buffer(int size){
   this->mostRecentIndex = 0;
 }
 
+/**
+ * Adds an item to the buffer, overwriting the value on the end
+ */
 template<typename T>
 void Buffer<T>::add(T newItem){
   this->items[(this->mostRecentIndex++)%this->size] = newItem;
 }
 
 //TODO prevent this being called if the type is a string
+/**
+ * Averages the values in the buffer and returns them.
+ * TODO typechecking
+ */
 template<typename T>
 float Buffer<T>::average(){
-  if(this->items[0]){
-    
-  }
   int i, sum;
   for(i=0; i < this->size; ++i){
     sum += this->items[i];

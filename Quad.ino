@@ -32,15 +32,8 @@ void loop() {
     //TODO read command of some sort from raspi
   //}
   PRYH actual = sensors.getPRYH(); //Get current sensor readings
-  /*
-  Serial.print("Actual Pitch: ");
-  Serial.print(actual.pitch);
-  Serial.print(" --- ");
-  Serial.print("Actual Roll: ");
-  Serial.print(actual.roll);
-  Serial.print("\n"); */
   PRYH errors = calcErrors(actual); //Calculate error from where we want to be
-  motors.adjustSpeeds(errors);
+  motors.adjustSpeeds(errors); //Adjust motor speeds based on the error
   motors.printSpeeds();
   
   delay(100);
@@ -50,7 +43,7 @@ PRYH calcErrors(PRYH actual){
   return (PRYH){
     pitchPID.compute(actual.pitch),
     rollPID.compute(actual.roll),
-    0,
+    0, //TODO implement yaw!
     heightPID.compute(actual.height)
   };
 }
