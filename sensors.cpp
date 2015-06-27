@@ -23,12 +23,12 @@ void SensorInterface::init(){
 }
 
 /**
- *  Updates sensor readings and returns the current PRYH
+ *  Updates sensor readings and returns the current PRY
  */
-PRYH SensorInterface::getPRYH(){
+PRY SensorInterface::getPRY(){
   imu.update();
-  //imu.prettyPrint();
-  return (PRYH){ this->getPitch(), this->getRoll(), 0, this->getHeight() };
+  ultrasonic.update();
+  return (PRY){ this->getPitch(), this->getRoll(), 0 };
 }
 
 /**
@@ -54,3 +54,17 @@ int SensorInterface::getHeight(){
   //eventually this function will decide to use the ultrasonic or the barometer based on the altitude
   return ultrasonic.getHeight();
 }
+
+/**
+ * Returns the vertical velocity of the quad in centimeters per second
+ */
+int curTime, prevTime, velocity, prevHeight = 0;
+int SensorInterface::getVerticalVelocity(){
+  curTime = millis();
+  velocity = (1000 * (this->getHeight() - prevHeight)) / (curTime - prevTime);
+  prevHeight = this->getHeight();
+  prevTime = curTime;
+  return velocity;
+}
+
+

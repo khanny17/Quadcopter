@@ -2,19 +2,20 @@
 #define sensors_h
 
 #include "Arduino.h"
-#include "pryh.h"
+#include "pry.h"
 
 class SensorInterface
 {
   public:
     SensorInterface();
-    PRYH getPRYH();
+    PRY getPRY();
     void init();
+    int getHeight();
+    int getVerticalVelocity();
   private:
     int getPitch();
     int getRoll();
     //int getYaw();
-    int getHeight();
 };
 
 

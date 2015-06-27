@@ -5,8 +5,13 @@ Ultrasonic::Ultrasonic(int pin){
   this->pin = pin;
 }
 
-long duration;
+
 int Ultrasonic::getHeight(){
+  return this->height;
+}
+
+long duration;
+void Ultrasonic::update(){
   // The PING))) is triggered by a HIGH pulse of 2 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   pinMode(this->pin, OUTPUT);
@@ -23,5 +28,6 @@ int Ultrasonic::getHeight(){
   duration = pulseIn(this->pin, HIGH);
 
   // convert the time into a distance in cm
-  return duration / 58;
+  this->height = duration / 58;
 }
+
