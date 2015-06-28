@@ -22,6 +22,9 @@ void setup() {
   Serial.begin(9600);
   sensors.init();
   motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+
+  //TODO wait for configurations over serial?
+  
   ctrl.setDesiredHeight(100); //100cm = 1m
 }
 
@@ -34,12 +37,16 @@ void loop() {
   PRY actualPry = sensors.getPRY(); 
   int height = sensors.getHeight();
   int vertVelocity = sensors.getVerticalVelocity();
-  
+
+  //Calculate errors
   PRY errorsPry = ctrl.calcPryErrors(actualPry); //Calculate error from where we want to be
   int heightError = ctrl.calcHeightError(height);
   int vertVelocityError = ctrl.calcVerticalVelocityError(vertVelocity, heightError);
-  
+
+  //Adjust motor speeds
   motors.adjustSpeeds(errorsPry, vertVelocityError); //Adjust motor speeds based on the errors
+
+  
   motors.printSpeeds();
   
   delay(100);
