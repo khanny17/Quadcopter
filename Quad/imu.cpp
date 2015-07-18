@@ -77,6 +77,7 @@ void imu::update(){
     this->gyro_buffers[i].add(gyro_data[i]);
     this->mag_buffers[i].add(magnetometer_data[i]);
   }
+  
 }
 
 /**

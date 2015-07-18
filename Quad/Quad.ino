@@ -48,7 +48,7 @@ void loop() {
 
   //Serial.print("heightError: "); Serial.print(heightError); Serial.print("\n");
   //int vertVelocityError = ctrl.calcVerticalVelocityError(vertVelocity, heightError);
-
+  //Serial.println(errorsPry.pitch);
 
   //Adjust motor speeds
   motors.adjustSpeeds(errorsPry, heightError); //Adjust motor speeds based on the errors
