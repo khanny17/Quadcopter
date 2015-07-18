@@ -5,7 +5,7 @@
 #include "ultrasonic.h"
 
 imu imu;
-Ultrasonic ultrasonic(7); //TODO config this
+Ultrasonic ultrasonic; //TODO config the pins?
 
 //TODO does this need to be here at all?
 SensorInterface::SensorInterface(){
@@ -61,7 +61,7 @@ int SensorInterface::getHeight(){
 int curTime, prevTime, velocity, prevHeight = 0;
 int SensorInterface::getVerticalVelocity(){
   curTime = millis();
-  velocity = (1000 * (this->getHeight() - prevHeight)) / (curTime - prevTime);
+  velocity = (1000 * (this->getHeight() - prevHeight)) / (curTime - prevTime); //1000 * cm/ms)
   prevHeight = this->getHeight();
   prevTime = curTime;
   return velocity;

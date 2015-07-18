@@ -15,7 +15,7 @@ void MotorController::init(int f, int l, int b, int r){
    this->back.attach(b);
    this->right.attach(r);
    this->sendLow(); //To initialize the motors, they need to receive a low signal
-   delay(5000); //Wait five seconds to make sure the motors read it
+   delay(10000); //Wait five seconds to make sure the motors read it
 }
 
 void MotorController::sendLow(){
@@ -26,23 +26,24 @@ void MotorController::sendLow(){
 }
 
 int F, L, B, R, i, T; //temp variables
-void MotorController::adjustSpeeds(PRY errors, int vertVelocityError){
+void MotorController::adjustSpeeds(PRY errors, int heightError){
   //Get combined error for each motor
   F = (errors.pitch+errors.yaw);
   L = (-errors.roll-errors.yaw);
   B = (-errors.pitch+errors.yaw);
   R = (errors.roll-errors.yaw);
+
   
   //Use error to determine amound to increase/decrease motor speeds by
   //TODO define the min and max errors elsewhere
-  F = map(F, -360, 360, -OFFSET, OFFSET);
-  L = map(L, -360, 360, -OFFSET, OFFSET);
-  B = map(B, -360, 360, -OFFSET, OFFSET);
-  R = map(R, -360, 360, -OFFSET, OFFSET);
+  F = map(F, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
+  L = map(L, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
+  B = map(B, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
+  R = map(R, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
 
   //Calculate the base throttle based on error in desired speed
-  //TODO play with the numbers here. this maps 1m/s to 20
-  T = map(vertVelocityError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
+  //TODO play with the numbers here. this maps 1m to 20
+  T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
   this->throttle = constrain(this->throttle+T, MIN_THROTTLE, MAX_THROTTLE);
   
   // Set new speeds, keeping them within max and min bounds

@@ -24,7 +24,7 @@ int pid::compute(int actual){
 void pid::setDesired(int desired){
   //reset values
   this->desired = desired;
-  this->e_prev = 0;
-  this->t_prev = millis();
-  this->sum = 0;
+  //this->e_prev = 0;
+  //this->t_prev = millis();
+  //this->sum = 0;
 }
