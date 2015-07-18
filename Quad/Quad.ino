@@ -9,9 +9,9 @@
 #include "controller.h"
 
 
-#define FRONT_PIN 4 //TODO config this
-#define LEFT_PIN  5
-#define BACK_PIN  6
+#define FRONT_PIN 6 //TODO config this
+#define LEFT_PIN  4
+#define BACK_PIN  5
 #define RIGHT_PIN 7
 
 SensorInterface sensors;

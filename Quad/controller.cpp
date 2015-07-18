@@ -2,8 +2,8 @@
 #include "pid.h"
 #include "pry.h"
 
-pid pitchPID(6, 1, 1.75);
-pid rollPID(6, 1, 1.75); //TODO config this
+pid pitchPID(1, .1, .5);
+pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);
 

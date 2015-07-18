@@ -15,7 +15,7 @@ void MotorController::init(int f, int l, int b, int r){
    this->back.attach(b);
    this->right.attach(r);
    this->sendLow(); //To initialize the motors, they need to receive a low signal
-   delay(10000); //Wait five seconds to make sure the motors read it
+   delay(10000); //Wait ten seconds to make sure the motors read it
 }
 
 void MotorController::sendLow(){
@@ -28,10 +28,10 @@ void MotorController::sendLow(){
 int F, L, B, R, i, T; //temp variables
 void MotorController::adjustSpeeds(PRY errors, int heightError){
   //Get combined error for each motor
-  F = (errors.pitch+errors.yaw);
-  L = (-errors.roll-errors.yaw);
-  B = (-errors.pitch+errors.yaw);
-  R = (errors.roll-errors.yaw);
+  F = (-errors.pitch+errors.yaw);
+  L = (errors.roll-errors.yaw);
+  B = (errors.pitch+errors.yaw);
+  R = (-errors.roll-errors.yaw);
 
   
   //Use error to determine amound to increase/decrease motor speeds by
@@ -61,9 +61,9 @@ void MotorController::adjustSpeeds(PRY errors, int heightError){
  */
 void MotorController::writeSpeeds(){
   this->front.write(this->frontSpd);
-  this->left.write(this->leftSpd);
+  //this->left.write(this->leftSpd);
   this->back.write(this->backSpd);
-  this->right.write(this->rightSpd);
+  //this->right.write(this->rightSpd);
 }
 
 void MotorController::printSpeeds(){

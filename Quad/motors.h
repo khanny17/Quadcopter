@@ -6,11 +6,11 @@
 #include "Servo.h"
 
 #define MOTOR_OFF 10
-#define MOTOR_MIN 65
-#define MOTOR_MAX 180
+#define MOTOR_MIN 65 //TODO this should probably be 65!
+#define MOTOR_MAX 75 //TODO this should be 180!
 
 #define MIN_THROTTLE 65
-#define MAX_THROTTLE 75          //160 so we can increment up to 180 with PRY displacement
+#define MAX_THROTTLE 68          //160 so we can increment up to 180 with PRY displacement
 #define THROTTLE_INCREMENT 2     //the max amount to increment the throttle by each time
 
 #define OFFSET 40                 //the max offset between opposing motors for PRY
