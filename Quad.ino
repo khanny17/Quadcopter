@@ -21,7 +21,7 @@ Controller ctrl;
 int start; //the time "setup" ends
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   sensors.init();
   motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
 
@@ -54,9 +54,7 @@ void loop() {
   motors.adjustSpeeds(errorsPry, heightError); //Adjust motor speeds based on the errors
 
   
-  motors.printSpeeds();
-
-  delay(100);
+  //motors.printSpeeds();
 
   if(millis() - start > 3000){ //after 3 seconds, shut it down
     while(true){
