@@ -2,12 +2,19 @@
 #include "pid.h"
 #include "pry.h"
 
-pid pitchPID(1, 0, 0);
+/*
+ *  1.1 < x < 1.65
+ */
+
+pid pitchPID(1.8, 0, 0);
 pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);
 
 PRY Controller::calcPryErrors(PRY actual){
+  /*int presult = 
+    pitchPID.compute(actual.pitch);
+    Serial.println(presult);*/
   return (PRY){
     pitchPID.compute(actual.pitch),
     rollPID.compute(actual.roll),

@@ -18,7 +18,7 @@ int pid::compute(int actual){
   double i = this->k_i*(this->sum+(e/(t-this->t_prev)));
   double d = this->k_d*(e - this->e_prev)/(t-t_prev);
   
-  return p+i+d;
+  return (p+i+d)/2;
 }
 
 void pid::setDesired(int desired){

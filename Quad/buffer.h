@@ -26,6 +26,12 @@ Buffer<T>::Buffer(int size){
   this->items = new T[size];
   this->size = size;
   this->mostRecentIndex = 0;
+  
+  //initialize array to 0
+  int i;
+  for(i = 0; i < size; ++i){
+    this->items[i] = 0;
+  }
 }
 
 /**

@@ -30,7 +30,7 @@
 #define Y 1
 #define Z 2
 
-#define BUFFER_SIZE 15
+#define BUFFER_SIZE 40
 
 class imu
 {

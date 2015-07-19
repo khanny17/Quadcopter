@@ -35,11 +35,17 @@ void MotorController::adjustSpeeds(PRY errors, int heightError){
 
   
   //Use error to determine amound to increase/decrease motor speeds by
-  //TODO define the min and max errors elsewhere
+  /*
   F = map(F, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   L = map(L, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   B = map(B, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   R = map(R, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
+  */
+  
+  F = constrain(F, -OFFSET, OFFSET);
+  L = constrain(L, -OFFSET, OFFSET);
+  B = constrain(B, -OFFSET, OFFSET);
+  R = constrain(R, -OFFSET, OFFSET);
 
   //Calculate the base throttle based on error in desired speed
   //TODO play with the numbers here. this maps 1m to 20

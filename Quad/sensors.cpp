@@ -37,7 +37,7 @@ PRY SensorInterface::getPRY(){
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
 int SensorInterface::getPitch(){
-  //Serial.println(imu.getAccData(Y));
+  Serial.println(imu.getAccData(Y));
   return imu.getAccData(Y); //TODO use the gyroscope
 }
 

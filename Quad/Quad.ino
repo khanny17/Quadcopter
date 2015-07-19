@@ -21,7 +21,7 @@ Controller ctrl;
 int start; //the time "setup" ends
 
 void setup() {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   sensors.init();
   motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
 
