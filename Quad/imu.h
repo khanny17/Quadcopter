@@ -40,6 +40,7 @@ class imu
     void init();
     void update();
     int getAccData(int axis);
+    int getGyroData(int axis);
   private:
     int c;
     //Arrays to hold raw values from the sensors
@@ -61,7 +62,7 @@ class imu
     void read_hmc5843();
     //Helper Methods
     void acc_to_degrees();
-    void gyro_to_degrees();
+    void gyro_to_degrees_per_sec();
 };
 
 #endif

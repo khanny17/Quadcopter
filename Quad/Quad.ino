@@ -14,6 +14,8 @@
 #define BACK_PIN  5
 #define RIGHT_PIN 7
 
+#define K_G_P .5 //the ratio of gyro to accelerometer usage in pitch calculation
+
 SensorInterface sensors;
 MotorController motors;
 Controller ctrl;
@@ -22,12 +24,13 @@ int start; //the time "setup" ends
 
 void setup() {
   Serial.begin(9600);
-  sensors.init();
+  sensors.init(K_G_P);
   motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
 
   //TODO wait for configurations over serial?
   
   ctrl.setDesiredHeight(100); //100cm = 1m
+  
   start = millis();
 }
 

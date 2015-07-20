@@ -2,11 +2,8 @@
 #include "pid.h"
 #include "pry.h"
 
-/*
- *  1.1 < x < 1.65
- */
 
-pid pitchPID(1.8, 0, 0);
+pid pitchPID(1.42, .01, 0); //start at 1.4 - i think its a little low and 1.5 seems too high
 pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);

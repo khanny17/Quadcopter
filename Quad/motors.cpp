@@ -48,28 +48,27 @@ void MotorController::adjustSpeeds(PRY errors, int heightError){
   R = constrain(R, -OFFSET, OFFSET);
 
   //Calculate the base throttle based on error in desired speed
-  //TODO play with the numbers here. this maps 1m to 20
   T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
   this->throttle = constrain(this->throttle+T, MIN_THROTTLE, MAX_THROTTLE);
   
-  // Set new speeds, keeping them within max and min bounds
-  this->frontSpd = constrain(this->throttle+F, MOTOR_MIN, MOTOR_MAX);
-  this->leftSpd = constrain(this->throttle+L, MOTOR_MIN, MOTOR_MAX);;
-  this->backSpd = constrain(this->throttle+B, MOTOR_MIN, MOTOR_MAX);;
-  this->rightSpd = constrain(this->throttle+R, MOTOR_MIN, MOTOR_MAX);;
+  // Set new speeds
+  this->frontSpd = this->throttle+F;
+  this->leftSpd = this->throttle+L;
+  this->backSpd = this->throttle+B;
+  this->rightSpd = this->throttle+R;
   
   //write new speeds
   this->writeSpeeds();
 }
 
 /**
- *  PRECONDITION: the speeds are kept in the proper range so we dont write an invalid speed
+ *  Constrains speeds and writes them out
  */
 void MotorController::writeSpeeds(){
-  this->front.write(this->frontSpd);
-  //this->left.write(this->leftSpd);
-  this->back.write(this->backSpd);
-  //this->right.write(this->rightSpd);
+  this->front.write(constrain(this->frontSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->left.write(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
+  this->back.write(constrain(this->backSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->right.write(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
 }
 
 void MotorController::printSpeeds(){

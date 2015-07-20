@@ -59,6 +59,13 @@ int imu::getAccData(int axis){
 }
 
 /**
+ * Returns the gyro value for the given axis
+ */
+int imu::getGyroData(int axis){
+  return this->gyro_buffers[axis].average();
+}
+
+/**
  * Gets new data from all the sensors
  */
 void imu::update(){
@@ -68,7 +75,7 @@ void imu::update(){
    
   //Convert to degrees
   this->acc_to_degrees();
-  this->gyro_to_degrees();
+  this->gyro_to_degrees_per_sec();
 
   //Add to the buffers
   int i;
@@ -102,7 +109,7 @@ void imu::acc_to_degrees(){
 /**
  *  Converts gyro reading to degrees/sec
  */
-void imu::gyro_to_degrees(){
+void imu::gyro_to_degrees_per_sec(){
   int i; 
   for(i = 0; i < 3; ++i){
     gyro_data[i] = gyro_data[i] / 14.7;

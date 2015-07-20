@@ -18,8 +18,12 @@ SensorInterface::SensorInterface(){
  *         will not work if this is placed in the constructor,
  *         which is why this function exists.
  */
-void SensorInterface::init(){
+void SensorInterface::init(float K_gP){
   imu.init();
+  this->pitch = 0;
+  this->pitch_t_prev = 0; //maybe take the current time?
+  this->K_gyro_pitch = K_gP;
+  this->K_acc_pitch = 1-K_gP;
 }
 
 /**
@@ -36,9 +40,16 @@ PRY SensorInterface::getPRY(){
  *   whichever sensors or combination of sensors would be most accurate
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
+
 int SensorInterface::getPitch(){
-  Serial.println(imu.getAccData(Y));
-  return imu.getAccData(Y); //TODO use the gyroscope
+  int t = millis();
+  int gyro = (imu.getGyroData(Y) * ((t-this->pitch_t_prev)/1000) + pitch); //calc gyro value   s*delta_t+s_prev
+  int acc = imu.getAccData(Y); //calc accelerometer value
+  this->pitch_t_prev = t; //save new time
+  this->pitch = this->K_gyro_pitch * gyro + this->K_acc_pitch * acc; //save new pitch
+  
+  Serial.println(acc);
+  return this->pitch;
 }
 
 /**

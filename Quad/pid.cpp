@@ -18,6 +18,10 @@ int pid::compute(int actual){
   double i = this->k_i*(this->sum+(e/(t-this->t_prev)));
   double d = this->k_d*(e - this->e_prev)/(t-t_prev);
   
+  this->sum += e; //add to our sum
+  this->e_prev = e;
+  this->t_prev = t;
+  
   return (p+i+d)/2;
 }
 
