@@ -5,15 +5,16 @@
 #include "pry.h"
 #include "Servo.h"
 
-#define MOTOR_OFF 10
-#define MOTOR_MIN 64  //TODO this should probably be 65!
-#define MOTOR_MAX 110 //TODO this should be 180!
+#define MOTOR_OFF   700   //Min possible signal
+#define MOTOR_MIN   950   //Min allowed motor value
+#define MOTOR_MAX  1500   //Max allowed motor value
+#define MOTOR_FULL 2000   //Max possible signal
 
-#define MIN_THROTTLE 70
-#define MAX_THROTTLE 75          //160 so we can increment up to 180 with PRY displacement
-#define THROTTLE_INCREMENT 2     //the max amount to increment the throttle by each time
+#define MIN_THROTTLE 1250
+#define MAX_THROTTLE 1251          //160 so we can increment up to 180 with PRY displacement
+#define THROTTLE_INCREMENT 10     //the max amount to increment the throttle by each time
 
-#define OFFSET 30                 //the max offset between opposing motors for PRY
+#define OFFSET 500                 //the max offset between opposing motors for PRY
 #define MAX_DEGREE_ERROR 45      //max degree range error for each motor pased on PRY
 
 class MotorController
@@ -24,6 +25,7 @@ class MotorController
     void adjustSpeeds(PRY errors, int verticalVelocityError);
     void printSpeeds();
     void sendLow();
+    void sendHigh();
   private:
     void writeSpeeds(); 
     Servo front;

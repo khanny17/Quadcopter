@@ -12,6 +12,7 @@ class SensorInterface
     void init(float K_gP);
     int getHeight();
     int getVerticalVelocity();
+    void testImu();
   private:
     int getPitch();
     int getRoll();

@@ -3,12 +3,12 @@
 #include "pry.h"
 
 
-pid pitchPID(1.42, .01, 0); //start at 1.4 - i think its a little low and 1.5 seems too high
+pid pitchPID(4, 1, 2);  //4.1 might be nearby?
 pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);
 
-PRY Controller::calcPryErrors(PRY actual){
+PRY Controller::calcPryCorrection(PRY actual){
   /*int presult = 
     pitchPID.compute(actual.pitch);
     Serial.println(presult);*/

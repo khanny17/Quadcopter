@@ -30,7 +30,7 @@
 #define Y 1
 #define Z 2
 
-#define BUFFER_SIZE 40
+#define BUFFER_SIZE 4
 
 class imu
 {
@@ -63,6 +63,7 @@ class imu
     //Helper Methods
     void acc_to_degrees();
     void gyro_to_degrees_per_sec();
+    void buffer();
 };
 
 #endif

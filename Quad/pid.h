@@ -13,7 +13,7 @@ class pid
     float k_p, k_i, k_d;
     int e_prev;
     int t_prev;
-    int sum;
+    float sum;
     int desired;
 };
     

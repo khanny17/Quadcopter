@@ -6,7 +6,7 @@
 class Controller
 {
   public:
-    PRY calcPryErrors(PRY actual);
+    PRY calcPryCorrection(PRY actual);
     int calcVerticalVelocityError(int actual, int heightError);
     int calcHeightError(int actual);
     void setDesiredPry(PRY* desired);

@@ -14,24 +14,33 @@ void MotorController::init(int f, int l, int b, int r){
    this->left.attach(l);
    this->back.attach(b);
    this->right.attach(r);
+   this->sendHigh(); //calibrate motors
+   delay(1900);
    this->sendLow(); //To initialize the motors, they need to receive a low signal
    delay(10000); //Wait ten seconds to make sure the motors read it
 }
 
+void MotorController::sendHigh(){
+   this->front.writeMicroseconds(MOTOR_MAX);
+   this->left.writeMicroseconds(MOTOR_MAX);
+   this->back.writeMicroseconds(MOTOR_MAX);
+   this->right.writeMicroseconds(MOTOR_MAX);
+}
+
 void MotorController::sendLow(){
-   this->front.write(MOTOR_OFF);
-   this->left.write(MOTOR_OFF);
-   this->back.write(MOTOR_OFF);
-   this->right.write(MOTOR_OFF);
+   this->front.writeMicroseconds(MOTOR_OFF);
+   this->left.writeMicroseconds(MOTOR_OFF);
+   this->back.writeMicroseconds(MOTOR_OFF);
+   this->right.writeMicroseconds(MOTOR_OFF);
 }
 
 int F, L, B, R, i, T; //temp variables
-void MotorController::adjustSpeeds(PRY errors, int heightError){
+void MotorController::adjustSpeeds(PRY corrections, int heightError){
   //Get combined error for each motor
-  F = (errors.pitch+errors.yaw);
-  L = (errors.roll-errors.yaw);
-  B = (-errors.pitch+errors.yaw);
-  R = (-errors.roll-errors.yaw);
+  F = (corrections.pitch+corrections.yaw);
+  L = (corrections.roll-corrections.yaw);
+  B = (-corrections.pitch+corrections.yaw);
+  R = (-corrections.roll-corrections.yaw);
 
   
   //Use error to determine amound to increase/decrease motor speeds by
@@ -65,10 +74,10 @@ void MotorController::adjustSpeeds(PRY errors, int heightError){
  *  Constrains speeds and writes them out
  */
 void MotorController::writeSpeeds(){
-  this->front.write(constrain(this->frontSpd, MOTOR_MIN, MOTOR_MAX));
-  //this->left.write(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
-  this->back.write(constrain(this->backSpd, MOTOR_MIN, MOTOR_MAX));
-  //this->right.write(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
+  this->front.writeMicroseconds(constrain(this->frontSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->left.writeMicroseconds(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
+  this->back.writeMicroseconds(constrain(this->backSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->right.writeMicroseconds(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
 }
 
 void MotorController::printSpeeds(){

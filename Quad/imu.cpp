@@ -20,6 +20,8 @@ void imu::init() {
   this->init_adxl345();
   this->init_hmc5843();
   this->init_itg3200();
+  
+  this->buffer(); //fill buffer up
 }
 
 /**
@@ -78,13 +80,37 @@ void imu::update(){
   this->gyro_to_degrees_per_sec();
 
   //Add to the buffers
-  int i;
-  for(i = 0; i < 3; ++i){
-    this->acc_buffers[i].add(accelerometer_data[i]);
-    this->gyro_buffers[i].add(gyro_data[i]);
-    this->mag_buffers[i].add(magnetometer_data[i]);
-  }
+  this->acc_buffers[0].add(accelerometer_data[0]);
+  this->acc_buffers[1].add(accelerometer_data[1]);
+  this->acc_buffers[2].add(accelerometer_data[2]);
   
+  this->gyro_buffers[0].add(gyro_data[0]);
+  this->gyro_buffers[1].add(gyro_data[1]);
+  this->gyro_buffers[2].add(gyro_data[2]);
+  
+  this->mag_buffers[0].add(magnetometer_data[0]);
+  this->mag_buffers[1].add(magnetometer_data[1]);
+  this->mag_buffers[2].add(magnetometer_data[2]);
+ 
+}
+
+/**
+ *  Calls update until buffers are filled
+ */
+void imu::buffer(){
+  int i;
+  for(i = 0; i < BUFFER_SIZE; ++i){
+    this->update();
+    /*this->read_adxl345();
+   
+    //Convert to degrees
+    this->acc_to_degrees();
+
+    //Add to the buffers
+    this->acc_buffers[0].add(accelerometer_data[0]);
+    this->acc_buffers[1].add(accelerometer_data[1]);
+    this->acc_buffers[2].add(accelerometer_data[2]);*/
+  }
 }
 
 /**
