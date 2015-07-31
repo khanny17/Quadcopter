@@ -14,11 +14,11 @@ class SensorInterface
     int getVerticalVelocity();
     void testImu();
   private:
-    int getPitch();
+    float getPitch();
     int getRoll();
     //int getYaw();
     int pitch_t_prev;
-    int pitch;
+    float pitch;
     //Values used to change the impact of each of the sensors
     //(K_gyro_pitch is a float from 0-1 controlling the significance of the gyro vs the accelerometer)
     float K_gyro_pitch;

@@ -3,7 +3,7 @@
 #include "pry.h"
 
 
-pid pitchPID(4, 1, 2);  //4.1 might be nearby?
+pid pitchPID(5, 0, 0);
 pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);

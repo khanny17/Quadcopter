@@ -14,8 +14,6 @@ void MotorController::init(int f, int l, int b, int r){
    this->left.attach(l);
    this->back.attach(b);
    this->right.attach(r);
-   this->sendHigh(); //calibrate motors
-   delay(1900);
    this->sendLow(); //To initialize the motors, they need to receive a low signal
    delay(10000); //Wait ten seconds to make sure the motors read it
 }

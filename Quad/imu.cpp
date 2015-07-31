@@ -99,7 +99,7 @@ void imu::update(){
  */
 void imu::buffer(){
   int i;
-  for(i = 0; i < BUFFER_SIZE; ++i){
+  for(i = 0; i < ACC_BUFFER_SIZE; ++i){ //TODO legitamize this
     this->update();
     /*this->read_adxl345();
    
@@ -118,14 +118,14 @@ void imu::buffer(){
  * PRECONDITION: The values in accelerometer_data are not ALREADY in degrees
  */
 void imu::acc_to_degrees(){
-  double x = this->accelerometer_data[0];
-  double y = this->accelerometer_data[1];
-  double z = this->accelerometer_data[2];
+  float x = this->accelerometer_data[0];
+  float y = this->accelerometer_data[1];
+  float z = this->accelerometer_data[2];
   
   //57.29578 is 180 / pi
-  double xA = atan( x / sqrt( sq(y)+sq(z) )) * 57.29578; 
-  double yA = atan( y / sqrt( sq(x)+sq(z) )) * 57.29578;
-  double zA = atan( sqrt( sq(y)+sq(x) / z )) * 57.29578;
+  float xA = tan( x / sqrt( sq(y)+sq(z) ))  * 57.296; 
+  float yA = atan( y / sqrt( sq(x)+sq(z) ))  * 57.296;
+  float zA = atan( sqrt( sq(y)+sq(x) / z  ))  * 57.296;
   
   this->accelerometer_data[0] = xA;
   this->accelerometer_data[1] = yA;
