@@ -41,18 +41,18 @@ class imu
     void prettyPrint();
     void init();
     void update();
-    int getAccData(int axis);
-    int getGyroData(int axis);
+    float getAccData(int axis);
+    float getGyroData(int axis);
   private:
     int c;
     //Arrays to hold raw values from the sensors
-    int accelerometer_data[3];
-    int gyro_data[3];
-    int magnetometer_data[3];
+    float accelerometer_data[3];
+    float gyro_data[3];
+    float magnetometer_data[3];
     //Arrays of buffers to smooth out the readings
-    Buffer<int> acc_buffers[3] = {ACC_BUFFER_SIZE, ACC_BUFFER_SIZE, ACC_BUFFER_SIZE};
-    Buffer<int> gyro_buffers[3] = {GYRO_BUFFER_SIZE, GYRO_BUFFER_SIZE, GYRO_BUFFER_SIZE};
-    Buffer<int> mag_buffers[3] = {MAG_BUFFER_SIZE, MAG_BUFFER_SIZE, MAG_BUFFER_SIZE};
+    Buffer<float> acc_buffers[3] = {ACC_BUFFER_SIZE, ACC_BUFFER_SIZE, ACC_BUFFER_SIZE};
+    Buffer<float> gyro_buffers[3] = {GYRO_BUFFER_SIZE, GYRO_BUFFER_SIZE, GYRO_BUFFER_SIZE};
+    Buffer<float> mag_buffers[3] = {MAG_BUFFER_SIZE, MAG_BUFFER_SIZE, MAG_BUFFER_SIZE};
     //Methods for talking to the IMU
     void i2c_write(int address, byte reg, byte data);
     void i2c_read(int address, byte reg, int count, byte* data);

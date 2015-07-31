@@ -45,7 +45,6 @@ PRY SensorInterface::getPRY(){
  *   whichever sensors or combination of sensors would be most accurate
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
-
 float SensorInterface::getPitch(){
   int t = millis();
   
@@ -56,10 +55,10 @@ float SensorInterface::getPitch(){
   
   float acc = imu.getAccData(Y); //calc accelerometer value
   
-  this->pitch_t_prev = t; //save new time  
+  this->pitch_t_prev = t; //save new time
   this->pitch = this->K_gyro_pitch * gyro + this->K_acc_pitch * acc; //save new pitch
   
-  
+  //Serial.println(this->pitch);
   return this->pitch;
 }
 

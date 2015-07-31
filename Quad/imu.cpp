@@ -56,14 +56,14 @@ void imu::prettyPrint() {
 /**
  * Returns the accelerometer value for the given axis
  */
-int imu::getAccData(int axis){
+float imu::getAccData(int axis){
   return this->acc_buffers[axis].average();
 }
 
 /**
  * Returns the gyro value for the given axis
  */
-int imu::getGyroData(int axis){
+float imu::getGyroData(int axis){
   return this->gyro_buffers[axis].average();
 }
 

@@ -20,65 +20,59 @@ SensorInterface sensors;
 MotorController motors;
 Controller ctrl;
 
+void initializeMotors();
+void initializeSensors();
+void initializeController();
+
 int start;          //the time "setup" ends
 char command = 'S'; //the latest command received from serial - default is S, or stop
 
 void setup() {
   Serial.begin(9600);
   delay(2000);
+  
   Serial.println("Enter \"C\" to start configuration");
-  while((char)Serial.read() != 'C');
-  motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  Serial.println("Motors initialized");
-  sensors.init(K_G_P);// Initialize AFTER the motors. The ten second delay causes issues for measurements
-  Serial.println("Sensors Initialized");
-
-  //TODO wait for configurations over serial?
+  while((char)Serial.read() != 'C'); //wait for input
   
-  ctrl.setDesiredHeight(100); //100cm = 1m
-  Serial.println("Controller Initialized");
+  initializeMotors();
+  initializeSensors(); // Initialize AFTER the motors. The ten second delay causes issues for measurements
+  initializeController();
   
+  
+  //TODO wait for configurations over serial?  
   Serial.println("Configuration Complete");
+  
   start = millis();
 }
 
-unsigned long prev;
+unsigned long prev; //used for debugging
 
 void loop() {
   
   prev = millis();
 
+  //check for new command
   if(Serial.available()){
     command = (char)Serial.read();
     Serial.println(command);
   } 
   
   if(command == 'G'){ //G for "Go"
+  
+  
     //Get current sensor readings
     PRY actualPry = sensors.getPRY();
-    //Serial.println(millis() - prev);
-    //int height = sensors.getHeight();
-    //int vertVelocity = sensors.getVerticalVelocity();
-    //Serial.print("VertVelocity: "); Serial.print(vertVelocity); Serial.print("\n");
     Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
-    //Calculate errors
-    PRY correctionPry = ctrl.calcPryCorrection(actualPry); //Calculate error from where we want to be
     
-    
-    //int heightError = ctrl.calcHeightError(height);
-  
-    //Serial.print("heightError: "); Serial.print(heightError); Serial.print("\n");
-    //int vertVelocityError = ctrl.calcVerticalVelocityError(vertVelocity, heightError);
-    //Serial.println(errorsPry.pitch);
+    //Calculate corrections
+    PRY correctionPry = ctrl.calcPryCorrection(actualPry);
     //Serial.print("Correction: "); Serial.print(correctionPry.pitch); Serial.print('\n');
   
     //Adjust motor speeds
-    //motors.adjustSpeeds(correctionPry, heightError); //Adjust motor speeds based on the errors
-    motors.adjustSpeeds(correctionPry, 0); //Adjust motor speeds based on the errors
+    motors.adjustSpeeds(correctionPry, 0); //Update motor with correction
   
-    
     //motors.printSpeeds();
-    //Serial.println("");
+    
     
   } else if(command == 'S'){ //S means stop
     motors.sendLow();
@@ -87,9 +81,23 @@ void loop() {
     setup();        
     command = 'S';
   }
-  
-  //Serial.println(millis() - prev);
 }
 
 
+void initializeMotors(){
+  Serial.println("Initializing Motors");
+  motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+  Serial.println("Motors Initialized");
+}
 
+void initializeSensors(){
+  Serial.println("Initializing Sensors");
+  sensors.init(K_G_P);
+  Serial.println("Sensors Initialized");
+}
+
+void initializeController(){
+  Serial.println("Initializing Controller");
+  ctrl.setDesiredHeight(100); //100cm = 1m
+  Serial.println("Controller Initialized");
+}
