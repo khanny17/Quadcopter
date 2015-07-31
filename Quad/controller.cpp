@@ -2,15 +2,19 @@
 #include "pid.h"
 #include "pry.h"
 
-pid pitchPID(6, 1, 1.75);
-pid rollPID(6, 1, 1.75); //TODO config this
+
+pid pitchPID(3, .1, .8);  //it is balancing with 3, .1, .8
+pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);
 
-PRY Controller::calcPryErrors(PRY actual){
+PRY Controller::calcPryCorrection(PRY actual){
+  /*int presult = 
+    pitchPID.compute(actual.pitch);
+    Serial.println(presult);*/
   return (PRY){
     pitchPID.compute(actual.pitch),
-    rollPID.compute(actual.roll),
+    0,//rollPID.compute(actual.roll),
     0 //TODO implement yaw!
   };
 }
@@ -50,5 +54,9 @@ void Controller::setDesiredPry(PRY* desired){
  */
 void Controller::setDesiredHeight(int desired){
   this->desiredHeight = desired;
+}
+
+void Controller::setPitchPIDGains(float P, float I, float D){
+  pitchPID.setGains(P, I, D);
 }
 

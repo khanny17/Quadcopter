@@ -18,8 +18,17 @@ SensorInterface::SensorInterface(){
  *         will not work if this is placed in the constructor,
  *         which is why this function exists.
  */
-void SensorInterface::init(){
+void SensorInterface::init(float K_gP){
   imu.init();
+  this->pitch = imu.getAccData(Y);
+  this->pitch_t_prev = millis(); //maybe take the current time?
+  this->K_gyro_pitch = K_gP;
+  this->K_acc_pitch = 1-K_gP;
+  //Buffer up Pitch readings to clear any starting noise
+  int i;
+  for(i = 0; i < 50; ++i){
+    this->getPitch();
+  }
 }
 
 /**
@@ -27,7 +36,7 @@ void SensorInterface::init(){
  */
 PRY SensorInterface::getPRY(){
   imu.update();
-  ultrasonic.update();
+  //ultrasonic.update();
   return (PRY){ this->getPitch(), this->getRoll(), 0 };
 }
 
@@ -36,8 +45,21 @@ PRY SensorInterface::getPRY(){
  *   whichever sensors or combination of sensors would be most accurate
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
-int SensorInterface::getPitch(){
-  return imu.getAccData(Y); //TODO use the gyroscope
+float SensorInterface::getPitch(){
+  int t = millis();
+  
+  float d_gyro = imu.getGyroData(Y) * ((float)(t-this->pitch_t_prev)/1000); // get the change in degrees for the past cycle
+  float gyro = d_gyro + this->pitch; //calc gyro value   s*delta_t+s_prev
+  
+  //Serial.println(gyro);
+  
+  float acc = imu.getAccData(Y); //calc accelerometer value
+  
+  this->pitch_t_prev = t; //save new time
+  this->pitch = this->K_gyro_pitch * gyro + this->K_acc_pitch * acc; //save new pitch
+  
+  //Serial.println(this->pitch);
+  return this->pitch;
 }
 
 /**
@@ -65,6 +87,11 @@ int SensorInterface::getVerticalVelocity(){
   prevHeight = this->getHeight();
   prevTime = curTime;
   return velocity;
+}
+
+void SensorInterface::testImu(){ 
+  imu.update();
+  imu.prettyPrint();
 }
 
 

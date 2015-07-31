@@ -2,7 +2,7 @@
 #define pry_h
 
 struct PRY{
-  int pitch;
+  float pitch;
   int roll;
   int yaw;
 };

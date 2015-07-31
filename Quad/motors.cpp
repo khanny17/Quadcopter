@@ -15,55 +15,67 @@ void MotorController::init(int f, int l, int b, int r){
    this->back.attach(b);
    this->right.attach(r);
    this->sendLow(); //To initialize the motors, they need to receive a low signal
-   delay(10000); //Wait five seconds to make sure the motors read it
+   delay(10000); //Wait ten seconds to make sure the motors read it
+}
+
+void MotorController::sendHigh(){
+   this->front.writeMicroseconds(MOTOR_MAX);
+   this->left.writeMicroseconds(MOTOR_MAX);
+   this->back.writeMicroseconds(MOTOR_MAX);
+   this->right.writeMicroseconds(MOTOR_MAX);
 }
 
 void MotorController::sendLow(){
-   this->front.write(MOTOR_OFF);
-   this->left.write(MOTOR_OFF);
-   this->back.write(MOTOR_OFF);
-   this->right.write(MOTOR_OFF);
+   this->front.writeMicroseconds(MOTOR_OFF);
+   this->left.writeMicroseconds(MOTOR_OFF);
+   this->back.writeMicroseconds(MOTOR_OFF);
+   this->right.writeMicroseconds(MOTOR_OFF);
 }
 
 int F, L, B, R, i, T; //temp variables
-void MotorController::adjustSpeeds(PRY errors, int heightError){
+void MotorController::adjustSpeeds(PRY corrections, int heightError){
   //Get combined error for each motor
-  F = (errors.pitch+errors.yaw);
-  L = (-errors.roll-errors.yaw);
-  B = (-errors.pitch+errors.yaw);
-  R = (errors.roll-errors.yaw);
+  F = (corrections.pitch+corrections.yaw);
+  L = (corrections.roll-corrections.yaw);
+  B = (-corrections.pitch+corrections.yaw);
+  R = (-corrections.roll-corrections.yaw);
 
   
   //Use error to determine amound to increase/decrease motor speeds by
-  //TODO define the min and max errors elsewhere
+  /*
   F = map(F, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   L = map(L, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   B = map(B, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
   R = map(R, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
+  */
+  
+  F = constrain(F, -OFFSET, OFFSET);
+  L = constrain(L, -OFFSET, OFFSET);
+  B = constrain(B, -OFFSET, OFFSET);
+  R = constrain(R, -OFFSET, OFFSET);
 
   //Calculate the base throttle based on error in desired speed
-  //TODO play with the numbers here. this maps 1m to 20
   T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
   this->throttle = constrain(this->throttle+T, MIN_THROTTLE, MAX_THROTTLE);
   
-  // Set new speeds, keeping them within max and min bounds
-  this->frontSpd = constrain(this->throttle+F, MOTOR_MIN, MOTOR_MAX);
-  this->leftSpd = constrain(this->throttle+L, MOTOR_MIN, MOTOR_MAX);;
-  this->backSpd = constrain(this->throttle+B, MOTOR_MIN, MOTOR_MAX);;
-  this->rightSpd = constrain(this->throttle+R, MOTOR_MIN, MOTOR_MAX);;
+  // Set new speeds
+  this->frontSpd = this->throttle+F;
+  this->leftSpd = this->throttle+L;
+  this->backSpd = this->throttle+B;
+  this->rightSpd = this->throttle+R;
   
   //write new speeds
   this->writeSpeeds();
 }
 
 /**
- *  PRECONDITION: the speeds are kept in the proper range so we dont write an invalid speed
+ *  Constrains speeds and writes them out
  */
 void MotorController::writeSpeeds(){
-  this->front.write(this->frontSpd);
-  this->left.write(this->leftSpd);
-  this->back.write(this->backSpd);
-  this->right.write(this->rightSpd);
+  this->front.writeMicroseconds(constrain(this->frontSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->left.writeMicroseconds(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
+  this->back.writeMicroseconds(constrain(this->backSpd, MOTOR_MIN, MOTOR_MAX));
+  //this->right.writeMicroseconds(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
 }
 
 void MotorController::printSpeeds(){

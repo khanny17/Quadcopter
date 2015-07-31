@@ -20,6 +20,8 @@ void imu::init() {
   this->init_adxl345();
   this->init_hmc5843();
   this->init_itg3200();
+  
+  this->buffer(); //fill buffer up
 }
 
 /**
@@ -54,8 +56,15 @@ void imu::prettyPrint() {
 /**
  * Returns the accelerometer value for the given axis
  */
-int imu::getAccData(int axis){
+float imu::getAccData(int axis){
   return this->acc_buffers[axis].average();
+}
+
+/**
+ * Returns the gyro value for the given axis
+ */
+float imu::getGyroData(int axis){
+  return this->gyro_buffers[axis].average();
 }
 
 /**
@@ -68,14 +77,39 @@ void imu::update(){
    
   //Convert to degrees
   this->acc_to_degrees();
-  this->gyro_to_degrees();
+  this->gyro_to_degrees_per_sec();
 
   //Add to the buffers
+  this->acc_buffers[0].add(accelerometer_data[0]);
+  this->acc_buffers[1].add(accelerometer_data[1]);
+  this->acc_buffers[2].add(accelerometer_data[2]);
+  
+  this->gyro_buffers[0].add(gyro_data[0]);
+  this->gyro_buffers[1].add(gyro_data[1]);
+  this->gyro_buffers[2].add(gyro_data[2]);
+  
+  this->mag_buffers[0].add(magnetometer_data[0]);
+  this->mag_buffers[1].add(magnetometer_data[1]);
+  this->mag_buffers[2].add(magnetometer_data[2]);
+ 
+}
+
+/**
+ *  Calls update until buffers are filled
+ */
+void imu::buffer(){
   int i;
-  for(i = 0; i < 3; ++i){
-    this->acc_buffers[i].add(accelerometer_data[i]);
-    this->gyro_buffers[i].add(gyro_data[i]);
-    this->mag_buffers[i].add(magnetometer_data[i]);
+  for(i = 0; i < ACC_BUFFER_SIZE; ++i){ //TODO legitamize this
+    this->update();
+    /*this->read_adxl345();
+   
+    //Convert to degrees
+    this->acc_to_degrees();
+
+    //Add to the buffers
+    this->acc_buffers[0].add(accelerometer_data[0]);
+    this->acc_buffers[1].add(accelerometer_data[1]);
+    this->acc_buffers[2].add(accelerometer_data[2]);*/
   }
 }
 
@@ -84,14 +118,14 @@ void imu::update(){
  * PRECONDITION: The values in accelerometer_data are not ALREADY in degrees
  */
 void imu::acc_to_degrees(){
-  double x = this->accelerometer_data[0];
-  double y = this->accelerometer_data[1];
-  double z = this->accelerometer_data[2];
+  float x = this->accelerometer_data[0];
+  float y = this->accelerometer_data[1];
+  float z = this->accelerometer_data[2];
   
   //57.29578 is 180 / pi
-  double xA = atan( x / sqrt( sq(y)+sq(z) )) * 57.29578; 
-  double yA = atan( y / sqrt( sq(x)+sq(z) )) * 57.29578;
-  double zA = atan( sqrt( sq(y)+sq(x) / z )) * 57.29578;
+  float xA = tan( x / sqrt( sq(y)+sq(z) ))  * 57.296; 
+  float yA = atan( y / sqrt( sq(x)+sq(z) ))  * 57.296;
+  float zA = atan( sqrt( sq(y)+sq(x) / z  ))  * 57.296;
   
   this->accelerometer_data[0] = xA;
   this->accelerometer_data[1] = yA;
@@ -101,7 +135,7 @@ void imu::acc_to_degrees(){
 /**
  *  Converts gyro reading to degrees/sec
  */
-void imu::gyro_to_degrees(){
+void imu::gyro_to_degrees_per_sec(){
   int i; 
   for(i = 0; i < 3; ++i){
     gyro_data[i] = gyro_data[i] / 14.7;

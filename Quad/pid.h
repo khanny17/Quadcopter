@@ -7,13 +7,14 @@ class pid
 {
   public:
     pid(float k_p, float k_i, float k_d);
-    int compute(int actual);
+    int compute(float actual);
     void setDesired(int desired);
+    void setGains(float k_p, float k_i, float k_d);
   private:
     float k_p, k_i, k_d;
-    int e_prev;
+    float e_prev;
     int t_prev;
-    int sum;
+    float sum;
     int desired;
 };
     

@@ -26,6 +26,12 @@ Buffer<T>::Buffer(int size){
   this->items = new T[size];
   this->size = size;
   this->mostRecentIndex = 0;
+  
+  //initialize array to 0
+  int i;
+  for(i = 0; i < size; ++i){
+    this->items[i] = 0;
+  }
 }
 
 /**
@@ -43,7 +49,8 @@ void Buffer<T>::add(T newItem){
  */
 template<typename T>
 float Buffer<T>::average(){
-  int i, sum;
+  int i;
+  float sum;
   for(i=0; i < this->size; ++i){
     sum += this->items[i];
   }
