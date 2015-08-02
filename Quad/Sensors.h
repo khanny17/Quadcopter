@@ -2,14 +2,17 @@
 #define sensors_h
 
 #include "Arduino.h"
-#include "pry.h"
+#include "PRY.h"
+#include "IMU.h"
+#include "Buffer.h"
+#include "Ultrasonic.h"
 
 class SensorInterface
 {
   public:
-    SensorInterface();
+    SensorInterface(float K_gP);
     PRY getPRY();
-    void init(float K_gP);
+    void init();
     int getHeight();
     int getVerticalVelocity();
     void testImu();

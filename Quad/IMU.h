@@ -4,11 +4,12 @@
  *  Adapted from: http://robotosh.blogspot.com/2012/03/sparkfun-9dof-imu-sensor-stick.html
  */
 
-#ifndef imu_h
-#define imu_h
+#ifndef IMU_h
+#define IMU_h
 
 #include "Arduino.h"
-#include "buffer.h"
+#include "Buffer.h"
+#include "Wire.h"
 
 #define ADXL345_ADDRESS (0xA6 >> 1)
 #define ADXL345_REGISTER_XLSB (0x32)

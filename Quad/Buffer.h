@@ -3,8 +3,8 @@
  */
 
 
-#ifndef buffer_h
-#define buffer_h
+#ifndef Buffer_h
+#define Buffer_h
 
 //TODO this probably doesnt even have to be generic.
 template<typename T> //TODO limit this to Numerics, else average will break

@@ -1,15 +1,11 @@
-#include "Arduino.h"
-#include "sensors.h"
-#include "imu.h"
-#include "buffer.h"
-#include "ultrasonic.h"
+#include "Sensors.h"
 
 imu imu;
 Ultrasonic ultrasonic; //TODO config the pins?
 
-//TODO does this need to be here at all?
-SensorInterface::SensorInterface(){
-  //imu.init();
+SensorInterface::SensorInterface(float K_gP){
+  this->K_gyro_pitch = K_gP;
+  this->K_acc_pitch = 1-K_gP;
 }
 
 /**
@@ -18,12 +14,11 @@ SensorInterface::SensorInterface(){
  *         will not work if this is placed in the constructor,
  *         which is why this function exists.
  */
-void SensorInterface::init(float K_gP){
+void SensorInterface::init(){
   imu.init();
   this->pitch = imu.getAccData(Y);
   this->pitch_t_prev = millis(); //maybe take the current time?
-  this->K_gyro_pitch = K_gP;
-  this->K_acc_pitch = 1-K_gP;
+
   //Buffer up Pitch readings to clear any starting noise
   int i;
   for(i = 0; i < 50; ++i){

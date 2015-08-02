@@ -1,5 +1,5 @@
-#ifndef pry_h
-#define pry_h
+#ifndef PRY_h
+#define PRY_h
 
 struct PRY{
   float pitch;

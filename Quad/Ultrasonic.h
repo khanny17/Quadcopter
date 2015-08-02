@@ -1,7 +1,9 @@
 #ifndef ultrasonic_h
 #define ultrasonic_h
 
-#include "buffer.h"
+#include "Arduino.h"
+#include "Buffer.h"
+#include "NewPing.h"
 
 #define TRIGGER_PIN 8
 #define ECHO_PIN 9

@@ -1,6 +1,4 @@
-#include "Arduino.h"
-#include "ultrasonic.h"
-#include "NewPing.h"
+#include "Ultrasonic.h"
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and maximum distance.
 

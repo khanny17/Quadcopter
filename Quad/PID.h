@@ -1,5 +1,5 @@
-#ifndef pid_h
-#define pid_h
+#ifndef PID_h
+#define PID_h
 
 #include "Arduino.h"
 

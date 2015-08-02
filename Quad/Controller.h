@@ -1,7 +1,8 @@
-#ifndef controller_h
-#define controller_h
+#ifndef Controller_h
+#define Controller_h
 
-#include "pry.h"
+#include "PID.h"
+#include "PRY.h"
 
 class Controller
 {

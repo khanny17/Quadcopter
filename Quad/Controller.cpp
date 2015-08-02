@@ -1,6 +1,5 @@
-#include "controller.h"
-#include "pid.h"
-#include "pry.h"
+#include "Controller.h"
+
 
 
 pid pitchPID(4, .2, .9);  //it is balancing with 3, .1, .8

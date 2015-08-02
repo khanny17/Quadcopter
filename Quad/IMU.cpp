@@ -4,9 +4,7 @@
  *  Adapted from: http://robotosh.blogspot.com/2012/03/sparkfun-9dof-imu-sensor-stick.html
  */
 
-#include "Arduino.h"
-#include "imu.h"
-#include "Wire.h"
+#include "IMU.h"
 
 imu::imu() {
   for(int i = 0; i < 3; ++i) {

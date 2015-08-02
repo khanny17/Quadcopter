@@ -1,5 +1,4 @@
-#include "Arduino.h"
-#include "pid.h"
+#include "PID.h"
 
 pid::pid(float k_p, float k_i, float k_d){
   this->k_p = k_p;

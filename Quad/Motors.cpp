@@ -1,6 +1,4 @@
-#include "Arduino.h"
-#include "motors.h"
-#include "pry.h"
+#include "Motors.h"
 
 MotorController::MotorController(){
   

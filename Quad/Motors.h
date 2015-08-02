@@ -1,8 +1,8 @@
-#ifndef motors_h
-#define motors_h
+#ifndef Motors_h
+#define Motors_h
 
 #include "Arduino.h"
-#include "pry.h"
+#include "PRY.h"
 #include "Servo.h"
 
 #define MOTOR_OFF   700   //Min possible signal
