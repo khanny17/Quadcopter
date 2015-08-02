@@ -1,6 +1,6 @@
 #include "PID.h"
 
-pid::pid(float k_p, float k_i, float k_d){
+PID::PID(float k_p, float k_i, float k_d){
   this->k_p = k_p;
   this->k_i = k_i;
   this->k_d = k_d;
@@ -10,7 +10,7 @@ pid::pid(float k_p, float k_i, float k_d){
   this->sum = 0;
 }
 
-int pid::compute(float actual){
+int PID::compute(float actual){
   unsigned long t = millis();
   float e = this->desired-actual;
   double p = this->k_p*e;
@@ -31,7 +31,7 @@ int pid::compute(float actual){
   return (p+i+d)/2;
 }
 
-void pid::setDesired(int desired){
+void PID::setDesired(int desired){
   //reset values
   this->desired = desired;
   //this->e_prev = 0;
@@ -39,8 +39,14 @@ void pid::setDesired(int desired){
   //this->sum = 0;
 }
 
-void pid::setGains(float k_p, float k_i, float k_d){
+void PID::setGains(float k_p, float k_i, float k_d){
   this->k_p = k_p;
   this->k_i = k_i;
   this->k_d = k_d;
+}
+
+void PID::reset(){
+  this->e_prev = 0;
+  this->t_prev = 0;
+  this->sum = 0;
 }

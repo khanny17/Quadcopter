@@ -2,10 +2,10 @@
 
 
 
-pid pitchPID(4, .2, .9);  //it is balancing with 3, .1, .8
-pid rollPID(1, .1, .5); //TODO config this
-pid yawPID(1, 1, 1);
-pid vertVelocityPID(1, .5, .5);
+PID pitchPID(3, 0, .8);  //it is balancing with 3, .1, .8
+PID rollPID(1, .1, .5); //TODO config this
+PID yawPID(1, 1, 1);
+PID vertVelocityPID(1, .5, .5);
 
 PRY Controller::calcPryCorrection(PRY actual){
   /*int presult = 
@@ -57,5 +57,10 @@ void Controller::setDesiredHeight(int desired){
 
 void Controller::setPitchPIDGains(float P, float I, float D){
   pitchPID.setGains(P, I, D);
+}
+
+void Controller::reset(){
+  pitchPID.reset();
+  rollPID.reset();
 }
 

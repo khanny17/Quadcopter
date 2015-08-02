@@ -15,7 +15,7 @@
 #define BACK_PIN  5
 #define RIGHT_PIN 7
 
-#define K_G_P .82 //the ratio of gyro to accelerometer usage in pitch calculation
+#define K_G_P 1 //the ratio of gyro to accelerometer usage in pitch calculation
 
 SensorInterface sensors(K_G_P);
 MotorController motors;
@@ -96,7 +96,7 @@ void initializeController(){
 void run(){
   //Get current sensor readings
   PRY actualPry = sensors.getPRY();
-  Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
+  //Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
   
   //Calculate corrections
   PRY correctionPry = ctrl.calcPryCorrection(actualPry);
@@ -110,6 +110,7 @@ void run(){
  */
 void stop(){
   motors.sendLow();
+  ctrl.reset();
 }
 
 /**

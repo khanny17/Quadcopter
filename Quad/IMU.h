@@ -31,7 +31,7 @@
 #define Y 1
 #define Z 2
 
-#define GYRO_BUFFER_SIZE 20
+#define GYRO_BUFFER_SIZE 5
 #define ACC_BUFFER_SIZE 20
 #define MAG_BUFFER_SIZE 20
 

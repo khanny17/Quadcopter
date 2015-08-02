@@ -3,13 +3,14 @@
 
 #include "Arduino.h"
 
-class pid
+class PID 
 {
   public:
-    pid(float k_p, float k_i, float k_d);
+    PID(float k_p, float k_i, float k_d);
     int compute(float actual);
     void setDesired(int desired);
     void setGains(float k_p, float k_i, float k_d);
+    void reset();
   private:
     float k_p, k_i, k_d;
     float e_prev;

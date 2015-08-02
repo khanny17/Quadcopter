@@ -32,21 +32,23 @@ void SensorInterface::init(){
 PRY SensorInterface::getPRY(){
   imu.update();
   //ultrasonic.update();
-  return (PRY){ this->getPitch(), this->getRoll(), 0 };
+  return (PRY){ this->getPitch(), 0, 0 };
 }
 
 /**
- * Determines the current pitch of the quad using
- *   whichever sensors or combination of sensors would be most accurate
- *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
+ * Determines the current pitch of the quad using gyroscope and accelerometer
  */
 float SensorInterface::getPitch(){
   unsigned long t = millis();
   
+  Serial.println(imu.getGyroData(Y));
+  
   float d_gyro = imu.getGyroData(Y) * ((float)(t-this->pitch_t_prev)/1000); // get the change in degrees for the past cycle
+  Serial.println(d_gyro);
   float gyro = d_gyro + this->pitch; //calc gyro value   s*delta_t+s_prev
   
-  //Serial.println(gyro);
+  Serial.println(gyro);
+  Serial.println();
   
   float acc = imu.getAccData(Y); //calc accelerometer value
   
@@ -58,13 +60,23 @@ float SensorInterface::getPitch(){
 }
 
 /**
- * Determines the current roll of the quad using
- *   whichever sensors or combination of sensors would be most accurate
- *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
+ * Determines the current roll of the quad using gyroscope and accelerometer
  */
-//Buffers the Roll reading and returns the buffer average
 float SensorInterface::getRoll(){
-  return imu.getAccData(X); //TODO use the gyroscope
+  unsigned long t = millis();
+  
+  float d_gyro = imu.getGyroData(X) * ((float)(t-this->pitch_t_prev)/1000); // get the change in degrees for the past cycle
+  float gyro = d_gyro + this->pitch; //calc gyro value   s*delta_t+s_prev
+  
+  //Serial.println(gyro);
+  
+  float acc = imu.getAccData(X); //calc accelerometer value
+  
+  this->pitch_t_prev = t; //save new time
+  this->pitch = this->K_gyro_pitch * gyro + this->K_acc_pitch * acc; //save new pitch
+  
+  //Serial.println(this->pitch);
+  return this->pitch;
 }
 
 int SensorInterface::getHeight(){

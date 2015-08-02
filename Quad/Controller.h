@@ -13,6 +13,7 @@ class Controller
     void setDesiredPry(PRY* desired);
     void setDesiredHeight(int desired);
     void setPitchPIDGains(float p, float i, float d);
+    void reset();
   private:
     int desiredHeight;
 };
