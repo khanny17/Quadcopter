@@ -14,9 +14,6 @@
 #define MAX_THROTTLE 1001          //160 so we can increment up to 180 with PRY displacement
 #define THROTTLE_INCREMENT 10     //the max amount to increment the throttle by each time
 
-#define OFFSET 2000                 //the max offset between opposing motors for PRY
-//#define MAX_DEGREE_ERROR 45      //max degree range error for each motor pased on PRY
-
 class MotorController
 {
   public:
