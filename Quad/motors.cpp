@@ -40,20 +40,6 @@ void MotorController::adjustSpeeds(PRY corrections, int heightError){
   B = (-corrections.pitch+corrections.yaw);
   R = (-corrections.roll-corrections.yaw);
 
-  
-  //Use error to determine amound to increase/decrease motor speeds by
-  /*
-  F = map(F, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
-  L = map(L, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
-  B = map(B, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
-  R = map(R, -MAX_DEGREE_ERROR, MAX_DEGREE_ERROR, -OFFSET, OFFSET);
-  */
-  
-  F = constrain(F, -OFFSET, OFFSET);
-  L = constrain(L, -OFFSET, OFFSET);
-  B = constrain(B, -OFFSET, OFFSET);
-  R = constrain(R, -OFFSET, OFFSET);
-
   //Calculate the base throttle based on error in desired speed
   T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
   this->throttle = constrain(this->throttle+T, MIN_THROTTLE, MAX_THROTTLE);
