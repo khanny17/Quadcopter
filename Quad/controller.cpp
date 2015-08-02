@@ -3,7 +3,7 @@
 #include "pry.h"
 
 
-pid pitchPID(3, .1, .8);  //it is balancing with 3, .1, .8
+pid pitchPID(4, .2, .9);  //it is balancing with 3, .1, .8
 pid rollPID(1, .1, .5); //TODO config this
 pid yawPID(1, 1, 1);
 pid vertVelocityPID(1, .5, .5);

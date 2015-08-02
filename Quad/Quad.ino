@@ -46,6 +46,8 @@ void setup() {
 }
 
 unsigned long prev; //used for debugging
+float P,I,D;
+
 
 void loop() {
   
@@ -54,6 +56,7 @@ void loop() {
   //check for new command
   if(Serial.available()){
     command = (char)Serial.read();
+    
     Serial.println(command);
   } 
   
@@ -80,7 +83,19 @@ void loop() {
     motors.sendLow();
     setup();        
     command = 'S';
-  }
+  } else if(command == 'P'){ //TODO this is debug code
+      P = Serial.parseFloat(); 
+      Serial.read(); //skip comma
+      I = Serial.parseFloat();
+      Serial.read();
+      D = Serial.parseFloat();
+      
+      ctrl.setPitchPIDGains(P,I,D);
+      Serial.println(P);
+      Serial.println(I);
+      Serial.println(D);
+      command = 'G';
+    }
 }
 
 
