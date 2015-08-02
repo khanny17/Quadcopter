@@ -41,7 +41,7 @@ PRY SensorInterface::getPRY(){
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
 float SensorInterface::getPitch(){
-  int t = millis();
+  unsigned long t = millis();
   
   float d_gyro = imu.getGyroData(Y) * ((float)(t-this->pitch_t_prev)/1000); // get the change in degrees for the past cycle
   float gyro = d_gyro + this->pitch; //calc gyro value   s*delta_t+s_prev
@@ -63,7 +63,7 @@ float SensorInterface::getPitch(){
  *   i.e. If the quad is in motion, use the gyroscope instead of the accelerometer
  */
 //Buffers the Roll reading and returns the buffer average
-int SensorInterface::getRoll(){
+float SensorInterface::getRoll(){
   return imu.getAccData(X); //TODO use the gyroscope
 }
 
@@ -75,7 +75,8 @@ int SensorInterface::getHeight(){
 /**
  * Returns the vertical velocity of the quad in centimeters per second
  */
-int curTime, prevTime, velocity, prevHeight = 0;
+int velocity, prevHeight = 0;
+unsigned long curTime, prevTime;
 int SensorInterface::getVerticalVelocity(){
   curTime = millis();
   velocity = (1000 * (this->getHeight() - prevHeight)) / (curTime - prevTime); //1000 * cm/ms)

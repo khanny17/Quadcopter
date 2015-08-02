@@ -18,9 +18,9 @@ class SensorInterface
     void testImu();
   private:
     float getPitch();
-    int getRoll();
-    //int getYaw();
-    int pitch_t_prev;
+    float getRoll();
+    //float getYaw();
+    unsigned long pitch_t_prev;
     float pitch;
     //Values used to change the impact of each of the sensors
     //(K_gyro_pitch is a float from 0-1 controlling the significance of the gyro vs the accelerometer)

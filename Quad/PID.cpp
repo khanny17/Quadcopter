@@ -6,16 +6,16 @@ pid::pid(float k_p, float k_i, float k_d){
   this->k_d = k_d;
   this->desired = 0;
   this->e_prev = 0;
-  this->t_prev = -1; //cant set it here reliably
+  this->t_prev = 0; //cant set it here reliably. maybe make this a pointer and set it to a variable we will fill in later with the time the system actually starts running?
   this->sum = 0;
 }
 
 int pid::compute(float actual){
-  int t = millis();
+  unsigned long t = millis();
   float e = this->desired-actual;
   double p = this->k_p*e;
   
-  if(t_prev == -1){ //TODO i dont want to check this every time
+  if(t_prev == 0){ //TODO i dont want to check this every time.
     t_prev = millis();
   }
   

@@ -13,7 +13,7 @@ class pid
   private:
     float k_p, k_i, k_d;
     float e_prev;
-    int t_prev;
+    unsigned long t_prev;
     float sum;
     int desired;
 };
