@@ -3,8 +3,8 @@
 
 struct PRY{
   float pitch;
-  int roll;
-  int yaw;
+  float roll;
+  float yaw;
 };
 
 #endif
