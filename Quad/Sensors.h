@@ -6,6 +6,7 @@
 #include "IMU.h"
 #include "Buffer.h"
 #include "Ultrasonic.h"
+#include "Kalman.h"
 
 class SensorInterface
 {
@@ -17,6 +18,7 @@ class SensorInterface
     int getVerticalVelocity();
     void testImu();
   private:
+    KalmanFilter kalman;
     float getPitch();
     float getRoll();
     //float getYaw();
