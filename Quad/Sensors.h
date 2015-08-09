@@ -18,7 +18,7 @@ class SensorInterface
     int getVerticalVelocity();
     void testImu();
   private:
-    KalmanFilter kalman;
+    KalmanFilter kalman(1,1,1);
     float getPitch();
     float getRoll();
     //float getYaw();
