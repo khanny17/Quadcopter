@@ -15,9 +15,7 @@
 #define BACK_PIN  5
 #define RIGHT_PIN 7
 
-#define K_G_P .82 //the ratio of gyro to accelerometer usage in pitch calculation
-
-SensorInterface sensors(K_G_P);
+SensorInterface sensors;
 MotorController motors;
 Controller ctrl;
 CommandHandler command;
