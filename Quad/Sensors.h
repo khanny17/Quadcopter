@@ -8,9 +8,9 @@
 #include "Ultrasonic.h"
 #include "Kalman.h"
 
-#define P_VALUE 10000 //High because not initializing
-#define Q_ANGLE .001     
-#define Q_BIAS  .003     
+#define P_VALUE  10000
+#define Q_ANGLE .0005     
+#define Q_BIAS  .004     
 #define R       .03
 
 class SensorInterface

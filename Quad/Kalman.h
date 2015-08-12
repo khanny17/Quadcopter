@@ -30,7 +30,7 @@ class KalmanFilter
     
     Matrix innovation{1,3};
     float innovationCovariance;
-    int Q_angle, Q_bias, R;
+    float Q_angle, Q_bias, R;
     unsigned long t_prev;
     
 };

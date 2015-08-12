@@ -19,6 +19,8 @@ void SensorInterface::init(){
  */
 PRY SensorInterface::getPRY(){
   imu.update();
+  //Serial.println(imu.getAccData(Y));
+  //Serial.println(imu.getGyroData(Y));
   return kalman.getOrientation( 
               (PRY){imu.getAccData(Y), 0, 0},
               (PRY){imu.getGyroData(Y), 0, 0}

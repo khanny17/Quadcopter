@@ -29,7 +29,7 @@ void KalmanFilter::init(float pitch, float roll, float yaw, float P_00, float P_
 
 PRY KalmanFilter::getOrientation(PRY acc_angles, PRY gyro_rates){
   float delta_t = (float)(millis() - t_prev)/1000;
-  Serial.println(delta_t*1000);
+  
   predictAPrioriEstimate(gyro_rates, delta_t);
   predictAPrioriCovariance(delta_t);
   calcInnovation(acc_angles);
@@ -37,6 +37,9 @@ PRY KalmanFilter::getOrientation(PRY acc_angles, PRY gyro_rates){
   calcKalmanGain();
   calcAPosterioriEstimate();
   calcAPosterioriCovariance();
+  
+  t_prev = millis();
+  
   return (PRY){ 
     aPosterioriEstimate.get(0,0),
     aPosterioriEstimate.get(0,1),
@@ -80,7 +83,7 @@ void KalmanFilter::predictAPrioriCovariance(float delta_t){
   float P_11 = aPosterioriCovariance.get(1,1);
 
   //Maths have been simplified!
-  aPrioriCovariance.set(0,0, P_00 + delta_t * (Q_angle - P_10 - P_01 + (delta_t * P_11)) );
+  aPrioriCovariance.set(0,0, P_00 + (delta_t * (Q_angle - P_10 - P_01 + (delta_t * P_11)) ) );
   aPrioriCovariance.set(0,1, P_01 - (delta_t * P_11));
   aPrioriCovariance.set(1,0, P_10 - (delta_t * P_11));
   aPrioriCovariance.set(1,1, P_11 + (delta_t * Q_bias));
