@@ -94,7 +94,7 @@ void initializeController(){
 void run(){
   //Get current sensor readings
   PRY actualPry = sensors.getPRY();
-  //Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
+  Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
   
   //Calculate corrections
   PRY correctionPry = ctrl.calcPryCorrection(actualPry);

@@ -28,7 +28,8 @@ void KalmanFilter::init(float pitch, float roll, float yaw, float P_00, float P_
 }
 
 PRY KalmanFilter::getOrientation(PRY acc_angles, PRY gyro_rates){
-  float delta_t = (millis() - t_prev)/1000;
+  float delta_t = (float)(millis() - t_prev)/1000;
+  Serial.println(delta_t*1000);
   predictAPrioriEstimate(gyro_rates, delta_t);
   predictAPrioriCovariance(delta_t);
   calcInnovation(acc_angles);
