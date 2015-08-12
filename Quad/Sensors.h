@@ -9,6 +9,9 @@
 #include "Kalman.h"
 
 #define P_VALUE 10000 //High because not initializing
+#define Q_ANGLE .001     
+#define Q_BIAS  .003     
+#define R       .03
 
 class SensorInterface
 {
@@ -16,7 +19,7 @@ class SensorInterface
     PRY getPRY();
     void init();
   private:
-    KalmanFilter kalman{1,1,1};
+    KalmanFilter kalman{Q_ANGLE,Q_BIAS,R};
 };
 
 

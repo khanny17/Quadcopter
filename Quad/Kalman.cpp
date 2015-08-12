@@ -79,10 +79,10 @@ void KalmanFilter::predictAPrioriCovariance(float delta_t){
   float P_11 = aPosterioriCovariance.get(1,1);
 
   //Maths have been simplified!
-  aPrioriCovariance.set(0,0, P_00 + delta_t * (Q_angle - P_10 - P_01 - delta_t * P_11) );
-  aPrioriCovariance.set(0,1, P_01 - delta_t * P_11);
-  aPrioriCovariance.set(1,0, P_10 - delta_t * P_11);
-  aPrioriCovariance.set(1,1, P_11 + delta_t * Q_bias);
+  aPrioriCovariance.set(0,0, P_00 + delta_t * (Q_angle - P_10 - P_01 + (delta_t * P_11)) );
+  aPrioriCovariance.set(0,1, P_01 - (delta_t * P_11));
+  aPrioriCovariance.set(1,0, P_10 - (delta_t * P_11));
+  aPrioriCovariance.set(1,1, P_11 + (delta_t * Q_bias));
 }
 
 /**
@@ -117,19 +117,19 @@ void KalmanFilter::calcAPosterioriEstimate(){
   aPosterioriEstimate.set(0,0, theta_p + kalmanGain.get(0,0) * innovation.get(0,0) );  //pitch_Estimate + kalman * pitch_Acc
   
   float theta_r = aPrioriEstimate.get(0,1);
-  aPosterioriEstimate.set(0,0, theta_r + kalmanGain.get(0,0) * innovation.get(0,1) );  //roll_Estimate + kalman * roll_Acc
+  aPosterioriEstimate.set(0,1, theta_r + kalmanGain.get(0,0) * innovation.get(0,1) );  //roll_Estimate + kalman * roll_Acc
   
   float theta_y = aPrioriEstimate.get(0,2);
-  aPosterioriEstimate.set(0,0, theta_y + kalmanGain.get(0,0) * innovation.get(0,2) );  //yaw_Estimate + kalman * yaw_Acc
+  aPosterioriEstimate.set(0,2, theta_y + kalmanGain.get(0,0) * innovation.get(0,2) );  //yaw_Estimate + kalman * yaw_Acc
 
   float theta_pb = aPrioriEstimate.get(1,0);
-  aPosterioriEstimate.set(0,0, theta_pb + kalmanGain.get(1,0) * innovation.get(0,0) ); //pitch_bias_Estimate + kalman * pitch_Acc
+  aPosterioriEstimate.set(1,0, theta_pb + kalmanGain.get(1,0) * innovation.get(0,0) ); //pitch_bias_Estimate + kalman * pitch_Acc
   
   float theta_rb = aPrioriEstimate.get(1,1);
-  aPosterioriEstimate.set(0,0, theta_rb + kalmanGain.get(1,0) * innovation.get(0,1) ); //roll_bias_Estimate + kalman * roll_Acc
+  aPosterioriEstimate.set(1,1, theta_rb + kalmanGain.get(1,0) * innovation.get(0,1) ); //roll_bias_Estimate + kalman * roll_Acc
   
   float theta_yb = aPrioriEstimate.get(1,2);
-  aPosterioriEstimate.set(0,0, theta_yb + kalmanGain.get(1,0) * innovation.get(0,2) ); //yaw_bias_Estimate + kalman * yaw_Acc
+  aPosterioriEstimate.set(1,2, theta_yb + kalmanGain.get(1,0) * innovation.get(0,2) ); //yaw_bias_Estimate + kalman * yaw_Acc
 }
 
 void KalmanFilter::calcAPosterioriCovariance(){
