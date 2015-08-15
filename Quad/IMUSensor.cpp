@@ -52,7 +52,8 @@ void IMUSensor::readSensor(){
   imu->i2cRead(address, readRegister, 6, bytes);
 
   for (int i = 0; i < 3; ++i) {
-   this->data[i] = (int)bytes[2*i] + (((int)bytes[2*i + 1]) << 8);
- }
+    this->data[i] = (int)bytes[2*i] + (((int)bytes[2*i + 1]) << 8);
+  }
+  this->convert();
 }
 

@@ -19,15 +19,14 @@ class IMUSensor
   public:
     IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister);
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
-  private:
+  protected:
     IMU *imu; //pointer to an IMU object
     int address;
     byte initRegister, i2cWriteData, readRegister;
     float data[3];
     void initSensor();
     void readSensor();
-    virtual void zero() = 0; //zeroes sensor (if applicable)
-    virtual void convertUnits() = 0; //converts raw data to common units like degrees or degrees/sec
+    virtual void convert() = 0; //converts raw data to usable units
 };
 
 #endif
