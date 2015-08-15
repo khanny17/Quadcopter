@@ -1,5 +1,5 @@
 /**
- * Subclass of IMUSensor that defines the Accelerometer
+ * Subclass of IMUSensor that implements the Accelerometer
  */
 #include "Accelerometer.h"
 
