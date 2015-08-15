@@ -8,6 +8,6 @@ class Filter
 {
   public:
     virtual float filter(float accReading, float gyroReading) = 0;
-}
+};
 
 #endif
