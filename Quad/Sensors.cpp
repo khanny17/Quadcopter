@@ -1,6 +1,5 @@
 #include "Sensors.h"
 
-imu imu;
 //Ultrasonic ultrasonic; //TODO config the pins?
 
 /**
@@ -10,7 +9,7 @@ imu imu;
  *         which is why this function exists.
  */
 void SensorInterface::init(){
-  imu.init();
+  //imu.init();
   kalman.init(0,0,0,P_VALUE,P_VALUE);
 }
 
@@ -18,12 +17,12 @@ void SensorInterface::init(){
  *  Updates sensor readings and returns the current PRY
  */
 PRY SensorInterface::getPRY(){
-  imu.update();
+  //imu.update();
   //Serial.println(imu.getAccData(Y));
   //Serial.println(imu.getGyroData(Y));
   return kalman.getOrientation( 
-              (PRY){imu.getAccData(Y), 0, 0},
-              (PRY){imu.getGyroData(Y), 0, 0}
+              (PRY){0/*imu.getAccData(Y)*/, 0, 0},
+              (PRY){0/*imu.getGyroData(Y)*/, 0, 0}
               );
 }
 
