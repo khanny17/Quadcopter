@@ -4,24 +4,23 @@
 #include "AttitudeDeterminator.h"
 
 /**
- * Performs any initialization necessary for the Sensors
- * NOTE: The initialization for some sensors, such as the imu,
- *         will not work if this is placed in the constructor,
- *         which is why this function exists.
+ * Instantiates sensors and filter
  */
-void AttitudeDeterminator::init(){
-  //imu.init();
-  //kalman.init(0,0,0,P_VALUE,P_VALUE);
+AttitudeDeterminator::AttitudeDeterminator(){
+  IMU imu;
+  
+  Accelerometer acc(&imu);
+  this->accelerometer = &acc;
+
+  Gyroscope gyro(&imu);
+  this->gyroscope = &gyro;
 }
 
 /**
- *  Updates sensor readings and returns the current PRY
+ *  Fills passed pointers with their respective angle readings
  */
-void AttitudeDeterminator::getPRY(float* pitch, float* roll, float* yaw){
-  //imu.update();
-  //Serial.println(imu.getAccData(Y));
-  //Serial.println(imu.getGyroData(Y));
-  return;
+void AttitudeDeterminator::getAttitude(float* pitch, float* roll, float* yaw){
+  //TODO
 }
 
 

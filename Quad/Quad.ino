@@ -76,7 +76,7 @@ void initializeMotors(){
 
 void initializeSensors(){
   Serial.println("Initializing Sensors");
-  attitude.init();
+  //attitude.init();
   Serial.println("Sensors Initialized");
 }
 

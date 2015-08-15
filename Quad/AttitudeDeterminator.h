@@ -5,12 +5,17 @@
 #define AttitudeDeterminator_h
 
 #include "Arduino.h"
+#include "Accelerometer.h"
+#include "Gyroscope.h"
 
 class AttitudeDeterminator
 {
   public:
-    void getPRY(float* pitch, float* roll, float* yaw);
-    void init();
+    AttitudeDeterminator();
+    void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
+  private:
+    Accelerometer* accelerometer;
+    Gyroscope* gyroscope;
 };
 
 
