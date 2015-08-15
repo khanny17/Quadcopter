@@ -1,6 +1,7 @@
-#include "Sensors.h"
-
-//Ultrasonic ultrasonic; //TODO config the pins?
+/**
+ * Determines attitude of the quadcopter using sensors and filters
+ */
+#include "AttitudeDeterminator.h"
 
 /**
  * Performs any initialization necessary for the Sensors
@@ -8,7 +9,7 @@
  *         will not work if this is placed in the constructor,
  *         which is why this function exists.
  */
-void SensorInterface::init(){
+void AttitudeDeterminator::init(){
   //imu.init();
   //kalman.init(0,0,0,P_VALUE,P_VALUE);
 }
@@ -16,7 +17,7 @@ void SensorInterface::init(){
 /**
  *  Updates sensor readings and returns the current PRY
  */
-void SensorInterface::getPRY(float* pitch, float* roll, float* yaw){
+void AttitudeDeterminator::getPRY(float* pitch, float* roll, float* yaw){
   //imu.update();
   //Serial.println(imu.getAccData(Y));
   //Serial.println(imu.getGyroData(Y));

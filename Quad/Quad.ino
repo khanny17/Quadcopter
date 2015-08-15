@@ -3,7 +3,7 @@
 #include <NewPing.h>
 #include "IMU.h"
 #include "PID.h"
-#include "Sensors.h"
+#include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
 #include "Command.h"
@@ -14,7 +14,7 @@
 #define BACK_PIN  5
 #define RIGHT_PIN 7
 
-SensorInterface sensors;
+AttitudeDeterminator attitude;
 MotorController motors;
 Controller ctrl;
 CommandHandler command;
@@ -76,7 +76,7 @@ void initializeMotors(){
 
 void initializeSensors(){
   Serial.println("Initializing Sensors");
-  sensors.init();
+  attitude.init();
   Serial.println("Sensors Initialized");
 }
 
