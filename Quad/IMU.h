@@ -15,8 +15,6 @@ class IMU
     IMU();
     void i2cWrite(int address, byte reg, byte data);
     void i2cRead(int address, byte reg, int count, byte* data);
-  private:
-    bool initialized;
 };
 
 #endif
