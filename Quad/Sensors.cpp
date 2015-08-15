@@ -10,20 +10,17 @@
  */
 void SensorInterface::init(){
   //imu.init();
-  kalman.init(0,0,0,P_VALUE,P_VALUE);
+  //kalman.init(0,0,0,P_VALUE,P_VALUE);
 }
 
 /**
  *  Updates sensor readings and returns the current PRY
  */
-PRY SensorInterface::getPRY(){
+void SensorInterface::getPRY(float* pitch, float* roll, float* yaw){
   //imu.update();
   //Serial.println(imu.getAccData(Y));
   //Serial.println(imu.getGyroData(Y));
-  return kalman.getOrientation( 
-              (PRY){0/*imu.getAccData(Y)*/, 0, 0},
-              (PRY){0/*imu.getGyroData(Y)*/, 0, 0}
-              );
+  return;
 }
 
 

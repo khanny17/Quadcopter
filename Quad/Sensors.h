@@ -2,11 +2,9 @@
 #define sensors_h
 
 #include "Arduino.h"
-#include "PRY.h"
 #include "IMU.h"
 #include "Buffer.h"
 #include "Ultrasonic.h"
-#include "Kalman.h"
 
 #define P_VALUE  10000
 #define Q_ANGLE .0005     
@@ -16,10 +14,8 @@
 class SensorInterface
 {
   public:
-    PRY getPRY();
+    void getPRY(float* pitch, float* roll, float* yaw);
     void init();
-  private:
-    KalmanFilter kalman{Q_ANGLE,Q_BIAS,R};
 };
 
 

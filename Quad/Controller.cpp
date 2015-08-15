@@ -5,15 +5,15 @@ PID rollPID(1, .1, .5); //TODO config this
 PID yawPID(1, 1, 1);
 PID vertVelocityPID(1, .5, .5);
 
-PRY Controller::calcPryCorrection(PRY actual){
+void Controller::calcPryCorrection(){
   /*int presult = 
     pitchPID.compute(actual.pitch);
     Serial.println(presult);*/
-  return (PRY){
+  return /*(PRY){
     pitchPID.compute(actual.pitch),
     0,//rollPID.compute(actual.roll),
     0 //TODO implement yaw!
-  };
+  };*/;
 }
 
 /**
@@ -39,10 +39,10 @@ int Controller::calcHeightError(int actual){
  * Sets the desired orientation of the quad through
  *  the pitch roll and yaw values in degrees
  */
-void Controller::setDesiredPry(PRY* desired){
-  pitchPID.setDesired(desired->pitch);
-  rollPID.setDesired(desired->roll);
-  yawPID.setDesired(desired->yaw);
+void Controller::setDesiredPry(){
+  //pitchPID.setDesired(desired->pitch);
+  //rollPID.setDesired(desired->roll);
+  //yawPID.setDesired(desired->yaw);
 }
 
 /**

@@ -3,7 +3,6 @@
 #include <NewPing.h>
 #include "IMU.h"
 #include "PID.h"
-#include "PRY.h"
 #include "Sensors.h"
 #include "Motors.h"
 #include "Controller.h"
@@ -93,14 +92,14 @@ void initializeController(){
  */
 void run(){
   //Get current sensor readings
-  PRY actualPry = sensors.getPRY();
-  Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
+  //PRY actualPry = sensors.getPRY();
+  //Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
   
   //Calculate corrections
-  PRY correctionPry = ctrl.calcPryCorrection(actualPry);
+  //PRY correctionPry = ctrl.calcPryCorrection(actualPry);
   
   //Adjust motor speeds
-  motors.adjustSpeeds(correctionPry, 0); //Update motor with correction
+  //motors.adjustSpeeds(correctionPry, 0); //Update motor with correction
 }
 
 /**
