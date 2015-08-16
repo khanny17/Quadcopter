@@ -25,7 +25,7 @@ class IMUSensor
     byte initRegister, i2cWriteData, readRegister;
     float data[3];
     void initSensor();
-    void readSensor();
+    void readSensor(); //Reads in new values and calls convert
     virtual void convert() = 0; //converts raw data to usable units
 };
 

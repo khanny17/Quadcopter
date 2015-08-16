@@ -4,7 +4,7 @@
 #include "Filter.h"
 #include "Arduino.h"
 
-class ComplimentaryFilter : Filter
+class ComplimentaryFilter : public Filter
 {
   public:
     ComplimentaryFilter(float K_gyro);

@@ -14,13 +14,26 @@ AttitudeDeterminator::AttitudeDeterminator(){
 
   Gyroscope gyro(&imu);
   this->gyroscope = &gyro;
+  
+  ComplimentaryFilter p(K_GYRO);
+  ComplimentaryFilter r(K_GYRO);
+  ComplimentaryFilter y(K_GYRO);
+  this->pitchFilter = &p;
+  this->rollFilter = &r;
+  this->yawFilter = &y;
 }
 
 /**
  *  Fills passed pointers with their respective angle readings
  */
 void AttitudeDeterminator::getAttitude(float* pitch, float* roll, float* yaw){
-  //TODO
+  float accPitchReading, gyroPitchReading;
+  accelerometer->getData(XAXIS, &accPitchReading);
+  gyroscope->getData(XAXIS, &gyroPitchReading);
+  
+  *pitch = pitchFilter->filter(accPitchReading, gyroPitchReading);
+  *roll = 0;
+  *yaw = 0;
 }
 
 

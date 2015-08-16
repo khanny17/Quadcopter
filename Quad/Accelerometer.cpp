@@ -4,14 +4,11 @@
 #include "Accelerometer.h"
 
 /**
- * Call super constructor with our constant values,
- *  zeroes sensor to just "0"
+ * Call super constructor with our constant values and zero sensor
  */
 Accelerometer::Accelerometer(IMU* imu) : 
 IMUSensor(imu, ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, ADXL_PWRCTL_MEASURE, ADXL345_REGISTER_XLSB){
-  zeroX = 0;
-  zeroY = 0;
-  zeroZ = 0;
+  zero();
 }
 
 /**
@@ -19,9 +16,18 @@ IMUSensor(imu, ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, ADXL_PWRCTL_MEASURE, ADXL3
  */
 //TODO don't use just one value - take a few so we get a good result
 void Accelerometer::zero(){
-  zeroX = data[XAXIS];
-  zeroY = data[YAXIS];
-  zeroZ = data[ZAXIS];
+  float x = 0, y = 0, z = 0;
+  for(int i = 0; i < ZERO_SAMPLE_COUNT; ++i){
+    readSensor();
+    x += data[XAXIS];
+    y += data[YAXIS];
+    z += data[ZAXIS];
+    delay(100);
+  }
+  
+  zeroX = x/ZERO_SAMPLE_COUNT;
+  zeroY = y/ZERO_SAMPLE_COUNT;
+  zeroZ = z/ZERO_SAMPLE_COUNT;
 }
 
 /**
