@@ -14,9 +14,11 @@ IMUSensor::IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData
   this->initRegister = initRegister;
   this->i2cWriteData = i2cWriteData;
   this->readRegister = readRegister;
-  data[XAXIS] = 0;
-  data[YAXIS] = 0;
-  data[ZAXIS] = 0;
+  //Set data and zero values to 0
+  for(int i = 0; i < 3; ++i){
+    data[i] = 0;
+    zero[i] = 0;
+  }
 }
 
 /**
@@ -40,7 +42,8 @@ bool IMUSensor::getData(int axis, float* data){
 void IMUSensor::initSensor(){
   byte data = 0;
   imu->i2cWrite(address, initRegister, i2cWriteData);
-  imu->i2cRead(address, initRegister, 1, &data);
+  //Use to check what we just wrote: imu->i2cRead(address, initRegister, 1, &data);
+  findZero();
 }
 
 /**
@@ -56,5 +59,32 @@ void IMUSensor::readSensor(){
     this->data[i] = (int)bytes[2*i] + (((int)bytes[2*i + 1]) << 8);
   }
   convert();
+  zeroData();
 }
 
+/**
+ * Zero the data based on our previous values for zero
+ */
+void IMUSensor::zeroData(){
+  data[XAXIS] -= zero[XAXIS];
+  data[YAXIS] -= zero[YAXIS];
+  data[ZAXIS] -= zero[ZAXIS];
+}
+
+/**
+ * Get sensor reading when quadcopter is perfectly flat and not moving and save as 0 value
+ */
+void IMUSensor::findZero(){
+  float x = 0, y = 0, z = 0;
+  for(int i = 0; i < ZERO_SAMPLE_COUNT; ++i){
+    readSensor();
+    x += data[XAXIS];
+    y += data[YAXIS];
+    z += data[ZAXIS];
+    delay(10);
+  }
+  
+  zero[XAXIS] = x/ZERO_SAMPLE_COUNT;
+  zero[YAXIS] = y/ZERO_SAMPLE_COUNT;
+  zero[ZAXIS] = z/ZERO_SAMPLE_COUNT;
+}
