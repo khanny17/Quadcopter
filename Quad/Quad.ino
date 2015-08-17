@@ -110,8 +110,9 @@ void initializeController(){
 float pitch, roll, yaw;
 void run(){
   //Get current sensor readings
+  Serial.println("Running");
   attitude->getAttitude(&pitch, &roll, &yaw);
-  //Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
+  Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
   
   //Calculate corrections
   //PRY correctionPry = ctrl.calcPryCorrection(actualPry);

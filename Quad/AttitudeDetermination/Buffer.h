@@ -50,7 +50,7 @@ void Buffer<T>::add(T newItem){
 template<typename T>
 float Buffer<T>::average(){
   int i;
-  float sum;
+  float sum = 0;
   for(i=0; i < this->size; ++i){
     sum += this->items[i];
   }

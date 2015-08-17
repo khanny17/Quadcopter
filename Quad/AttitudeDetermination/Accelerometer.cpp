@@ -8,6 +8,7 @@
  */
 Accelerometer::Accelerometer(IMU* imu) : 
 IMUSensor(imu, ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, ADXL_PWRCTL_MEASURE, ADXL345_REGISTER_XLSB){
+  initSensor();
   zero();
 }
 
