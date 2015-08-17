@@ -11,7 +11,6 @@ ComplimentaryFilter::ComplimentaryFilter(float K_gyro){
 }
 
 float ComplimentaryFilter::filter(float accReading, float gyroReading){
-  Serial.println("Filtering");
   float gyro, acc;
   bufferValues(accReading, gyroReading, &acc, &gyro);
   

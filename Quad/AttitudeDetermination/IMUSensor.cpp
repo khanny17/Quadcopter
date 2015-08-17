@@ -27,9 +27,7 @@ IMUSensor::IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData
  *          false if invalid axis given
  */
 bool IMUSensor::getData(int axis, float* data){
-  Serial.println("Getting Data");
   readSensor();
-  Serial.println("Read Sensor");
   if(axis == XAXIS || axis == YAXIS || axis == ZAXIS){
     *data = this->data[axis];
     return true;
