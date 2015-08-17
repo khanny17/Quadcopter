@@ -14,10 +14,10 @@
 #define BACK_PIN  5
 #define RIGHT_PIN 7
 
-AttitudeDeterminator attitude;
-MotorController motors;
-Controller ctrl;
-CommandHandler command;
+AttitudeDeterminator* attitude;
+MotorController* motors;
+Controller* ctrl;
+CommandHandler* command;
 
 void initializeMotors();
 void initializeSensors();
@@ -28,11 +28,10 @@ int start;              //the time "setup" ends
 
 
 void setup() {
-  Serial.begin(9600);
-  delay(2000);
+  initializeCommunications();
   
   Serial.println("Enter \"C\" to start configuration");
-  while(command.readNewCommand() != CONFIGURE); //wait for configuration command
+  while(command->readNewCommand() != CONFIGURE); //wait for configuration command
   
   initializeMotors();
   initializeSensors(); // Initialize AFTER the motors. The ten second delay causes issues for measurements
@@ -44,17 +43,12 @@ void setup() {
   start = millis();
 }
 
-//unsigned long prev; //used for debugging
-//float P,I,D;
-
 
 void loop() {
-  
-  //prev = millis();
 
-  command.readNewCommand();
+  command->readNewCommand();
   
-  switch(command.getCurrentCommand()){
+  switch(command->getCurrentCommand()){
     case RUN:   run();
                 break;
                 
@@ -68,21 +62,44 @@ void loop() {
   }
 }
 
+/**
+ * Start communications over usb from arduino to user
+ */
+void initializeCommunications(){
+  Serial.begin(9600);
+  delay(2000);
+  CommandHandler c;
+  command = &c;
+  Serial.println("Communications Initialized");
+}
+
+/**
+ * Connect to motors and get them ready for takeoff
+ */
 void initializeMotors(){
   Serial.println("Initializing Motors");
-  motors.init(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+  MotorController m(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+  motors = &m;
   Serial.println("Motors Initialized");
 }
 
+/**
+ * Initialize IMU and other sensors
+ */
 void initializeSensors(){
   Serial.println("Initializing Sensors");
-  //attitude.init();
+  AttitudeDeterminator a;
+  attitude = &a;
   Serial.println("Sensors Initialized");
 }
 
+/**
+ * Perform any necessary setup for the controller
+ */
 void initializeController(){
   Serial.println("Initializing Controller");
-  ctrl.setDesiredHeight(100); //100cm = 1m
+  Controller c;
+  ctrl = &c;
   Serial.println("Controller Initialized");
 }
 
@@ -90,9 +107,10 @@ void initializeController(){
  *  Runs the normal balancing algorithm:
  *   update sensors, calculate correction, update motors
  */
+float pitch, roll, yaw;
 void run(){
   //Get current sensor readings
-  //PRY actualPry = sensors.getPRY();
+  attitude->getAttitude(&pitch, &roll, &yaw);
   //Serial.print("Reading: "); Serial.print(actualPry.pitch); Serial.print('\n');
   
   //Calculate corrections
@@ -106,8 +124,8 @@ void run(){
  * Continuously send off signal to motors
  */
 void stop(){
-  motors.sendLow();
-  ctrl.reset();
+  motors->sendLow();
+  ctrl->reset();
 }
 
 /**
@@ -116,5 +134,5 @@ void stop(){
 void reset(){
   stop();
   setup();        
-  command.setCurrentCommand((Command)STOP);
+  command->setCurrentCommand((Command)STOP);
 }

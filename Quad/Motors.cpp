@@ -1,13 +1,6 @@
 #include "Motors.h"
 
-MotorController::MotorController(){
-  
-}
-
-/**
- *  Connects Motors to the specified pins
- */
-void MotorController::init(int f, int l, int b, int r){
+MotorController::MotorController(int f, int l, int b, int r){
    this->front.attach(f);
    this->left.attach(l);
    this->back.attach(b);

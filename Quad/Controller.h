@@ -6,15 +6,9 @@
 class Controller
 {
   public:
-    void calcPryCorrection();
-    int calcVerticalVelocityError(int actual, int heightError);
-    int calcHeightError(int actual);
-    void setDesiredPry();
-    void setDesiredHeight(int desired);
-    void setPitchPIDGains(float p, float i, float d);
+    void calcPryCorrection(float pitch, float roll, float yaw, int* pitchCorrection, int* rollCorrection, int* yawCorrection);
+    void setDesiredPry(float pitch, float roll, float yaw);
     void reset();
-  private:
-    int desiredHeight;
 };
 
 #endif

@@ -16,8 +16,7 @@
 class MotorController
 {
   public:
-    MotorController();
-    void init(int f, int l, int b, int r);
+    MotorController(int f, int l, int b, int r);
     void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
     void printSpeeds();
     void sendLow();
