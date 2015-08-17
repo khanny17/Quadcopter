@@ -14,6 +14,6 @@ void setup() {
 
 void loop() {
   attitude->getAttitude(&pitch, &roll, &yaw);
-  //Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
+  Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
 }
 

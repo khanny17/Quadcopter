@@ -6,7 +6,7 @@
 #include "Buffer.h"
 
 #define ACC_BUFFER_SIZE 10
-#define GYRO_BUFFER_SIZE 5
+#define GYRO_BUFFER_SIZE 2
 
 class ComplimentaryFilter : public Filter
 {

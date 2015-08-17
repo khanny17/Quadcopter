@@ -10,7 +10,7 @@
 #include "Filter.h"
 #include "ComplimentaryFilter.h"
 
-#define K_GYRO .9 //value for the complimentary filter - should this be defined here, or passed to the constructor?
+#define K_GYRO .5 //value for the complimentary filter - should this be defined here, or passed to the constructor?
 
 class AttitudeDeterminator
 {

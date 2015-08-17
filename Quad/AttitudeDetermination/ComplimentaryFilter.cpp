@@ -11,6 +11,7 @@ ComplimentaryFilter::ComplimentaryFilter(float K_gyro){
 }
 
 float ComplimentaryFilter::filter(float accReading, float gyroReading){
+  Serial.println("Filtering");
   float gyro, acc;
   bufferValues(accReading, gyroReading, &acc, &gyro);
   
@@ -20,7 +21,6 @@ float ComplimentaryFilter::filter(float accReading, float gyroReading){
   //Integrate gyro reading:
   float dt = (float)(millis()-prevTime)/1000;
   float G = gyro*dt + pitch;
-  Serial.println(gyro*dt);
   
   prevTime = millis(); //save time for next cycle
   pitch = K_gyro * G + K_acc * acc; //save pitch
