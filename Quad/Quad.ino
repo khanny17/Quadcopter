@@ -33,9 +33,9 @@ void setup() {
   Serial.println("Enter \"C\" to start configuration");
   while(command->readNewCommand() != CONFIGURE); //wait for configuration command
   
-  initializeMotors();
-  initializeSensors(); // Initialize AFTER the motors. The ten second delay causes issues for measurements
-  initializeController();
+  motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+  attitude = new AttitudeDeterminator(0);
+  ctrl = new Controller;
   
 
   Serial.println("Configuration Complete");
@@ -74,43 +74,12 @@ void initializeCommunications(){
 }
 
 /**
- * Connect to motors and get them ready for takeoff
- */
-void initializeMotors(){
-  Serial.println("Initializing Motors");
-  MotorController m(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  motors = &m;
-  Serial.println("Motors Initialized");
-}
-
-/**
- * Initialize IMU and other sensors
- */
-void initializeSensors(){
-  Serial.println("Initializing Sensors");
-  AttitudeDeterminator a;
-  attitude = &a;
-  Serial.println("Sensors Initialized");
-}
-
-/**
- * Perform any necessary setup for the controller
- */
-void initializeController(){
-  Serial.println("Initializing Controller");
-  Controller c;
-  ctrl = &c;
-  Serial.println("Controller Initialized");
-}
-
-/**
  *  Runs the normal balancing algorithm:
  *   update sensors, calculate correction, update motors
  */
 float pitch, roll, yaw;
 void run(){
   //Get current sensor readings
-  Serial.println("Running");
   attitude->getAttitude(&pitch, &roll, &yaw);
   Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
   
