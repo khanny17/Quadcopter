@@ -5,8 +5,8 @@
 #include "Arduino.h"
 #include "Buffer.h"
 
-#define ACC_BUFFER_SIZE 10
-#define GYRO_BUFFER_SIZE 2
+#define ACC_BUFFER_SIZE 50
+#define GYRO_BUFFER_SIZE 20
 
 class ComplimentaryFilter : public Filter
 {

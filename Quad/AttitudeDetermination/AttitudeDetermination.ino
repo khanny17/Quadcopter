@@ -8,7 +8,7 @@ float pitch, roll, yaw;
 void setup() {
   Serial.begin(9600);
   delay(2000);
-  attitude = new AttitudeDeterminator;
+  attitude = new AttitudeDeterminator(0);
 }
 
 

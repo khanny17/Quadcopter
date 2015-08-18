@@ -20,6 +20,7 @@ class Gyroscope: public IMUSensor
     Gyroscope(IMU* imu);
   private:
     void convert();
+    void zeroData();
 };
 
 #endif

@@ -17,3 +17,7 @@ void Gyroscope::convert(){
   data[ZAXIS] /= GYRO_RAW_SCALING_FACTOR;
 }
 
+/**
+ * Override zero functionality to do nothing
+ */
+void Gyroscope::zeroData(){};

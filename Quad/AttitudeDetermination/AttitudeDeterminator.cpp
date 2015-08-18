@@ -6,7 +6,7 @@
 /**
  * Instantiates sensors and filter
  */
-AttitudeDeterminator::AttitudeDeterminator(){
+AttitudeDeterminator::AttitudeDeterminator(float K_GYRO){
   IMU* imu;
   imu = new IMU;
   accelerometer = new Accelerometer(imu);

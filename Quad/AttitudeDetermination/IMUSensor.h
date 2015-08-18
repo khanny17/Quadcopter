@@ -29,7 +29,7 @@ class IMUSensor
     float zero[3];
     void initSensor();
     void readSensor(); //Reads in new values and calls convert
-    void zeroData();
+    virtual void zeroData();
     virtual void convert() = 0; //converts raw data to usable units
 };
 
