@@ -10,16 +10,15 @@
 #include "Filter.h"
 #include "ComplimentaryFilter.h"
 
-#define K_GYRO .5 //value for the complimentary filter - should this be defined here, or passed to the constructor?
 
 class AttitudeDeterminator
 {
   public:
-    AttitudeDeterminator();
+    AttitudeDeterminator(float K_GYRO);
     void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
   private:
-    Accelerometer* accelerometer;
-    Gyroscope* gyroscope;
+    IMUSensor* accelerometer;
+    IMUSensor* gyroscope;
     Filter* pitchFilter;
     Filter* rollFilter;
     Filter* yawFilter;

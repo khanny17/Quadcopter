@@ -13,19 +13,23 @@
 #define YAXIS 1
 #define ZAXIS 2
 
+#define ZERO_SAMPLE_COUNT 10 //number of samples to take when zeroing the sensor
 
 class IMUSensor
 {
   public:
     IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister);
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
+    void findZero();
   protected:
     IMU *imu; //pointer to an IMU object
     int address;
     byte initRegister, i2cWriteData, readRegister;
     float data[3];
+    float zero[3];
     void initSensor();
     void readSensor(); //Reads in new values and calls convert
+    virtual void zeroData();
     virtual void convert() = 0; //converts raw data to usable units
 };
 
