@@ -1,13 +1,6 @@
 #include "Motors.h"
 
-MotorController::MotorController(){
-  
-}
-
-/**
- *  Connects Motors to the specified pins
- */
-void MotorController::init(int f, int l, int b, int r){
+MotorController::MotorController(int f, int l, int b, int r){
    this->front.attach(f);
    this->left.attach(l);
    this->back.attach(b);
@@ -31,12 +24,12 @@ void MotorController::sendLow(){
 }
 
 int F, L, B, R, i, T; //temp variables
-void MotorController::adjustSpeeds(PRY corrections, int heightError){
+void MotorController::adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int heightError){
   //Get combined error for each motor
-  F = (corrections.pitch+corrections.yaw);
-  L = (corrections.roll-corrections.yaw);
-  B = (-corrections.pitch+corrections.yaw);
-  R = (-corrections.roll-corrections.yaw);
+  F = (pitchCorrection+yawCorrection);
+  L = (rollCorrection-yawCorrection);
+  B = (-pitchCorrection+yawCorrection);
+  R = (-rollCorrection-yawCorrection);
 
   //Calculate the base throttle based on error in desired speed
   T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);

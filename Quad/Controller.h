@@ -2,19 +2,13 @@
 #define Controller_h
 
 #include "PID.h"
-#include "PRY.h"
 
 class Controller
 {
   public:
-    PRY calcPryCorrection(PRY actual);
-    int calcVerticalVelocityError(int actual, int heightError);
-    int calcHeightError(int actual);
-    void setDesiredPry(PRY* desired);
-    void setDesiredHeight(int desired);
-    void setPitchPIDGains(float p, float i, float d);
-  private:
-    int desiredHeight;
+    void calcPryCorrection(float pitch, float roll, float yaw, int* pitchCorrection, int* rollCorrection, int* yawCorrection);
+    void setDesiredPry(float pitch, float roll, float yaw);
+    void reset();
 };
 
 #endif

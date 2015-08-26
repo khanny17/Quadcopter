@@ -1,21 +1,21 @@
 #include "PID.h"
 
-pid::pid(float k_p, float k_i, float k_d){
+PID::PID(float k_p, float k_i, float k_d){
   this->k_p = k_p;
   this->k_i = k_i;
   this->k_d = k_d;
   this->desired = 0;
   this->e_prev = 0;
-  this->t_prev = -1; //cant set it here reliably
+  this->t_prev = 0; //cant set it here reliably. maybe make this a pointer and set it to a variable we will fill in later with the time the system actually starts running?
   this->sum = 0;
 }
 
-int pid::compute(float actual){
-  int t = millis();
+int PID::compute(float actual){
+  unsigned long t = millis();
   float e = this->desired-actual;
   double p = this->k_p*e;
   
-  if(t_prev == -1){ //TODO i dont want to check this every time
+  if(t_prev == 0){ //TODO i dont want to check this every time.
     t_prev = millis();
   }
   
@@ -31,7 +31,7 @@ int pid::compute(float actual){
   return (p+i+d)/2;
 }
 
-void pid::setDesired(int desired){
+void PID::setDesired(int desired){
   //reset values
   this->desired = desired;
   //this->e_prev = 0;
@@ -39,8 +39,14 @@ void pid::setDesired(int desired){
   //this->sum = 0;
 }
 
-void pid::setGains(float k_p, float k_i, float k_d){
+void PID::setGains(float k_p, float k_i, float k_d){
   this->k_p = k_p;
   this->k_i = k_i;
   this->k_d = k_d;
+}
+
+void PID::reset(){
+  this->e_prev = 0;
+  this->t_prev = 0;
+  this->sum = 0;
 }
