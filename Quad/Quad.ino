@@ -16,6 +16,7 @@ MotorController* motors;
 Controller* ctrl;
 
 float pitch, roll, yaw;
+int pitchCorrection, rollCorrection, yawCorrection;
 
 void setup() {
   Serial.begin(9600);
@@ -28,15 +29,22 @@ void setup() {
   Serial.println("Configuration Complete");
 }
 
-
+char c = 'S';
 void loop() {
-  //Get current sensor readings
-  attitude->getAttitude(&pitch, &roll, &yaw);
-  Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
-  
-  //Calculate corrections
-  //PRY correctionPry = ctrl.calcPryCorrection(actualPry);
-  
-  //Adjust motor speeds
-  //motors.adjustSpeeds(correctionPry, 0); //Update motor with correction
+  if(Serial.available()){
+    c = (char)Serial.read();
+  }
+  if(c == 'G'){
+    //Get current sensor readings
+    attitude->getAttitude(&pitch, &roll, &yaw);
+    Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
+    
+    //Calculate corrections
+    ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
+    
+    //Adjust motor speeds
+    motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
+  } else {
+    motors->sendLow();
+  }
 }
