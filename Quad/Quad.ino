@@ -5,7 +5,6 @@
 #include "Motors.h"
 #include "Controller.h"
 
-
 #define FRONT_PIN 6 //TODO config this
 #define LEFT_PIN  4
 #define BACK_PIN  5
@@ -22,7 +21,7 @@ void setup() {
   Serial.begin(9600);
   
   motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  attitude = new AttitudeDeterminator(0);
+  attitude = new AttitudeDeterminator(.5);
   ctrl = new Controller;
   
 
