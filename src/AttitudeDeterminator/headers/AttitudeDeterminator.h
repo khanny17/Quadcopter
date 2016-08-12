@@ -4,7 +4,6 @@
 #ifndef AttitudeDeterminator_h
 #define AttitudeDeterminator_h
 
-#include "Arduino.h"
 #include "Accelerometer.h"
 #include "Gyroscope.h"
 #include "Filter.h"

@@ -21,9 +21,9 @@ void Accelerometer::convert(){
   float z = data[ZAXIS];
   
   //57.29578 is 180 / pi
-  float xA = tan( x / sqrt( sq(y)+sq(z) ) )  * 57.296; 
-  float yA = atan2( y , sqrt( sq(x)+sq(z) ) )  * 57.296;
-  float zA = atan2( sqrt( sq(y)+sq(x) ) , z  )  * 57.296;
+  float xA = tan( x / sqrt( pow(y,2)+pow(z,2) ) )  * 57.296; 
+  float yA = atan2( y , sqrt( pow(x,2)+pow(z,2) ) )  * 57.296;
+  float zA = atan2( sqrt( pow(y,2)+pow(x,2) ) , z  )  * 57.296;
   
   data[XAXIS] = xA;
   data[YAXIS] = yA;

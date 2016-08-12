@@ -4,6 +4,7 @@
 #ifndef Accelerometer_h
 #define Accelerometer_h
 
+#include <math.h>
 #include "IMUSensor.h"
 
 #define ADXL345_ADDRESS (0xA6 >> 1)

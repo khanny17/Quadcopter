@@ -8,7 +8,7 @@
 /**
  * Constructs a new IMUSensor object, saving the passed values and initializing other member variables
  */
-IMUSensor::IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister){
+IMUSensor::IMUSensor(IMU* imu, int address, char initRegister, char i2cWriteData, char readRegister){
   this->imu = imu;
   this->address = address;
   this->initRegister = initRegister;
@@ -40,7 +40,7 @@ bool IMUSensor::getData(int axis, float* data){
  * Talks to IMU and initializes sensor
  */
 void IMUSensor::initSensor(){
-  byte data = 0;
+  char data = 0;
   imu->i2cWrite(address, initRegister, i2cWriteData);
   //Use to check what we just wrote: imu->i2cRead(address, initRegister, 1, &data);
   findZero();
@@ -50,13 +50,12 @@ void IMUSensor::initSensor(){
  * Reads new data from the IMU
  */
 void IMUSensor::readSensor(){
-  byte bytes[6];
-  memset(bytes, 0, 6);
+  char chars[6] = {};
 
-  imu->i2cRead(address, readRegister, 6, bytes);
+  imu->i2cRead(address, readRegister, 6, chars);
   
   for (int i = 0; i < 3; ++i) {
-    this->data[i] = (int)bytes[2*i] + (((int)bytes[2*i + 1]) << 8);
+    this->data[i] = (int)chars[2*i] + (((int)chars[2*i + 1]) << 8);
   }
   convert();
   zeroData();

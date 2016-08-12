@@ -1,7 +1,6 @@
 #ifndef KalmanFilter_h
 #define KalmanFilter_h
 
-#include "Arduino.h"
 #include "Filter.h"
 
 struct State{

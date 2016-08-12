@@ -2,7 +2,6 @@
 #define ComplimentaryFilter_h
 
 #include "Filter.h"
-#include "Arduino.h"
 #include "Buffer.h"
 
 #define ACC_BUFFER_SIZE 2

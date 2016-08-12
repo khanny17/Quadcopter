@@ -6,7 +6,6 @@
 #ifndef IMUSensor_h
 #define IMUSensor_h
 
-#include "Arduino.h"
 #include "IMU.h"
 
 #define XAXIS 0
@@ -18,13 +17,13 @@
 class IMUSensor
 {
   public:
-    IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister);
+    IMUSensor(IMU* imu, int address, char initRegister, char i2cWriteData, char readRegister);
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
     void findZero();
   protected:
     IMU *imu; //pointer to an IMU object
     int address;
-    byte initRegister, i2cWriteData, readRegister;
+    char initRegister, i2cWriteData, readRegister;
     float data[3];
     float zero[3];
     void initSensor();
