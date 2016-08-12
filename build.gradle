@@ -1,0 +1,12 @@
+apply plugin: 'cpp'
+
+model {
+    components {
+        AttitudeDeterminator(NativeLibrarySpec)
+        main(NativeExecutableSpec) {
+            sources {
+                cpp.lib library: "AttitudeDeterminator"
+            }
+        }
+    }
+}

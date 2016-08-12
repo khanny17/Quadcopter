@@ -1,6 +1,3 @@
-#include <Wire.h>
-#include <Servo.h>
-#include <NewPing.h>
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
@@ -17,7 +14,18 @@ Controller* ctrl;
 float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
-void setup() {
+int main(int argc, char **argv) 
+{
+    setup();
+    
+    while(1)
+    {
+        loop()
+    }
+}
+
+void setup()
+{
   Serial.begin(9600);
   
   motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
@@ -29,7 +37,8 @@ void setup() {
 }
 
 char c = 'S';
-void loop() {
+void loop()
+{
   if(Serial.available()){
     c = (char)Serial.read();
   }
