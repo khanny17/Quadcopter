@@ -1,7 +1,6 @@
 #ifndef Motors_h
 #define Motors_h
 
-#include "Arduino.h"
 #include "Servo.h"
 
 #define MOTOR_OFF   700   //Min possible signal
@@ -15,23 +14,17 @@
 
 class MotorController
 {
-  public:
-    MotorController(int f, int l, int b, int r);
-    void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
-    void printSpeeds();
-    void sendLow();
-    void sendHigh();
-  private:
-    void writeSpeeds(); 
-    Servo front;
-    Servo left;
-    Servo back;
-    Servo right;
-    int frontSpd;
-    int leftSpd;
-    int rightSpd;
-    int backSpd;
-    int throttle;
+    public:
+        MotorController(int f, int l, int b, int r);
+        void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
+        void printSpeeds();
+        void sendLow();
+        void sendHigh();
+
+    private:
+        void writeSpeeds(); 
+        Servo *front, *left, *back, *right;
+        int frontSpd, leftSpd, rightSpd, backSpd, throttle;
 };
 
 #endif

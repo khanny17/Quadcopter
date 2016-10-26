@@ -1,6 +1,7 @@
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
+#include "Logger.h"
 
 #define FRONT_PIN 6 //TODO config this
 #define LEFT_PIN  4
@@ -10,49 +11,47 @@
 AttitudeDeterminator* attitude;
 MotorController* motors;
 Controller* ctrl;
+Logger* logger;
 
 float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
+int setup();
+void loop();
+
 int main(int argc, char **argv) 
 {
-    setup();
-    
+    if(setup()){
+        return -1;
+    }
+
     while(1)
     {
-        loop()
+        loop();
     }
 }
 
-void setup()
+int setup()
 {
-  Serial.begin(9600);
-  
-  motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  attitude = new AttitudeDeterminator(.5);
-  ctrl = new Controller;
-  
+    logger = new Logger();
 
-  Serial.println("Configuration Complete");
+    motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+    attitude = new AttitudeDeterminator(.5);
+    ctrl = new Controller;
+
+
+    logger->log("Configuration Complete");
 }
 
-char c = 'S';
 void loop()
 {
-  if(Serial.available()){
-    c = (char)Serial.read();
-  }
-  if(c == 'G'){
     //Get current sensor readings
     attitude->getAttitude(&pitch, &roll, &yaw);
-    Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
-    
+    logger->log("Reading: " << pitch);
+
     //Calculate corrections
     ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
-    
+
     //Adjust motor speeds
     motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
-  } else {
-    motors->sendLow();
-  }
 }

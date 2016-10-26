@@ -1,68 +1,68 @@
 #include "Motors.h"
 
 MotorController::MotorController(int f, int l, int b, int r){
-   this->front.attach(f);
-   this->left.attach(l);
-   this->back.attach(b);
-   this->right.attach(r);
-   this->sendLow(); //To initialize the motors, they need to receive a low signal
-   delay(10000); //Wait ten seconds to make sure the motors read it
+    front = new Servo(f);
+    left = new Servo(f);
+    back = new Servo(f);
+    right = new Servo(f);
+    sendLow(); //To initialize the motors, they need to receive a low signal
+    sleep(10); //Wait ten seconds to make sure the motors read it
 }
 
 void MotorController::sendHigh(){
-   this->front.writeMicroseconds(MOTOR_MAX);
-   this->left.writeMicroseconds(MOTOR_MAX);
-   this->back.writeMicroseconds(MOTOR_MAX);
-   this->right.writeMicroseconds(MOTOR_MAX);
+    front->writeMicroseconds(MOTOR_MAX);
+    left->writeMicroseconds(MOTOR_MAX);
+    back->writeMicroseconds(MOTOR_MAX);
+    right->writeMicroseconds(MOTOR_MAX);
 }
 
 void MotorController::sendLow(){
-   this->front.writeMicroseconds(MOTOR_OFF);
-   this->left.writeMicroseconds(MOTOR_OFF);
-   this->back.writeMicroseconds(MOTOR_OFF);
-   this->right.writeMicroseconds(MOTOR_OFF);
+    front->writeMicroseconds(MOTOR_OFF);
+    left->writeMicroseconds(MOTOR_OFF);
+    back->writeMicroseconds(MOTOR_OFF);
+    right->writeMicroseconds(MOTOR_OFF);
 }
 
 int F, L, B, R, i, T; //temp variables
 void MotorController::adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int heightError){
-  //Get combined error for each motor
-  F = (pitchCorrection+yawCorrection);
-  L = (rollCorrection-yawCorrection);
-  B = (-pitchCorrection+yawCorrection);
-  R = (-rollCorrection-yawCorrection);
+    //Get combined error for each motor
+    F = (pitchCorrection+yawCorrection);
+    L = (rollCorrection-yawCorrection);
+    B = (-pitchCorrection+yawCorrection);
+    R = (-rollCorrection-yawCorrection);
 
-  //Calculate the base throttle based on error in desired speed
-  T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
-  this->throttle = constrain(this->throttle+T, MIN_THROTTLE, MAX_THROTTLE);
-  
-  // Set new speeds
-  this->frontSpd = this->throttle+F;
-  this->leftSpd = this->throttle+L;
-  this->backSpd = this->throttle+B;
-  this->rightSpd = this->throttle+R;
-  
-  //write new speeds
-  this->writeSpeeds();
+    //Calculate the base throttle based on error in desired speed
+    T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
+    throttle = constrain(throttle+T, MIN_THROTTLE, MAX_THROTTLE);
+
+    // Set new speeds
+    frontSpd = throttle+F;
+    leftSpd = throttle+L;
+    backSpd = throttle+B;
+    rightSpd = throttle+R;
+
+    //write new speeds
+    writeSpeeds();
 }
 
 /**
  *  Constrains speeds and writes them out
  */
 void MotorController::writeSpeeds(){
-  this->front.writeMicroseconds(constrain(this->frontSpd, MOTOR_MIN, MOTOR_MAX));
-  //this->left.writeMicroseconds(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
-  this->back.writeMicroseconds(constrain(this->backSpd, MOTOR_MIN, MOTOR_MAX));
-  //this->right.writeMicroseconds(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
+    front->writeMicroseconds(constrain(frontSpd, MOTOR_MIN, MOTOR_MAX));
+    //this->left.writeMicroseconds(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
+    back->writeMicroseconds(constrain(backSpd, MOTOR_MIN, MOTOR_MAX));
+    //this->right.writeMicroseconds(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
 }
 
 void MotorController::printSpeeds(){
-  Serial.print("Front: ");
-  Serial.print(this->frontSpd);
-  Serial.print("     Left: ");
-  Serial.print(this->leftSpd);
-  Serial.print("     Back: ");
-  Serial.print(this->backSpd);
-  Serial.print("     Right: ");
-  Serial.print(this->rightSpd);
-  Serial.print("\n");
+    Serial.print("Front: ");
+    Serial.print(frontSpd);
+    Serial.print("     Left: ");
+    Serial.print(leftSpd);
+    Serial.print("     Back: ");
+    Serial.print(backSpd);
+    Serial.print("     Right: ");
+    Serial.print(rightSpd);
+    Serial.print("\n");
 }
