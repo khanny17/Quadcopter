@@ -1,6 +1,10 @@
 #ifndef PID_h
 #define PID_h
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+using namespace boost::posix_time;
+
 class PID 
 {
   public:
@@ -12,7 +16,7 @@ class PID
   private:
     float k_p, k_i, k_d;
     float e_prev;
-    unsigned long t_prev;
+    ptime t_prev;
     float sum;
     int desired;
 };
