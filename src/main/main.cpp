@@ -40,6 +40,8 @@ int setup()
 
 
     BOOST_LOG_TRIVIAL(info) << "Configuration Complete";
+
+    return 0;
 }
 
 void loop()
