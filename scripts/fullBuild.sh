@@ -3,6 +3,6 @@ if [ ! -d "build" ]; then
 fi
 
 cd build
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ../src/
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 cppcheck --project=compile_commands.json --enable=all
 make
