@@ -22,7 +22,10 @@ include_directories(
     ./Controller
     ./Motors
     ./Utils
-    ${Boost_INCLUDE_DIRS} )
+    )
+include_directories( SYSTEM
+    ${Boost_INCLUDE_DIRS} 
+    )
 
 # add the executable
 add_executable(Quadcopter "main/main.cpp")
