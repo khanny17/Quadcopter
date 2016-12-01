@@ -2,11 +2,11 @@ language: cpp
 compiler:
     - gcc
     - clang
-before_script:
-    - sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
-    - sudo apt-get update -qq
-    - sudo apt-get install libboost-all-dev
-    - sudo apt-get --only-upgrade install cmake
+#before_script:
+#    - sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
+#    - sudo apt-get update -qq
+#    - sudo apt-get install libboost-all-dev
+#    - sudo apt-get --only-upgrade install cmake
 script: mkdir build && cd build && cmake .. && make
 #notifications:
 #    email:
@@ -14,3 +14,13 @@ script: mkdir build && cd build && cmake .. && make
 #            - kph1958@rit.edu
 #        on_success: change
 #        on_failure: always
+#
+
+addons:
+    apt:
+        sources:
+            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
+        packages:
+            - cmake
+            - cmake-data
+            - libboost-all-dev
