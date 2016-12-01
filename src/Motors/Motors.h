@@ -1,7 +1,12 @@
 #ifndef Motors_h
 #define Motors_h
 
+#include <iostream>
+#include <boost/thread/thread.hpp>
 #include "Servo.h"
+#include "../Utils/UtilityFunctions.h"
+
+using namespace boost;
 
 #define MOTOR_OFF   700   //Min possible signal
 #define MOTOR_MIN   800   //Min allowed motor value

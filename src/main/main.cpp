@@ -1,7 +1,7 @@
+#include <boost/log/trivial.hpp>
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
-#include "Logger.h"
 
 #define FRONT_PIN 6 //TODO config this
 #define LEFT_PIN  4
@@ -11,7 +11,6 @@
 AttitudeDeterminator* attitude;
 MotorController* motors;
 Controller* ctrl;
-Logger* logger;
 
 float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
@@ -34,21 +33,19 @@ int main(int argc, char **argv)
 
 int setup()
 {
-    logger = new Logger();
-
     motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
     attitude = new AttitudeDeterminator(.5);
     ctrl = new Controller;
 
 
-    logger->log("Configuration Complete");
+    BOOST_LOG_TRIVIAL(info) << "Configuration Complete";
 }
 
 void loop()
 {
     //Get current sensor readings
     attitude->getAttitude(&pitch, &roll, &yaw);
-    logger->log("Reading: " << pitch);
+    BOOST_LOG_TRIVIAL(info) << "Reading: " << pitch;
 
     //Calculate corrections
     ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);

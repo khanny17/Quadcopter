@@ -6,7 +6,10 @@
 #ifndef IMUSensor_h
 #define IMUSensor_h
 
+#include <boost/thread/thread.hpp>
 #include "IMU.h"
+
+using namespace boost;
 
 #define XAXIS 0
 #define YAXIS 1

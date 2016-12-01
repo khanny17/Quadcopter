@@ -6,7 +6,7 @@ MotorController::MotorController(int f, int l, int b, int r){
     back = new Servo(f);
     right = new Servo(f);
     sendLow(); //To initialize the motors, they need to receive a low signal
-    sleep(10); //Wait ten seconds to make sure the motors read it
+    this_thread::sleep_for(chrono::seconds(10)); //Wait ten seconds to make sure the motors read it
 }
 
 void MotorController::sendHigh(){
@@ -32,14 +32,14 @@ void MotorController::adjustSpeeds(int pitchCorrection, int rollCorrection, int 
     R = (-rollCorrection-yawCorrection);
 
     //Calculate the base throttle based on error in desired speed
-    T = map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
-    throttle = constrain(throttle+T, MIN_THROTTLE, MAX_THROTTLE);
+    T = UtilityFunctions::map(heightError, -100, 100, -THROTTLE_INCREMENT, THROTTLE_INCREMENT);
+    throttle = UtilityFunctions::constrain(throttle+T, MIN_THROTTLE, MAX_THROTTLE);
 
     // Set new speeds
-    frontSpd = throttle+F;
-    leftSpd = throttle+L;
-    backSpd = throttle+B;
-    rightSpd = throttle+R;
+    frontSpd = UtilityFunctions::constrain(throttle+F, MOTOR_MIN, MOTOR_MAX);
+    leftSpd = UtilityFunctions::constrain(throttle+L, MOTOR_MIN, MOTOR_MAX);
+    backSpd = UtilityFunctions::constrain(throttle+B, MOTOR_MIN, MOTOR_MAX);
+    rightSpd = UtilityFunctions::constrain(throttle+R, MOTOR_MIN, MOTOR_MAX);
 
     //write new speeds
     writeSpeeds();
@@ -49,20 +49,16 @@ void MotorController::adjustSpeeds(int pitchCorrection, int rollCorrection, int 
  *  Constrains speeds and writes them out
  */
 void MotorController::writeSpeeds(){
-    front->writeMicroseconds(constrain(frontSpd, MOTOR_MIN, MOTOR_MAX));
-    //this->left.writeMicroseconds(constrain(this->leftSpd, MOTOR_MIN, MOTOR_MAX));
-    back->writeMicroseconds(constrain(backSpd, MOTOR_MIN, MOTOR_MAX));
-    //this->right.writeMicroseconds(constrain(this->rightSpd, MOTOR_MIN, MOTOR_MAX));
+    front->writeMicroseconds(frontSpd);
+    //this->left.writeMicroseconds(leftSpd);
+    back->writeMicroseconds(backSpd);
+    //this->right.writeMicroseconds(rightSpd);
 }
 
 void MotorController::printSpeeds(){
-    Serial.print("Front: ");
-    Serial.print(frontSpd);
-    Serial.print("     Left: ");
-    Serial.print(leftSpd);
-    Serial.print("     Back: ");
-    Serial.print(backSpd);
-    Serial.print("     Right: ");
-    Serial.print(rightSpd);
-    Serial.print("\n");
+    //TODO log this maybe? dont use cout outside of our wrapped logging library
+    std::cout << "Front: " << frontSpd << std::endl;
+    std::cout << "Left: "  << leftSpd << std::endl;
+    std::cout << "Back: "  << backSpd << std::endl;
+    std::cout << "Right: " << rightSpd << std::endl;
 }

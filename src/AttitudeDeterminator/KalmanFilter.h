@@ -1,7 +1,13 @@
 #ifndef KalmanFilter_h
 #define KalmanFilter_h
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/scoped_ptr.hpp>
+
 #include "Filter.h"
+
+using namespace boost;
+using namespace boost::posix_time;
 
 struct State{
   float angle;
@@ -32,7 +38,7 @@ class KalmanFilter : public Filter
     
     float innovation, innovationCovariance;
     float Q_angle, Q_bias, R;
-    unsigned long t_prev;
+    scoped_ptr<ptime> curTime, prevTime;
 };
 
 #endif

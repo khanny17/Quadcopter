@@ -80,7 +80,7 @@ void IMUSensor::findZero(){
     x += data[XAXIS];
     y += data[YAXIS];
     z += data[ZAXIS];
-    this_thread::sleep_for(std::chrono::milliseconds(10));
+    this_thread::sleep_for(chrono::milliseconds(10));
   }
   
   zero[XAXIS] = x/ZERO_SAMPLE_COUNT;

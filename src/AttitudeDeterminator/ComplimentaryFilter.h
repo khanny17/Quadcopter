@@ -1,8 +1,14 @@
 #ifndef ComplimentaryFilter_h
 #define ComplimentaryFilter_h
 
+#include <boost/log/trivial.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "Filter.h"
 #include "Buffer.h"
+
+using namespace boost;
+using namespace boost::posix_time;
 
 #define ACC_BUFFER_SIZE 2
 #define GYRO_BUFFER_SIZE 2
@@ -16,7 +22,7 @@ class ComplimentaryFilter : public Filter
     float K_gyro;
     float K_acc;
     float pitch;
-    unsigned long prevTime;
+    scoped_ptr<ptime> curTime, prevTime;
     Buffer<float> accBuffer{ACC_BUFFER_SIZE};
     Buffer<float> gyroBuffer{GYRO_BUFFER_SIZE};
     void bufferValues(float accReading, float gyroReading, float* acc, float* gyro);
