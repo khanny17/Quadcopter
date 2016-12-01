@@ -1,0 +1,14 @@
+language: cpp
+compiler:
+    - gcc
+    - clang
+before_script:
+    - sudo apt-get update -qq
+    - sudo apt-get install libboost-log-dev libboost-thread-dev libboost-system-dev libboost-test-dev
+script: mkdir build && cd build && cmake .. && make
+notifications:
+    email:
+        recipients:
+            - kph1958@rit.edu
+        on_success: change
+        on_failure: always
