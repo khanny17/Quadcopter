@@ -5,10 +5,18 @@ project (Quadcopter)
 add_subdirectory(AttitudeDeterminator)
 add_subdirectory(Controller)
 add_subdirectory(Motors)
-add_subdirectory(Utils)
+#add_subdirectory(Utils)
 
 #include Boost
-find_package(Boost REQUIRED COMPONENTS thread)
+SET(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED COMPONENTS
+    log
+    thread
+    date_time
+    filesystem
+    system
+    )
+
 include_directories( 
     ./AttitudeDeterminator
     ./Controller
@@ -26,5 +34,8 @@ target_link_libraries(Quadcopter
     ${Boost_LIBRARIES} 
     AttitudeDeterminator
     Controller
-    Motors)
+    Motors
+    #Utils
+    )
+
 

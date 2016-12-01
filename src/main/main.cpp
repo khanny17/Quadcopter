@@ -20,6 +20,7 @@ void loop();
 
 int main(int argc, char **argv) 
 {
+    BOOST_LOG_TRIVIAL(info) << "Hello!";
 
     if(setup()){
         return -1;
