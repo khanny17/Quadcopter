@@ -1,7 +1,3 @@
-cmake_minimum_required (VERSION 3.5)
-
-project (Quadcopter)
-
 add_subdirectory(AttitudeDeterminator)
 add_subdirectory(Controller)
 add_subdirectory(Motors)
@@ -18,10 +14,10 @@ find_package(Boost REQUIRED COMPONENTS
     )
 
 include_directories( 
-    ./AttitudeDeterminator
-    ./Controller
-    ./Motors
-    ./Utils
+    AttitudeDeterminator
+    Controller
+    Motors
+    Utils
     )
 include_directories( SYSTEM
     ${Boost_INCLUDE_DIRS} 
@@ -40,6 +36,8 @@ target_link_libraries(Quadcopter
     Motors
     #Utils
     )
+
+cotire(Quadcopter)
 
 # MOAR WARNINGS
 include(CheckCXXCompilerFlag)
