@@ -24,6 +24,6 @@ addons:
         packages:
             - cmake
             - cmake-data
-            - libboost-log-dev
-            - libboost-thread-dev
-            - libboost-system-dev
+            - libboost-log1.55-dev
+            - libboost-thread1.55-dev
+            - libboost-system1.55-dev
