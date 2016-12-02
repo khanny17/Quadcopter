@@ -8,9 +8,12 @@ env:
     global:
         # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
         #   via the "travis encrypt" command using the project repo's public key
-        - secure: "WQ5SVwT6TMQZ+jxoO/P5p2YJUU/oG4z/uw3dM5dbayrCOBKNkcG905ded9E73gJzux3u7Cmxq1KQcJS2Lw5bvBGnAj66wA9QVw952EHxR7pz4zkYis6C7zUB1SU9JBMB/59aHP6HzvVbIB/xEYa84tHbN8azwX14PpNnjN0hitzf6zufx3u9bllc523pHEcD7qqPxPXRt4wOmv8F6DA9U6/m0yXLMxJxCsXS8EwiUzJtz0H/rP6HUz1Aoiv+2H543v7Z9mZba7ofSBAl485vUzHuPQAf7W0afm/QJQ07iyy3daCG+Vr2ag5UftvOZS2kYgONasdWTgt3dlzTx+cb6wTY+C3Pd/OaKQn7U0yG+nk6f/1nLeWHWh4LOAPk56KTkE0qjDO7CGW5TAnS8RnYtrOgnSyoqwHanu8yEKwpW71LQgJMCpm/iwYE/GTMr1kaBJVFmLAwp8smW6qUOnQamZL73B3C1voYREnyMin4fZ8Gl2XY0poS1Mm7g2JgjORiEzN8mSVN9ivoi/pLLHRdrAqm3KDRLL97z2zKmNxMlrzmjX1KqsjkWUnzIPGODZnoG7+juUM/4biXN6u+phWEMeMSEyAwAhfpZuDHTaeNUDTBvuIX2nRynfW0K5ZaKmVsDjUHVO573guLOtfFLJsWxjqJkAM6LwZlm3g3pVS96ps="
+        - secure: "gFKFbcH0b7+2uOSig/50kw0XapG0B9Nff/twYtDQP2EKr4+23Nl9WadFw4NlzIzKlVSlwYzC9CQQHg65iewOQqHdYxucES4AEhGtcgl+VdobDK02j4NR35wKXGcuLBjCfnwLiF6xnwcHxR4Oa6RyeNYiFexrPPWfJXdEWIV7j2udv0NLnuJNnGznqzK3E5Mqv/PaBDRUUjH0NPQPPmv9kcqaF34Ud5B/Bw/MdblwLv+u8b/j1VhSwJ8WB8gNR9Hh3QALVQsaywZT5zaoGWmXNCO0wKbhRmCCYg0ZEsDGJQVqV6Tn3x+3Z2rOukBAf1jWkFB9YQ6fGUtGR4c5GScdVRwPsL8QK2cAB+c2OMRBN3EC3cZo3o6knDyOvhqb7xP7nGeiP0YoC0SiIWl8yiRgHF5scGrdxT2RoshRG6JTZGZ9tqLaj98HgRpyUMpk/YDDqf7jH28dJYgjO60pv0FPdPof4D26RDbUNZqwo/1QBRoAEW6+vNRWTS1YAQpKCBhhZSaD+wFrlvWd5R3N4o15IyI3lfxU9DhGUO+9gYgEGtZ3wE1uJfUxT+Z9MZWE2OJmZ4LKbHvdFrnuEUT0DRt8veKiEXqaEH7AZlnatqbnVF6m5f+j8EdHxejBgYR4aBewZLMnGx6B/a8qJ4qZ8MuH/cwpW/1Iap4ykxcV9OhsRHk="
 
-script: mkdir build && cd build && cmake .. && make
+script:
+    - cmake
+    - make
+    - make test
 
 
 before_install:
