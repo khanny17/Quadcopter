@@ -1,5 +1,8 @@
 #include "ComplimentaryFilter.h"
 
+using namespace boost;
+using namespace boost::posix_time;
+
 ComplimentaryFilter::ComplimentaryFilter(float K_gyro){
     if(K_gyro > 1 || K_gyro < 0){
         BOOST_LOG_TRIVIAL(info) << "WARNING: invalid value for K_gyro";
