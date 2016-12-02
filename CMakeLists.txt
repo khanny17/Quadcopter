@@ -10,8 +10,8 @@ include(cotire)
 
 add_subdirectory(src)
 
-
-
+#copy config file
+configure_file(config/config.cfg config.cfg)
 
 
 #Setup CMake to run tests

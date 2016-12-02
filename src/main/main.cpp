@@ -1,7 +1,12 @@
 #include <boost/log/trivial.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
+
+using namespace boost;
+using namespace boost::property_tree;
 
 #define FRONT_PIN 6 //TODO config this
 #define LEFT_PIN  4
@@ -22,6 +27,10 @@ int main(int argc, char **argv)
 {
     BOOST_LOG_TRIVIAL(info) << "Hello!";
 
+    //Read Config
+    ptree pt;
+    ini_parser::read_ini("config.cfg", pt);
+    
     if(setup()){
         return -1;
     }

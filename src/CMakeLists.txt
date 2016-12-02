@@ -10,6 +10,7 @@ find_package(Threads)
 SET(Boost_USE_STATIC_LIBS ON)
 SET(Boost_USE_MULTITHREADED ON)
 find_package(Boost REQUIRED COMPONENTS
+    program_options
     log
     thread
     date_time
