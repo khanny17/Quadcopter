@@ -32,4 +32,3 @@ addons:
             - cmake
             - cmake-data
             - libboost1.55-all-dev
-            - glibc
