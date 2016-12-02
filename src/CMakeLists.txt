@@ -30,7 +30,7 @@ include_directories( SYSTEM
 add_executable(Quadcopter "main/main.cpp")
 
 #specify c++11? not sure if thats what this does
-target_compile_features(Quadcopter PRIVATE cxx_range_for)
+#target_compile_features(Quadcopter PRIVATE cxx_range_for)
 
 target_link_libraries(Quadcopter
     ${CMAKE_THREAD_LIBS_INIT}
