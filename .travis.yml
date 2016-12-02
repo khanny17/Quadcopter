@@ -5,11 +5,7 @@ compiler:
     - clang
 
 script:
-    - mkdir build 
-    - cd build
-    - cmake ..
-    - make
-    - make test
+    - ./scripts/fullBuild.sh
 
 
 before_install:
