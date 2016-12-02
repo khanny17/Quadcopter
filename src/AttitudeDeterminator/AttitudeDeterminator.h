@@ -4,6 +4,8 @@
 #ifndef AttitudeDeterminator_h
 #define AttitudeDeterminator_h
 
+#include <boost/scoped_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 #include "Accelerometer.h"
 #include "Gyroscope.h"
 #include "Filter.h"
@@ -13,15 +15,16 @@
 
 class AttitudeDeterminator
 {
-  public:
-    AttitudeDeterminator(float K_GYRO);
-    void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
-  private:
-    IMUSensor* accelerometer;
-    IMUSensor* gyroscope;
-    Filter* pitchFilter;
-    Filter* rollFilter;
-    Filter* yawFilter;
+    public:
+        explicit AttitudeDeterminator(float K_GYRO);
+        void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
+    private:
+        boost::shared_ptr<IMU> m_imu;
+        boost::scoped_ptr<IMUSensor> m_accelerometer;
+        boost::scoped_ptr<IMUSensor> m_gyroscope;
+        boost::scoped_ptr<Filter> m_pitchFilter;
+        boost::scoped_ptr<Filter> m_rollFilter;
+        boost::scoped_ptr<Filter> m_yawFilter;
 };
 
 

@@ -4,6 +4,7 @@
 #ifndef Gyroscope_h
 #define Gyroscope_h
 
+#include <boost/shared_ptr.hpp>
 #include "IMUSensor.h"
 
 #define ITG3200_ADDRESS (0xD0 >> 1)
@@ -17,7 +18,7 @@
 class Gyroscope: public IMUSensor
 {
   public:
-    Gyroscope(IMU* imu);
+    Gyroscope(boost::shared_ptr<IMU> imu);
   private:
     void convert();
     void zeroData();

@@ -3,10 +3,12 @@
  */
 #include "Accelerometer.h"
 
+using namespace boost;
+
 /**
  * Call super constructor with our constant values and zero sensor
  */
-Accelerometer::Accelerometer(IMU* imu) : 
+Accelerometer::Accelerometer(shared_ptr<IMU> imu) : 
     IMUSensor(imu, ADXL345_ADDRESS, ADXL_REGISTER_PWRCTL, ADXL_PWRCTL_MEASURE, ADXL345_REGISTER_XLSB){
         initSensor();
     }

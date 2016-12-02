@@ -10,7 +10,7 @@ using namespace boost;
 /**
  * Constructs a new IMUSensor object, saving the passed values and initializing other member variables
  */
-IMUSensor::IMUSensor(IMU* t_imu, int t_address, char t_initRegister, char t_i2cWriteData, char t_readRegister){
+IMUSensor::IMUSensor(shared_ptr<IMU> t_imu, int t_address, char t_initRegister, char t_i2cWriteData, char t_readRegister){
     m_imu = t_imu;
     m_address = t_address;
     m_initRegister = t_initRegister;

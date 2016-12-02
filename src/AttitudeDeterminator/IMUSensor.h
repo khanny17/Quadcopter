@@ -7,6 +7,7 @@
 #define IMUSensor_h
 
 #include <boost/thread/thread.hpp>
+#include <boost/shared_ptr.hpp>
 #include "IMU.h"
 
 #define XAXIS 0
@@ -18,11 +19,11 @@
 class IMUSensor
 {
   public:
-    IMUSensor(IMU* imu, int address, char initRegister, char i2cWriteData, char readRegister);
+    explicit IMUSensor(boost::shared_ptr<IMU> imu, int address, char initRegister, char i2cWriteData, char readRegister);
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
     void findZero();
   protected:
-    IMU *m_imu; //pointer to an IMU object
+    boost::shared_ptr<IMU> m_imu; //pointer to an IMU object
     int m_address;
     char m_initRegister, m_i2cWriteData, m_readRegister;
     float m_data[3];

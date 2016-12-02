@@ -5,6 +5,7 @@
 #define Accelerometer_h
 
 #include <math.h>
+#include <boost/shared_ptr.hpp>
 #include "IMUSensor.h"
 
 #define ADXL345_ADDRESS (0xA6 >> 1)
@@ -14,10 +15,10 @@
 
 class Accelerometer: public IMUSensor
 {
-  public:
-    Accelerometer(IMU* imu);
-  private:
-    void convert();
+    public:
+        explicit Accelerometer(boost::shared_ptr<IMU> imu);
+    private:
+        void convert();
 };
 
 #endif
