@@ -3,6 +3,9 @@ add_subdirectory(Controller)
 add_subdirectory(Motors)
 #add_subdirectory(Utils)
 
+#Find Threads (i.e. pthread compatibility stuff)
+find_package(Threads)
+
 #include Boost
 SET(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS
@@ -30,6 +33,7 @@ add_executable(Quadcopter "main/main.cpp")
 target_compile_features(Quadcopter PRIVATE cxx_range_for)
 
 target_link_libraries(Quadcopter
+    ${CMAKE_THREAD_LIBS_INIT}
     ${Boost_LIBRARIES} 
     AttitudeDeterminator
     Controller
