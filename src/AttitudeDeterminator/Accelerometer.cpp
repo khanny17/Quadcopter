@@ -16,17 +16,17 @@ Accelerometer::Accelerometer(IMU* imu) :
  * Precondition: current values in data[] are not already in degrees
  */
 void Accelerometer::convert(){
-    float x = data[XAXIS];
-    float y = data[YAXIS];
-    float z = data[ZAXIS];
+    float x = m_data[XAXIS];
+    float y = m_data[YAXIS];
+    float z = m_data[ZAXIS];
 
     //57.29578 is 180 / pi
     float xA = tan( x / sqrt( pow(y,2)+pow(z,2) ) )  * 57.296; 
     float yA = atan2( y , sqrt( pow(x,2)+pow(z,2) ) )  * 57.296;
     float zA = atan2( sqrt( pow(y,2)+pow(x,2) ) , z  )  * 57.296;
 
-    data[XAXIS] = xA;
-    data[YAXIS] = yA;
-    data[ZAXIS] = zA;
+    m_data[XAXIS] = xA;
+    m_data[YAXIS] = yA;
+    m_data[ZAXIS] = zA;
 }
 

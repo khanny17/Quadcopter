@@ -9,8 +9,6 @@
 #include <boost/thread/thread.hpp>
 #include "IMU.h"
 
-using namespace boost;
-
 #define XAXIS 0
 #define YAXIS 1
 #define ZAXIS 2
@@ -24,11 +22,11 @@ class IMUSensor
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
     void findZero();
   protected:
-    IMU *imu; //pointer to an IMU object
-    int address;
-    char initRegister, i2cWriteData, readRegister;
-    float data[3];
-    float zero[3];
+    IMU *m_imu; //pointer to an IMU object
+    int m_address;
+    char m_initRegister, m_i2cWriteData, m_readRegister;
+    float m_data[3];
+    float m_zero[3];
     void initSensor();
     void readSensor(); //Reads in new values and calls convert
     virtual void zeroData();

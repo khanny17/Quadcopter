@@ -1,5 +1,8 @@
 #include "KalmanFilter.h"
 
+using namespace boost;
+using namespace boost::posix_time;
+
 KalmanFilter::KalmanFilter(float Q_angle, float Q_bias, float R){
     this->Q_angle = Q_angle;
     this->Q_bias = Q_bias;

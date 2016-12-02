@@ -8,29 +8,28 @@ find_package(Threads)
 
 #include Boost
 SET(Boost_USE_STATIC_LIBS ON)
+SET(Boost_USE_MULTITHREADED ON)
 find_package(Boost REQUIRED COMPONENTS
     log
     thread
     date_time
     filesystem
     system
-    )
+)
 
 include_directories( 
     AttitudeDeterminator
     Controller
     Motors
     Utils
-    )
+)
+
 include_directories( SYSTEM
     ${Boost_INCLUDE_DIRS} 
-    )
+)
 
 # add the executable
 add_executable(Quadcopter "main/main.cpp")
-
-#specify c++11? not sure if thats what this does
-#target_compile_features(Quadcopter PRIVATE cxx_range_for)
 
 target_link_libraries(Quadcopter
     ${CMAKE_THREAD_LIBS_INIT}
@@ -40,7 +39,7 @@ target_link_libraries(Quadcopter
     Motors
     #Utils
     rt
-    )
+)
 
 cotire(Quadcopter)
 

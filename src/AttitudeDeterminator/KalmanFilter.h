@@ -6,8 +6,6 @@
 
 #include "Filter.h"
 
-using namespace boost;
-using namespace boost::posix_time;
 
 struct State{
   float angle;
@@ -38,7 +36,7 @@ class KalmanFilter : public Filter
     
     float innovation, innovationCovariance;
     float Q_angle, Q_bias, R;
-    scoped_ptr<ptime> curTime, prevTime;
+    boost::scoped_ptr<boost::posix_time::ptime> curTime, prevTime;
 };
 
 #endif

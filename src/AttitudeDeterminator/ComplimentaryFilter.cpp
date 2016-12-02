@@ -3,15 +3,18 @@
 using namespace boost;
 using namespace boost::posix_time;
 
-ComplimentaryFilter::ComplimentaryFilter(float K_gyro){
+ComplimentaryFilter::ComplimentaryFilter(float t_K_gyro){
     if(K_gyro > 1 || K_gyro < 0){
         BOOST_LOG_TRIVIAL(info) << "WARNING: invalid value for K_gyro";
     }
-    this->K_gyro = K_gyro;
-    this->K_acc = 1-K_gyro;
+    K_gyro = t_K_gyro;
+    K_acc = 1-K_gyro;
     prevTime.reset();
     curTime.reset();
     pitch = 0;
+
+    accBuffer.reset(new circular_buffer<float>(ACC_BUFFER_SIZE));
+    accBuffer.reset(new circular_buffer<float>(GYRO_BUFFER_SIZE));
 }
 
 float ComplimentaryFilter::filter(float accReading, float gyroReading){
@@ -36,8 +39,16 @@ float ComplimentaryFilter::filter(float accReading, float gyroReading){
 }
 
 void ComplimentaryFilter::bufferValues(float accReading, float gyroReading, float* acc, float* gyro){
-    accBuffer.add(accReading);
-    gyroBuffer.add(gyroReading);
-    *acc = accBuffer.average();
-    *gyro = gyroBuffer.average();
+    accBuffer.get()->push_back(accReading);
+    gyroBuffer.get()->push_back(gyroReading);
+    *acc = calcAverage(*accBuffer.get());
+    *gyro = calcAverage(*gyroBuffer.get());
+}
+
+float ComplimentaryFilter::calcAverage(circular_buffer<float> buffer) {
+    float total = 0;
+    for(int i = buffer.size() - 1; i >= 0; --i) {
+        total += buffer[i];
+    }
+    return total;
 }

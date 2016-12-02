@@ -18,7 +18,6 @@ set(ATTITUDE_DETERMINATOR_SOURCES
     IMUSensor.h
     KalmanFilter.cpp
     KalmanFilter.h
-    Buffer.h
     Filter.h)
 
 add_library(AttitudeDeterminator ${ATTITUDE_DETERMINATOR_SOURCES})
