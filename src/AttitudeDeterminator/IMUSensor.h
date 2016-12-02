@@ -19,7 +19,7 @@
 class IMUSensor
 {
   public:
-    explicit IMUSensor(boost::shared_ptr<IMU> imu, int address, char initRegister, char i2cWriteData, char readRegister);
+    IMUSensor(boost::shared_ptr<IMU> imu, int address, char initRegister, char i2cWriteData, char readRegister);
     bool getData(int axis, float* data); //Puts data for an axis into passed pointer
     void findZero();
   protected:

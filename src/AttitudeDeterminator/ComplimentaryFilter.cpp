@@ -29,7 +29,7 @@ float ComplimentaryFilter::filter(float accReading, float gyroReading){
     //Integrate gyro reading:
     time_duration diff = *curTime - *prevTime;
     unsigned long delta_t = diff.total_milliseconds();
-    float dt = (float)(delta_t)/1000;
+    float dt = static_cast<float>(delta_t)/1000;
     float G = gyro*dt + pitch;
 
     prevTime.swap(curTime); //save time for next cycle

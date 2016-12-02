@@ -1,5 +1,8 @@
 #include "PID.h"
 
+using namespace boost;
+using namespace boost::posix_time;
+
 PID::PID(float proportion, float integration, float derivative){
     k_p = proportion;
     k_i = integration;
