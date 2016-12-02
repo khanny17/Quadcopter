@@ -1,18 +1,20 @@
 #include "Motors.h"
 
 using namespace boost;
+using namespace boost::property_tree;
 
-MotorController::MotorController(int f, int l, int b, int r){
+MotorController::MotorController(shared_ptr<ptree> config){
+    front.reset(new Servo(config->get<int>("Motors.FrontPin")));
+    left.reset(new Servo(config->get<int>("Motors.LeftPin")));
+    back.reset(new Servo(config->get<int>("Motors.BackPin")));
+    right.reset(new Servo(config->get<int>("Motors.RightPin")));
+
+    throttle = 0;
     frontSpd = 0;
     leftSpd = 0;
-    rightSpd = 0;
     backSpd = 0;
-    throttle = 0;
+    rightSpd = 0;
 
-    front.reset(new Servo(f));
-    left.reset(new Servo(f));
-    back.reset(new Servo(f));
-    right.reset(new Servo(f));
     sendLow(); //To initialize the motors, they need to receive a low signal
     this_thread::sleep_for(chrono::seconds(10)); //Wait ten seconds to make sure the motors read it
 }

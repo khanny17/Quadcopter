@@ -8,11 +8,6 @@
 using namespace boost;
 using namespace boost::property_tree;
 
-#define FRONT_PIN 6 //TODO config this
-#define LEFT_PIN  4
-#define BACK_PIN  5
-#define RIGHT_PIN 7
-
 AttitudeDeterminator* attitude;
 MotorController* motors;
 Controller* ctrl;
@@ -20,7 +15,7 @@ Controller* ctrl;
 float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
-int setup();
+int setup(shared_ptr<ptree> config);
 void loop();
 
 int main(int argc, char **argv) 
@@ -28,10 +23,12 @@ int main(int argc, char **argv)
     BOOST_LOG_TRIVIAL(info) << "Hello!";
 
     //Read Config
-    ptree pt;
-    ini_parser::read_ini("config.cfg", pt);
+    shared_ptr<ptree> config(new ptree);
+    ini_parser::read_ini("config.cfg", *config.get());
+
+    BOOST_LOG_TRIVIAL(info) << "Config import Success";
     
-    if(setup()){
+    if(setup(config)){
         return -1;
     }
 
@@ -41,9 +38,9 @@ int main(int argc, char **argv)
     }
 }
 
-int setup()
+int setup(shared_ptr<ptree> config)
 {
-    motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
+    motors = new MotorController(config);
     attitude = new AttitudeDeterminator(.5);
     ctrl = new Controller;
 

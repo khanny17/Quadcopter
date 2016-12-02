@@ -4,9 +4,12 @@
 #include <iostream>
 #include <boost/thread/thread.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "Servo.h"
 #include "../Utils/UtilityFunctions.h"
 
+//TODO config
 #define MOTOR_OFF   700   //Min possible signal
 #define MOTOR_MIN   800   //Min allowed motor value
 #define MOTOR_MAX  1900   //Max allowed motor value
@@ -19,7 +22,7 @@
 class MotorController
 {
     public:
-        explicit MotorController(int f, int l, int b, int r);
+        explicit MotorController(boost::shared_ptr<boost::property_tree::ptree> config);
         void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
         void printSpeeds();
         void sendLow();
