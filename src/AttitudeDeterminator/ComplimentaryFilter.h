@@ -13,7 +13,7 @@
 class ComplimentaryFilter : public Filter
 {
     public:
-        ComplimentaryFilter(float K_gyro);
+        explicit ComplimentaryFilter(float K_gyro);
         float filter(float accReading, float gyroReading);
     private:
         float K_gyro;

@@ -17,11 +17,11 @@
 
 class Gyroscope: public IMUSensor
 {
-  public:
-    Gyroscope(boost::shared_ptr<IMU> imu);
-  private:
-    void convert();
-    void zeroData();
+    public:
+        explicit Gyroscope(boost::shared_ptr<IMU> imu);
+    private:
+        void convert();
+        void zeroData();
 };
 
 #endif

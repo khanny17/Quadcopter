@@ -27,15 +27,15 @@ class KalmanFilter : public Filter
     void calcAPosterioriEstimate();
     void calcAPosterioriCovariance();
   
-    State aPrioriEstimate;
-    State aPosterioriEstimate; //Used as the previousEstimate for next cycle
-    float aPrioriCovariance[2][2];
-    float aPosterioriCovariance[2][2]; //Used as previousCovariance for next cycle
+    State m_aPrioriEstimate;
+    State m_aPosterioriEstimate; //Used as the previousEstimate for next cycle
+    float m_aPrioriCovariance[2][2];
+    float m_aPosterioriCovariance[2][2]; //Used as previousCovariance for next cycle
 
-    State kalmanGain;
+    State m_kalmanGain;
     
-    float innovation, innovationCovariance;
-    float Q_angle, Q_bias, R;
+    float m_innovation, m_innovationCovariance;
+    float m_Q_angle, m_Q_bias, m_R;
     boost::scoped_ptr<boost::posix_time::ptime> curTime, prevTime;
 };
 

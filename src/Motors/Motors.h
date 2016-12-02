@@ -3,10 +3,9 @@
 
 #include <iostream>
 #include <boost/thread/thread.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "Servo.h"
 #include "../Utils/UtilityFunctions.h"
-
-using namespace boost;
 
 #define MOTOR_OFF   700   //Min possible signal
 #define MOTOR_MIN   800   //Min allowed motor value
@@ -20,7 +19,7 @@ using namespace boost;
 class MotorController
 {
     public:
-        MotorController(int f, int l, int b, int r);
+        explicit MotorController(int f, int l, int b, int r);
         void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
         void printSpeeds();
         void sendLow();
@@ -28,7 +27,7 @@ class MotorController
 
     private:
         void writeSpeeds(); 
-        Servo *front, *left, *back, *right;
+        boost::scoped_ptr<Servo> front, left, back, right;
         int frontSpd, leftSpd, rightSpd, backSpd, throttle;
 };
 

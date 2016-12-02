@@ -1,10 +1,18 @@
 #include "Motors.h"
 
+using namespace boost;
+
 MotorController::MotorController(int f, int l, int b, int r){
-    front = new Servo(f);
-    left = new Servo(f);
-    back = new Servo(f);
-    right = new Servo(f);
+    frontSpd = 0;
+    leftSpd = 0;
+    rightSpd = 0;
+    backSpd = 0;
+    throttle = 0;
+
+    front.reset(new Servo(f));
+    left.reset(new Servo(f));
+    back.reset(new Servo(f));
+    right.reset(new Servo(f));
     sendLow(); //To initialize the motors, they need to receive a low signal
     this_thread::sleep_for(chrono::seconds(10)); //Wait ten seconds to make sure the motors read it
 }

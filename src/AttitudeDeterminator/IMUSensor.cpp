@@ -42,7 +42,7 @@ bool IMUSensor::getData(int axis, float* t_data){
  * Talks to IMU and initializes sensor
  */
 void IMUSensor::initSensor(){
-    char data = 0;
+    //char data = 0;
     m_imu->i2cWrite(m_address, m_initRegister, m_i2cWriteData);
     //Use to check what we just wrote: imu->i2cRead(address, initRegister, 1, &data);
     findZero();

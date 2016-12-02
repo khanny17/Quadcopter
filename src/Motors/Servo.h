@@ -4,7 +4,7 @@
 class Servo
 {
     public:
-        Servo(int pin);
+        explicit Servo(int pin);
         void writeMicroseconds(int micros);
 
     private:
