@@ -6,6 +6,7 @@
 
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "Accelerometer.h"
 #include "Gyroscope.h"
 #include "Filter.h"
@@ -16,7 +17,7 @@
 class AttitudeDeterminator
 {
     public:
-        explicit AttitudeDeterminator(float K_GYRO);
+        explicit AttitudeDeterminator(boost::shared_ptr<boost::property_tree::ptree> config);
         void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
     private:
         boost::shared_ptr<IMU> m_imu;

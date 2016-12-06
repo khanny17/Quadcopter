@@ -3,18 +3,21 @@
  */
 #include "AttitudeDeterminator.h"
 
+using namespace boost;
+using namespace boost::property_tree;
+
 /**
  * Instantiates sensors and filter
  */
-AttitudeDeterminator::AttitudeDeterminator(float K_GYRO){
+AttitudeDeterminator::AttitudeDeterminator(shared_ptr<ptree> config){
     m_imu.reset(new IMU);
-    m_accelerometer.reset(new Accelerometer(m_imu));
-    m_gyroscope.reset(new Gyroscope(m_imu));
+    m_accelerometer.reset(new Accelerometer(m_imu, config));
+    m_gyroscope.reset(new Gyroscope(m_imu, config));
 
     //pitchFilter = new ComplimentaryFilter(K_GYRO);
     m_pitchFilter.reset(new KalmanFilter(1,1,1));
-    m_rollFilter.reset(new ComplimentaryFilter(K_GYRO));
-    m_yawFilter.reset(new ComplimentaryFilter(K_GYRO));
+    m_rollFilter.reset(new ComplimentaryFilter(config->get<double>("Filters.K_GYRO")));
+    m_yawFilter.reset(new ComplimentaryFilter(config->get<double>("Filters.K_GYRO")));
 }
 
 /**

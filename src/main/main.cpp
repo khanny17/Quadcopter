@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 int setup(shared_ptr<ptree> config)
 {
     motors = new MotorController(config);
-    attitude = new AttitudeDeterminator(.5);
+    attitude = new AttitudeDeterminator(config);
     ctrl = new Controller;
 
 
