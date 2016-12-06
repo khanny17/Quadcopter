@@ -45,7 +45,7 @@ int setup(shared_ptr<ptree> config)
     ctrl = new Controller;
 
 
-    BOOST_LOG_TRIVIAL(info) << "Configuration Complete";
+    BOOST_LOG_TRIVIAL(info) << "Setup Complete";
 
     return 0;
 }

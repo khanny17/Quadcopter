@@ -5,6 +5,7 @@ compiler:
     - clang
 
 script:
+    - chmod +x scripts/fullBuild.sh
     - ./scripts/fullBuild.sh
 
 
