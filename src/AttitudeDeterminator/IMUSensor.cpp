@@ -17,10 +17,8 @@ IMUSensor::IMUSensor(shared_ptr<IMU> t_imu, int t_address, char t_initRegister, 
     m_i2cWriteData = t_i2cWriteData;
     m_readRegister = t_readRegister;
     //Set data and zero values to 0
-    for(int i = 0; i < 3; ++i){
-        m_data[i] = 0;
-        m_zero[i] = 0;
-    }
+    m_data = { 0, 0, 0 };
+    m_zero = { 0, 0, 0 };
 }
 
 /**
@@ -28,14 +26,8 @@ IMUSensor::IMUSensor(shared_ptr<IMU> t_imu, int t_address, char t_initRegister, 
  * Returns: true if successfully executed
  *          false if invalid axis given
  */
-bool IMUSensor::getData(int axis, float* t_data){
+PRY IMUSensor::getData(){
     readSensor();
-    if(axis == XAXIS || axis == YAXIS || axis == ZAXIS){
-        *t_data = m_data[axis];
-        return true;
-    } else {
-        return false;
-    }
 }
 
 /**
@@ -56,9 +48,11 @@ void IMUSensor::readSensor(){
 
     m_imu->i2cRead(m_address, m_readRegister, 6, chars);
 
-    for (int i = 0; i < 3; ++i) {
-        m_data[i] = (int)chars[2*i] + (((int)chars[2*i + 1]) << 8);
-    }
+    m_data.roll  = (int)chars[0] + (((int)chars[1]) << 8);
+    m_data.pitch = (int)chars[2] + (((int)chars[3]) << 8);
+    m_data.yaw   = (int)chars[4] + (((int)chars[5]) << 8);
+
+
     convert();
     zeroData();
 }
@@ -67,25 +61,25 @@ void IMUSensor::readSensor(){
  * Zero the data based on our previous values for zero
  */
 void IMUSensor::zeroData(){
-    m_data[XAXIS] -= m_zero[XAXIS];
-    m_data[YAXIS] -= m_zero[YAXIS];
-    m_data[ZAXIS] -= m_zero[ZAXIS];
+    m_data.roll  -= m_zero.roll;
+    m_data.pitch -= m_zero.pitch;
+    m_data.yaw   -= m_zero.yaw;
 }
 
 /**
  * Get sensor reading when quadcopter is perfectly flat and not moving and save as 0 value
  */
 void IMUSensor::findZero(){
-    float x = 0, y = 0, z = 0;
+    double x = 0, y = 0, z = 0;
     for(int i = 0; i < ZERO_SAMPLE_COUNT; ++i){
         readSensor();
-        x += m_data[XAXIS];
-        y += m_data[YAXIS];
-        z += m_data[ZAXIS];
+        x += m_data.roll;
+        y += m_data.pitch;
+        z += m_data.yaw;
         this_thread::sleep_for(chrono::milliseconds(10));
     }
 
-    m_zero[XAXIS] = x/ZERO_SAMPLE_COUNT;
-    m_zero[YAXIS] = y/ZERO_SAMPLE_COUNT;
-    m_zero[ZAXIS] = z/ZERO_SAMPLE_COUNT;
+    m_zero.roll  = x/ZERO_SAMPLE_COUNT;
+    m_zero.pitch = y/ZERO_SAMPLE_COUNT;
+    m_zero.yaw   = z/ZERO_SAMPLE_COUNT;
 }

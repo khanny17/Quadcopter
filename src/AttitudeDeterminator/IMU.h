@@ -6,14 +6,20 @@
 #ifndef IMU_h
 #define IMU_h
 
-//#include "Wire.h"
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <boost/log/trivial.hpp>
 
 class IMU
 {
-  public:
-    IMU();
-    void i2cWrite(int address, char reg, char data);
-    void i2cRead(int address, char reg, int count, char *data);
+    public:
+        IMU();
+        void i2cWrite(int address, char reg, char data);
+        void i2cRead(int address, char reg, int count, char *data);
+    private:
+        int m_fd;
 };
 
 #endif

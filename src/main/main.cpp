@@ -1,6 +1,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
@@ -8,14 +9,13 @@
 using namespace boost;
 using namespace boost::property_tree;
 
-AttitudeDeterminator* attitude;
-MotorController* motors;
-Controller* ctrl;
+scoped_ptr<AttitudeDeterminator> attitudeDeterminator;
+scoped_ptr<MotorController> motors;
+scoped_ptr<Controller> ctrl;
 
-float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
-int setup(shared_ptr<ptree> config);
+void setup(shared_ptr<ptree> config);
 void loop();
 
 int main(int argc, char **argv) 
@@ -28,9 +28,14 @@ int main(int argc, char **argv)
 
     BOOST_LOG_TRIVIAL(info) << "Config import Success";
     
-    if(setup(config)){
-        return -1;
+    try {
+        setup(config);
     }
+    catch(std::string e) {
+        BOOST_LOG_TRIVIAL(fatal) << e;
+        exit(1);
+    }
+    
 
     while(1)
     {
@@ -38,27 +43,25 @@ int main(int argc, char **argv)
     }
 }
 
-int setup(shared_ptr<ptree> config)
+void setup(shared_ptr<ptree> config)
 {
-    motors = new MotorController(config);
-    attitude = new AttitudeDeterminator(config);
-    ctrl = new Controller;
-
+    attitudeDeterminator.reset(new AttitudeDeterminator(config));
+    ctrl.reset(new Controller);
+    motors.reset(new MotorController(config));
 
     BOOST_LOG_TRIVIAL(info) << "Setup Complete";
-
-    return 0;
 }
 
 void loop()
 {
     //Get current sensor readings
-    attitude->getAttitude(&pitch, &roll, &yaw);
-    BOOST_LOG_TRIVIAL(info) << "Reading: " << pitch;
+    auto attitude = attitudeDeterminator->getAttitude();
+    BOOST_LOG_TRIVIAL(info) << "Pitch: " << attitude.pitch;
 
     //Calculate corrections
-    ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
+    //ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
 
     //Adjust motor speeds
-    motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
+    //motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
 }
+

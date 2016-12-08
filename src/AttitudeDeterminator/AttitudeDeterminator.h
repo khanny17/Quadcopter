@@ -4,6 +4,8 @@
 #ifndef AttitudeDeterminator_h
 #define AttitudeDeterminator_h
 
+#include <thread>
+#include <boost/log/trivial.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -18,8 +20,12 @@ class AttitudeDeterminator
 {
     public:
         explicit AttitudeDeterminator(boost::shared_ptr<boost::property_tree::ptree> config);
-        void getAttitude(float* pitch, float* roll, float* yaw); //fills passed pointers with angle values
+        PRY getAttitude(); 
     private:
+        void updateAttitudeThread();
+        volatile bool m_run; //Used to stop thread cleanly
+        PRY m_attitude;
+        boost::scoped_ptr<std::thread> m_thread;
         boost::shared_ptr<IMU> m_imu;
         boost::scoped_ptr<IMUSensor> m_accelerometer;
         boost::scoped_ptr<IMUSensor> m_gyroscope;
