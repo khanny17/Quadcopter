@@ -22,9 +22,9 @@ Gyroscope::Gyroscope(shared_ptr<IMU> imu, shared_ptr<ptree> config) :
  * Converts Gyroscope to degrees per second by dividing by a scaling factor
  */
 void Gyroscope::convert(){
-    m_data[XAXIS] /= GYRO_RAW_SCALING_FACTOR;
-    m_data[YAXIS] /= GYRO_RAW_SCALING_FACTOR;
-    m_data[ZAXIS] /= GYRO_RAW_SCALING_FACTOR;
+    m_data.roll /= GYRO_RAW_SCALING_FACTOR;
+    m_data.pitch /= GYRO_RAW_SCALING_FACTOR;
+    m_data.yaw /= GYRO_RAW_SCALING_FACTOR;
 }
 
 /**

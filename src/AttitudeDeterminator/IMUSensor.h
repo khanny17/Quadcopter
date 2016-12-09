@@ -12,10 +12,10 @@
 
 #define ZERO_SAMPLE_COUNT 10 //number of samples to take when zeroing the sensor
 
-struct PRY
+typedef struct PRY
 {
     double pitch, roll, yaw;
-}
+} PRY;
 
 class IMUSensor
 {
