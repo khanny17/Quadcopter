@@ -1,6 +1,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include <boost/scoped_ptr.hpp>
 #include "AttitudeDeterminator.h"
 #include "Motors.h"
 #include "Controller.h"
@@ -8,19 +9,13 @@
 using namespace boost;
 using namespace boost::property_tree;
 
-#define FRONT_PIN 6 //TODO config this
-#define LEFT_PIN  4
-#define BACK_PIN  5
-#define RIGHT_PIN 7
+scoped_ptr<AttitudeDeterminator> attitudeDeterminator;
+scoped_ptr<MotorController> motors;
+scoped_ptr<Controller> ctrl;
 
-AttitudeDeterminator* attitude;
-MotorController* motors;
-Controller* ctrl;
-
-float pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
-int setup();
+void setup(shared_ptr<ptree> config);
 void loop();
 
 int main(int argc, char **argv) 
@@ -28,12 +23,19 @@ int main(int argc, char **argv)
     BOOST_LOG_TRIVIAL(info) << "Hello!";
 
     //Read Config
-    ptree pt;
-    ini_parser::read_ini("config.cfg", pt);
+    shared_ptr<ptree> config(new ptree);
+    ini_parser::read_ini("config.cfg", *config.get());
+
+    BOOST_LOG_TRIVIAL(info) << "Config import Success";
     
-    if(setup()){
-        return -1;
+    try {
+        setup(config);
     }
+    catch(std::string e) {
+        BOOST_LOG_TRIVIAL(fatal) << e;
+        exit(1);
+    }
+    
 
     while(1)
     {
@@ -41,27 +43,25 @@ int main(int argc, char **argv)
     }
 }
 
-int setup()
+void setup(shared_ptr<ptree> config)
 {
-    motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-    attitude = new AttitudeDeterminator(.5);
-    ctrl = new Controller;
+    attitudeDeterminator.reset(new AttitudeDeterminator(config));
+    ctrl.reset(new Controller);
+    motors.reset(new MotorController(config));
 
-
-    BOOST_LOG_TRIVIAL(info) << "Configuration Complete";
-
-    return 0;
+    BOOST_LOG_TRIVIAL(info) << "Setup Complete";
 }
 
 void loop()
 {
     //Get current sensor readings
-    attitude->getAttitude(&pitch, &roll, &yaw);
-    BOOST_LOG_TRIVIAL(info) << "Reading: " << pitch;
+    auto attitude = attitudeDeterminator->getAttitude();
+    BOOST_LOG_TRIVIAL(info) << "Pitch: " << attitude.pitch;
 
     //Calculate corrections
-    ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
+    //ctrl->calcPryCorrection(pitch, roll, yaw, &pitchCorrection, &rollCorrection, &yawCorrection);
 
     //Adjust motor speeds
-    motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
+    //motors->adjustSpeeds(pitchCorrection, rollCorrection, yawCorrection, 0); //Update motor with correction
 }
+

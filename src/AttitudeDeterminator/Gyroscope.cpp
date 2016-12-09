@@ -1,12 +1,20 @@
 #include "Gyroscope.h"
 
 using namespace boost;
+using namespace boost::property_tree;
 
 /**
  * Call super constructor with our constant values,
  */
-Gyroscope::Gyroscope(shared_ptr<IMU> imu) : 
-    IMUSensor(imu, ITG3200_ADDRESS, ITG3200_REGISTER_DLPF_FS, ITG3200_FULLSCALE | ITG3200_42HZ, ITG3200_REGISTER_XMSB){
+Gyroscope::Gyroscope(shared_ptr<IMU> imu, shared_ptr<ptree> config) : 
+    IMUSensor(imu, 
+        config->get<int>("Gyroscope.ITG3200_ADDRESS"), 
+        config->get<int>("Gyroscope.ITG3200_REGISTER_DLPF_FS"), 
+        config->get<int>("Gyroscope.ITG3200_FULLSCALE") | 
+        config->get<int>("Gyroscope.ITG3200_42HZ"), 
+        config->get<int>("Gyroscope.ITG3200_REGISTER_XMSB"))
+    {
+        GYRO_RAW_SCALING_FACTOR = config->get<double>("Gyroscope.GYRO_RAW_SCALING_FACTOR");
         initSensor();
     }
 
@@ -23,3 +31,4 @@ void Gyroscope::convert(){
  * Override zero functionality to do nothing
  */
 void Gyroscope::zeroData(){};
+

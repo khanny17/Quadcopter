@@ -5,23 +5,18 @@
 #define Gyroscope_h
 
 #include <boost/shared_ptr.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "IMUSensor.h"
-
-#define ITG3200_ADDRESS (0xD0 >> 1)
-#define ITG3200_REGISTER_XMSB (0x1D)
-#define ITG3200_REGISTER_DLPF_FS (0x16)
-#define ITG3200_FULLSCALE (0x03 << 3)
-#define ITG3200_42HZ (0x03) //TODO THIS WAS ORIGINALLY (0x03)
-
-#define GYRO_RAW_SCALING_FACTOR 14.375
 
 class Gyroscope: public IMUSensor
 {
     public:
-        explicit Gyroscope(boost::shared_ptr<IMU> imu);
+        Gyroscope(boost::shared_ptr<IMU> imu,
+                  boost::shared_ptr<boost::property_tree::ptree> config);
     private:
         void convert();
         void zeroData();
+        double GYRO_RAW_SCALING_FACTOR;
 };
 
 #endif

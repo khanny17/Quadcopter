@@ -3,31 +3,42 @@
  */
 #include "AttitudeDeterminator.h"
 
+using namespace boost;
+using namespace boost::property_tree;
+
 /**
  * Instantiates sensors and filter
  */
-AttitudeDeterminator::AttitudeDeterminator(float K_GYRO){
+AttitudeDeterminator::AttitudeDeterminator(shared_ptr<ptree> config){
     m_imu.reset(new IMU);
-    m_accelerometer.reset(new Accelerometer(m_imu));
-    m_gyroscope.reset(new Gyroscope(m_imu));
+    m_accelerometer.reset(new Accelerometer(m_imu, config));
+    m_gyroscope.reset(new Gyroscope(m_imu, config));
 
     //pitchFilter = new ComplimentaryFilter(K_GYRO);
     m_pitchFilter.reset(new KalmanFilter(1,1,1));
-    m_rollFilter.reset(new ComplimentaryFilter(K_GYRO));
-    m_yawFilter.reset(new ComplimentaryFilter(K_GYRO));
+    m_rollFilter.reset(new ComplimentaryFilter(config->get<double>("Filters.K_GYRO")));
+    m_yawFilter.reset(new ComplimentaryFilter(config->get<double>("Filters.K_GYRO")));
+
+    //Start thread
+    m_thread.reset(new std::thread(&AttitudeDeterminator::updateAttitudeThread, this));
 }
 
-/**
- *  Fills passed pointers with their respective angle readings
- */
-void AttitudeDeterminator::getAttitude(float* pitch, float* roll, float* yaw){
-    float accPitchReading, gyroPitchReading;
-    m_accelerometer->getData(YAXIS, &accPitchReading);
-    m_gyroscope->getData(YAXIS, &gyroPitchReading);
+void AttitudeDeterminator::updateAttitudeThread(){
+    m_run = true;
+    BOOST_LOG_TRIVIAL(info) << "Entering AttitudeDeterminator update thread";
 
-    *pitch = m_pitchFilter->filter(accPitchReading, gyroPitchReading);
-    *roll = 0;
-    *yaw = 0;
+    while(m_run){
+        PRY acc = m_accelerometer->getData();
+        PRY gyro = m_gyroscope->getData();
+
+        m_attitude.pitch = m_pitchFilter->filter(acc.pitch, gyro.pitch);
+        m_attitude.roll = 0; //TODO implement these two
+        m_attitude.yaw = 0;
+    }
+
+    BOOST_LOG_TRIVIAL(warning) << "Exiting AttitudeDeterminator update thread";
 }
 
-
+PRY AttitudeDeterminator::getAttitude(){
+    return m_attitude;
+}

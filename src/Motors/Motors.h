@@ -1,25 +1,19 @@
 #ifndef Motors_h
 #define Motors_h
 
+#include <cstdint>
 #include <iostream>
 #include <boost/thread/thread.hpp>
 #include <boost/scoped_ptr.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include "Servo.h"
 #include "../Utils/UtilityFunctions.h"
-
-#define MOTOR_OFF   700   //Min possible signal
-#define MOTOR_MIN   800   //Min allowed motor value
-#define MOTOR_MAX  1900   //Max allowed motor value
-#define MOTOR_FULL 2000   //Max possible signal
-
-#define MIN_THROTTLE 1000
-#define MAX_THROTTLE 1001          //160 so we can increment up to 180 with PRY displacement
-#define THROTTLE_INCREMENT 10     //the max amount to increment the throttle by each time
 
 class MotorController
 {
     public:
-        explicit MotorController(int f, int l, int b, int r);
+        explicit MotorController(boost::shared_ptr<boost::property_tree::ptree> config);
         void adjustSpeeds(int pitchCorrection, int rollCorrection, int yawCorrection, int verticalVelocityError);
         void printSpeeds();
         void sendLow();
@@ -27,8 +21,11 @@ class MotorController
 
     private:
         void writeSpeeds(); 
-        boost::scoped_ptr<Servo> front, left, back, right;
-        int frontSpd, leftSpd, rightSpd, backSpd, throttle;
+        boost::shared_ptr<boost::property_tree::ptree> m_config;
+        boost::scoped_ptr<Servo> m_front, m_left, m_back, m_right;
+        int m_frontSpd, m_leftSpd, m_rightSpd, m_backSpd, m_throttle;
+
+        int MOTOR_MAX, MOTOR_MIN, THROTTLE_INCREMENT, MAX_THROTTLE, MIN_THROTTLE;
 };
 
 #endif
