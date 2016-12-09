@@ -28,7 +28,7 @@ float ComplimentaryFilter::filter(float accReading, float gyroReading){
 
     //Integrate gyro reading:
     time_duration diff = *curTime - *prevTime;
-    unsigned long delta_t = diff.total_milliseconds();
+    auto delta_t = diff.total_milliseconds();
     float dt = static_cast<float>(delta_t)/1000;
     float G = gyro*dt + pitch;
 
@@ -46,7 +46,7 @@ void ComplimentaryFilter::bufferValues(float accReading, float gyroReading, floa
 }
 
 float ComplimentaryFilter::calcAverage(circular_buffer<float> buffer) {
-    float total = 0;
+    float total = 0.0;
     for(int i = buffer.size() - 1; i >= 0; --i) {
         total += buffer[i];
     }
