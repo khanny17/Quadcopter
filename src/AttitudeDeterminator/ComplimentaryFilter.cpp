@@ -28,7 +28,7 @@ double ComplimentaryFilter::filter(double accReading, double gyroReading){
 
     //Integrate gyro reading:
     time_duration diff = *curTime - *prevTime;
-    unsigned long delta_t = diff.total_milliseconds();
+    auto delta_t = diff.total_milliseconds();
     double dt = static_cast<double>(delta_t)/1000;
     double G = gyro*dt + pitch;
 
