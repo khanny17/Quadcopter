@@ -20,4 +20,7 @@ set(ATTITUDE_DETERMINATOR_SOURCES
     KalmanFilter.h
     Filter.h)
 
+find_package(Boost REQUIRED)
+include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
+
 add_library(AttitudeDeterminator ${ATTITUDE_DETERMINATOR_SOURCES})

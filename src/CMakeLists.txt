@@ -16,18 +16,26 @@ find_package(Boost REQUIRED COMPONENTS
     date_time
     filesystem
     system
-)
+    )
+
+if (NOT Boost_FOUND)
+    message(FATAL_ERROR "Fatal error: Boost required.")
+else()
+    message(STATUS "Setting up BOOST")
+    message(STATUS " Includes - ${Boost_INCLUDE_DIRS}")
+    message(STATUS " Library  - ${Boost_LIBRARY_DIRS}")
+    #include_directories(${Boost_INCLUDE_DIRS})
+    #link_directories(${Boost_LIBRARY_DIRS})
+endif (NOT Boost_FOUND)
 
 include_directories( 
     AttitudeDeterminator
     Controller
     Motors
     Utils
-)
+    )
 
-include_directories( SYSTEM
-    ${Boost_INCLUDE_DIRS} 
-)
+include_directories( SYSTEM ${Boost_INCLUDE_DIRS} )
 
 # add the executable
 add_executable(Quadcopter "main/main.cpp")
@@ -40,7 +48,7 @@ target_link_libraries(Quadcopter
     Motors
     #Utils
     rt
-)
+    )
 
 cotire(Quadcopter)
 

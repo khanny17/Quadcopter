@@ -13,17 +13,17 @@
 class ComplimentaryFilter : public Filter
 {
     public:
-        explicit ComplimentaryFilter(float K_gyro);
-        float filter(float accReading, float gyroReading);
+        explicit ComplimentaryFilter(double K_gyro);
+        double filter(double accReading, double gyroReading) override;
     private:
-        float K_gyro;
-        float K_acc;
-        float pitch;
+        double K_gyro;
+        double K_acc;
+        double pitch;
         boost::scoped_ptr<boost::posix_time::ptime> curTime, prevTime;
-        boost::scoped_ptr<boost::circular_buffer<float>> accBuffer;
-        boost::scoped_ptr<boost::circular_buffer<float>> gyroBuffer;
-        void bufferValues(float accReading, float gyroReading, float* acc, float* gyro);
-        float calcAverage(boost::circular_buffer<float> buffer);
+        boost::scoped_ptr<boost::circular_buffer<double>> accBuffer;
+        boost::scoped_ptr<boost::circular_buffer<double>> gyroBuffer;
+        void bufferValues(double accReading, double gyroReading, double* acc, double* gyro);
+        double calcAverage(boost::circular_buffer<double> buffer);
 };
 
 

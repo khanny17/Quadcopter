@@ -23,17 +23,17 @@ Accelerometer::Accelerometer(shared_ptr<IMU> imu, shared_ptr<ptree> config) :
  * Precondition: current values in data[] are not already in degrees
  */
 void Accelerometer::convert(){
-    auto x = m_data[XAXIS];
-    auto y = m_data[YAXIS];
-    auto z = m_data[ZAXIS];
+    auto x = m_data.roll;
+    auto y = m_data.pitch;
+    auto z = m_data.yaw;
 
     //57.29578 is 180 / pi
     auto xA = tan( x / sqrt( pow(y,2)+pow(z,2) ) )  * 57.296; 
     auto yA = atan2( y , sqrt( pow(x,2)+pow(z,2) ) )  * 57.296;
     auto zA = atan2( sqrt( pow(y,2)+pow(x,2) ) , z  )  * 57.296;
 
-    m_data[XAXIS] = xA;
-    m_data[YAXIS] = yA;
-    m_data[ZAXIS] = zA;
+    m_data.roll = xA;
+    m_data.pitch = yA;
+    m_data.yaw = zA;
 }
 

@@ -17,7 +17,7 @@ class KalmanFilter : public Filter
     public:
         KalmanFilter(float Q_angle, float Q_bias, float R);
         void init(float initial, float P_00, float P_11);
-        float filter(float accReading, float gyroReading);
+        double filter(double accReading, double gyroReading) override;
     private:
         void predictAPrioriEstimate(float gyroReading, float delta_t);
         void predictAPrioriCovariance(float delta_t);

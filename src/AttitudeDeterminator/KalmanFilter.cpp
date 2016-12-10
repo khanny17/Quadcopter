@@ -40,7 +40,7 @@ void KalmanFilter::init(float initial, float P_00, float P_11){
     m_aPosterioriCovariance[1][1] = P_11;
 }
 
-float KalmanFilter::filter(float accReading, float gyroReading){
+double KalmanFilter::filter(double accReading, double gyroReading){
     curTime.reset(new ptime(microsec_clock::local_time()));
 
     //Integrate gyro reading:

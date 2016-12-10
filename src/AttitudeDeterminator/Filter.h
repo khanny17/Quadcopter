@@ -7,7 +7,7 @@
 class Filter
 {
   public:
-    virtual float filter(float accReading, float gyroReading) = 0;
+    virtual double filter(double accReading, double gyroReading) = 0;
 };
 
 #endif

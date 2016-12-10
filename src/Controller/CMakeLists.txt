@@ -7,4 +7,7 @@ set(CONTROLLER_SOURCES
     PID.cpp
     PID.h)
 
+find_package(Boost REQUIRED)
+include_directories (SYSTEM ${Boost_INCLUDE_DIRS})
+
 add_library(Controller ${CONTROLLER_SOURCES})
