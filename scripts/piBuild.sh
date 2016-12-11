@@ -12,7 +12,7 @@ checkExit () {
 
 if [ -d "build" ]; then
     echo "Cleaning build/"
-    rm -rf piBuild
+    rm -rf build
 fi
 
 mkdir build
