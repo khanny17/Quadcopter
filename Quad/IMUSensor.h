@@ -19,7 +19,7 @@ class IMUSensor
 {
   public:
     IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister);
-    bool getData(int axis, float* data); //Puts data for an axis into passed pointer
+    bool getData(int axis, double* data); //Puts data for an axis into passed pointer
     void findZero();
   protected:
     IMU *imu; //pointer to an IMU object

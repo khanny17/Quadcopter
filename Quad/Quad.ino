@@ -14,14 +14,14 @@ AttitudeDeterminator* attitude;
 MotorController* motors;
 Controller* ctrl;
 
-float pitch, roll, yaw;
+double pitch, roll, yaw;
 int pitchCorrection, rollCorrection, yawCorrection;
 
 void setup() {
   Serial.begin(9600);
   
   motors = new MotorController(FRONT_PIN, LEFT_PIN, BACK_PIN, RIGHT_PIN);
-  attitude = new AttitudeDeterminator(.5);
+  attitude = new AttitudeDeterminator(.9);
   ctrl = new Controller;
   
 
@@ -35,7 +35,14 @@ void loop() {
   }
   if(c == 'G'){
     //Get current sensor readings
-    attitude->getAttitude(&pitch, &roll, &yaw);
+    boolean validReading = attitude->getAttitude(&pitch, &roll, &yaw);
+
+    if(!validReading) {
+        motors->sendLow();
+        Serial.print("INVALID Reading: "); Serial.print(pitch); Serial.print('\n');
+        return;
+    }
+    
     Serial.print("Reading: "); Serial.print(pitch); Serial.print('\n');
     
     //Calculate corrections

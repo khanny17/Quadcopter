@@ -11,16 +11,16 @@
 class ComplimentaryFilter : public Filter
 {
   public:
-    ComplimentaryFilter(float K_gyro);
-    float filter(float accReading, float gyroReading);
+    ComplimentaryFilter(double K_gyro);
+    double filter(double accReading, double gyroReading);
   private:
-    float K_gyro;
-    float K_acc;
-    float pitch;
+    double K_gyro;
+    double K_acc;
+    double pitch;
     unsigned long prevTime;
-    Buffer<float> accBuffer{ACC_BUFFER_SIZE};
-    Buffer<float> gyroBuffer{GYRO_BUFFER_SIZE};
-    void bufferValues(float accReading, float gyroReading, float* acc, float* gyro);
+    Buffer<double> accBuffer{ACC_BUFFER_SIZE};
+    Buffer<double> gyroBuffer{GYRO_BUFFER_SIZE};
+    void bufferValues(double accReading, double gyroReading, double* acc, double* gyro);
 };
 
 #endif
