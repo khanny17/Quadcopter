@@ -10,7 +10,10 @@
 #define ITG3200_REGISTER_XMSB (0x1D)
 #define ITG3200_REGISTER_DLPF_FS (0x16)
 #define ITG3200_FULLSCALE (0x03 << 3)
-#define ITG3200_42HZ (0x03) //TODO THIS WAS ORIGINALLY (0x03)
+#define ITG3200_42HZ (0x03) //The original Low Pass Filter value
+#define ITG3200_10HZ (0x05) //Something I am trying now
+#define ITG3200_256HZ (0x00) //Something I am trying now
+
 
 #define GYRO_RAW_SCALING_FACTOR 14.375
 
@@ -18,9 +21,10 @@ class Gyroscope: public IMUSensor
 {
   public:
     Gyroscope(IMU* imu);
+    void findZero();
   private:
-    void convert();
-    void zeroData();
+    XYZ<double> convert(const XYZ<int>& readings);
+    void zeroData(XYZ<double>& readings);
 };
 
 #endif

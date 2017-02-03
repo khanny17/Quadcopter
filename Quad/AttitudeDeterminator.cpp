@@ -10,6 +10,7 @@ AttitudeDeterminator::AttitudeDeterminator(double K_GYRO){
   IMU* imu;
   imu = new IMU;
   accelerometer = new Accelerometer(imu);
+  Serial.println("Acc created");
   gyroscope = new Gyroscope(imu);
   
   pitchFilter = new ComplimentaryFilter(K_GYRO);
@@ -22,16 +23,13 @@ AttitudeDeterminator::AttitudeDeterminator(double K_GYRO){
 /**
  *  Fills passed pointers with their respective angle readings
  */
-boolean AttitudeDeterminator::getAttitude(double* pitch, double* roll, double* yaw){
-  double accPitchReading, gyroPitchReading;
-  boolean accSuccess = accelerometer->getData(YAXIS, &accPitchReading);
-  boolean gyroSuccess = gyroscope->getData(YAXIS, &gyroPitchReading);
+void AttitudeDeterminator::getAttitude(double* pitch, double* roll, double* yaw){
+  XYZ<double> acc = accelerometer->updateAndGetData();
+  XYZ<double> gyro = gyroscope->updateAndGetData();
   
-  *pitch = pitchFilter->filter(accPitchReading, gyroPitchReading);
+  *pitch = pitchFilter->filter(acc.y, gyro.y);
   *roll = 0;
   *yaw = 0;
-
-  return accSuccess && gyroSuccess;
 }
 
 

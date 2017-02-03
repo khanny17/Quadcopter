@@ -20,11 +20,7 @@ double ComplimentaryFilter::filter(double accReading, double gyroReading){
   //Integrate gyro reading:
   double dt = (double)(millis()-prevTime)/1000;
   double G = gyro*dt + pitch;
-
-  //Lets Low pass filter the gyro reading
-  if((gyro*dt) <  10){
-     G = pitch; //If its too low, assume nothing has changed
-  }
+  Serial.println(gyro*dt);
   
   prevTime = millis(); //save time for next cycle
   pitch = K_gyro * G + K_acc * acc; //save pitch

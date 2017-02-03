@@ -6,8 +6,8 @@
 class Controller
 {
   public:
-    void calcPryCorrection(float pitch, float roll, float yaw, int* pitchCorrection, int* rollCorrection, int* yawCorrection);
-    void setDesiredPry(float pitch, float roll, float yaw);
+    void calcPryCorrection(double pitch, double roll, double yaw, int* pitchCorrection, int* rollCorrection, int* yawCorrection);
+    void setDesiredPry(double pitch, double roll, double yaw);
     void reset();
 };
 

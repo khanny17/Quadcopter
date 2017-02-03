@@ -16,7 +16,7 @@ class AttitudeDeterminator
 {
   public:
     AttitudeDeterminator(double K_GYRO);
-    boolean getAttitude(double* pitch, double* roll, double* yaw); //fills passed pointers with angle values
+    void getAttitude(double* pitch, double* roll, double* yaw); //fills passed pointers with angle values
   private:
     IMUSensor* accelerometer;
     IMUSensor* gyroscope;

@@ -14,9 +14,11 @@
 class Accelerometer: public IMUSensor
 {
   public:
-    Accelerometer(IMU* imu);
+    Accelerometer(IMU* imu, double smoothingFactor;);
   private:
-    void convert();
+    double m_smoothingFactor;
+    XYZ<double> convert(const XYZ<int>& readings);
+    
 };
 
 #endif

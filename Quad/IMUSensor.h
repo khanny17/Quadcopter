@@ -15,22 +15,30 @@
 
 #define ZERO_SAMPLE_COUNT 10 //number of samples to take when zeroing the sensor
 
+template <typename T>
+struct XYZ {
+    T x;
+    T y;
+    T z;
+};
+
 class IMUSensor
 {
   public:
     IMUSensor(IMU* imu, int address, byte initRegister, byte i2cWriteData, byte readRegister);
-    bool getData(int axis, double* data); //Puts data for an axis into passed pointer
-    void findZero();
+    XYZ<double> updateAndGetData(); //Puts data for an axis into passed pointer'
+    virtual void findZero();
   protected:
     IMU *imu; //pointer to an IMU object
     int address;
     byte initRegister, i2cWriteData, readRegister;
-    float data[3];
-    float zero[3];
+    XYZ<double> data;
+    XYZ<double> zero;
     void initSensor();
-    void readSensor(); //Reads in new values and calls convert
-    virtual void zeroData();
-    virtual void convert() = 0; //converts raw data to usable units
+    void update(); //Reads in new values and calls convert
+    XYZ<int>& read();
+    virtual void zeroData(XYZ<double>& readings);
+    virtual XYZ<double> convert(const XYZ<int>& readings) = 0; //converts raw data (stored in longs) to usable units (stored in doubles)
 };
 
 #endif
