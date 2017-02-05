@@ -7,30 +7,19 @@ ComplimentaryFilter::ComplimentaryFilter(double K_gyro){
   this->K_gyro = K_gyro;
   this->K_acc = 1-K_gyro;
   prevTime = 0;
-  pitch = 0;
+  angle = 0;
 }
 
-double ComplimentaryFilter::filter(double accReading, double gyroReading){
-  double gyro, acc;
-  bufferValues(accReading, gyroReading, &acc, &gyro);
-  
-  if(prevTime == 0){ //We dont want a huge reading the first time we do it
-    prevTime = millis();
-  }
-  //Integrate gyro reading:
-  double dt = (double)(millis()-prevTime)/1000;
-  double G = gyro*dt + pitch;
-  Serial.println(gyro*dt);
-  
-  prevTime = millis(); //save time for next cycle
-  pitch = K_gyro * G + K_acc * acc; //save pitch
-  
-  return pitch;
-}
-
-void ComplimentaryFilter::bufferValues(double accReading, double gyroReading, double* acc, double* gyro){
-  accBuffer.add(accReading);
-  gyroBuffer.add(gyroReading);
-  *acc = accBuffer.average();
-  *gyro = gyroBuffer.average();
+double ComplimentaryFilter::filter(double accData, double gyroData){
+    if(prevTime == 0){ //We dont want a huge reading the first time we do it
+        prevTime = millis();
+    }
+    //Integrate gyro reading:
+    double dt = (double)(millis()-prevTime)/1000;
+    double gyroIntegrated = gyroData*dt + angle;
+    
+    prevTime = millis(); //save time for next cycle
+    angle = K_gyro * gyroIntegrated + K_acc * accData; //save pitch
+    
+    return angle;
 }

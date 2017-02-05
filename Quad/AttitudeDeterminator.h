@@ -12,14 +12,17 @@
 #include "ComplimentaryFilter.h"
 
 
+
 class AttitudeDeterminator
 {
   public:
-    AttitudeDeterminator(double K_GYRO);
+    static const double ACC_LPF_ALPHA = 0.5;
+    
+    AttitudeDeterminator(double K_GYRO, Accelerometer *t_accelerometer, Gyroscope *t_gyroscope);
     void getAttitude(double* pitch, double* roll, double* yaw); //fills passed pointers with angle values
   private:
-    IMUSensor* accelerometer;
-    IMUSensor* gyroscope;
+    Accelerometer *accelerometer;
+    Gyroscope *gyroscope;
     Filter* pitchFilter;
     Filter* rollFilter;
     Filter* yawFilter;

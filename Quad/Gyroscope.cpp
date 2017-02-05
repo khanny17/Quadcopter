@@ -3,48 +3,28 @@
 /**
  * Call super constructor with our constant values,
  */
-Gyroscope::Gyroscope(IMU* imu) : 
-IMUSensor(imu, ITG3200_ADDRESS, ITG3200_REGISTER_DLPF_FS, ITG3200_FULLSCALE | ITG3200_42HZ, ITG3200_REGISTER_XMSB){
-  initSensor();
-  findZero();
+Gyroscope::Gyroscope(IMU *t_imu) : m_imu(t_imu) {
+    m_imu->init_itg3200();
+}
+
+void Gyroscope::update() {
+    m_imu->read_itg3200();
+    XYZ<int> raw = m_imu->get_gyroscope_data();
+    m_data = convert(raw);
+}
+
+XYZ<double> Gyroscope::getData() const {
+    return m_data;
 }
 
 /**
  * Converts Gyroscope to degrees per second by dividing by a scaling factor
  */
-XYZ<double> Gyroscope::convert(const XYZ<int>& readings){
+XYZ<double> Gyroscope::convert(const XYZ<int>& raw) const {
     return {
-        ((double)readings.x) / GYRO_RAW_SCALING_FACTOR,
-        ((double)readings.y) / GYRO_RAW_SCALING_FACTOR,
-        ((double)readings.z) / GYRO_RAW_SCALING_FACTOR
+        ((double)raw.x) / GYRO_RAW_SCALING_FACTOR,
+        ((double)raw.y) / GYRO_RAW_SCALING_FACTOR,
+        ((double)raw.z) / GYRO_RAW_SCALING_FACTOR
     };
-}
-
-/**
- * Override zero functionality to do nothing
- */
-void Gyroscope::zeroData(XYZ<double>& readings){
-    if(readings.x < zero.x) {
-        readings.x = 0;
-    }
-    
-    if(readings.y < zero.y) {
-        readings.y = 0;
-    }
-    
-    if(readings.z < zero.z) {
-        readings.z = 0;
-    }
-};
-
-void Gyroscope::findZero(){
-    IMUSensor::findZero();
-
-    zero.x *= 2;
-    zero.y *= 2;
-    zero.z *= 2;
-
-    Serial.println("did it");
-    Serial.println(zero.x);
 }
 

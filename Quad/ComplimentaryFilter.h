@@ -16,11 +16,8 @@ class ComplimentaryFilter : public Filter
   private:
     double K_gyro;
     double K_acc;
-    double pitch;
+    double angle;
     unsigned long prevTime;
-    Buffer<double> accBuffer{ACC_BUFFER_SIZE};
-    Buffer<double> gyroBuffer{GYRO_BUFFER_SIZE};
-    void bufferValues(double accReading, double gyroReading, double* acc, double* gyro);
 };
 
 #endif

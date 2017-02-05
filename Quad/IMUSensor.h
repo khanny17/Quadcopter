@@ -15,12 +15,7 @@
 
 #define ZERO_SAMPLE_COUNT 10 //number of samples to take when zeroing the sensor
 
-template <typename T>
-struct XYZ {
-    T x;
-    T y;
-    T z;
-};
+
 
 class IMUSensor
 {
